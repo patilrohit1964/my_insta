@@ -46,18 +46,53 @@ const login = async (req, res) => {
         .status(400)
         .json({ message: "Invalid password", success: false });
     }
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-    res.status(200).json({
-      message: "Logged in successfully",
-      success: true,
-      user,
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
     });
+    res
+      .status(200)
+      .cookie("token", token, {
+        httpOnly: true,
+        sameSite: "strict",
+        maxAge: 1 * 24 * 60 * 60 * 1000,
+      })
+      .json({
+        message: "Logged in successfully",
+        success: true,
+        user,
+        token,
+      });
   } catch (err) {
     console.error("Error logging in user:", err.message);
   }
 };
 
+const logout = async (req, res) => {
+  try {
+    res
+      .status(200)
+      .clearCookie("token", { path: "/", maxAge: 0 })
+      .json({ message: "Logged out successfully", success: true });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "User not found", success: false });
+    }
+    res.json({ user });
+  } catch (error) {
+    console.log("something went wrong");
+  }
+};
 module.exports = {
   register,
   login,
+  logout,
 };
