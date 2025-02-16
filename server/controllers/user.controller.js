@@ -86,13 +86,20 @@ const getProfile = async (req, res) => {
         .status(404)
         .json({ message: "User not found", success: false, user });
     }
-    res.json({ user });
+    res.status(200).json({ user, success: true });
   } catch (error) {
     console.log("something went wrong");
   }
+};
+
+const editProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+  } catch (error) {}
 };
 module.exports = {
   register,
   login,
   logout,
+  getProfile,
 };
