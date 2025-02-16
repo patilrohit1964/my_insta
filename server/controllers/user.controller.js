@@ -127,24 +127,48 @@ const editProfile = async (req, res) => {
 
 const getSuggestedUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-      return res
-        .status(404)
-        .json({ message: "User not found", success: false, user });
+    const suggestedUser = await User.find({
+      _id: { $ne: req.id },
+    }).select("-password");
+    if (!suggestedUser) {
+      return res.status(404).json({
+        message: "User not found",
+        success: false,
+        users: suggestedUser,
+      });
     }
-    const users = await User.find({
-      _id: { $ne: user._id },
-      username: { $regex: new RegExp(user.username, "i") },
-    });
-    res.status(200).json({ users, success: true });
+    res.status(200).json({ suggestedUser, success: true });
   } catch (error) {
     console.log("something went wrong");
   }
+};
+
+const followOrUnfollow = async (req, res) => {
+  try {
+    const followKarneWala = req.id;
+    const jiskoFollowKarenge = req.params.id;
+    if (followKarneWala == jiskoFollowKarenge) {
+      return res.status(400).json({
+        message: "Cannot follow yourself",
+        success: false,
+      });
+    }
+    const user = await User.findById(followKarneWala);
+    const targetUser = await User.findById(jiskoFollowKarenge);
+    if (!user || !targetUser) {
+      return res.status(404).json({
+        message: "User not found",
+        success: false,
+      });
+    }
+    const idFollowing=user.following()
+  } catch (error) {}
 };
 module.exports = {
   register,
   login,
   logout,
   getProfile,
+  getSuggestedUser,
+  followOrUnfollow,
 };
