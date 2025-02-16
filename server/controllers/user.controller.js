@@ -124,6 +124,24 @@ const editProfile = async (req, res) => {
     return res.status(404).json({ message: "User not found", success: false });
   }
 };
+
+const getSuggestedUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "User not found", success: false, user });
+    }
+    const users = await User.find({
+      _id: { $ne: user._id },
+      username: { $regex: new RegExp(user.username, "i") },
+    });
+    res.status(200).json({ users, success: true });
+  } catch (error) {
+    console.log("something went wrong");
+  }
+};
 module.exports = {
   register,
   login,
