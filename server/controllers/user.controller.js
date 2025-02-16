@@ -1,6 +1,8 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const getDataUrl = require("../utils/dataUri");
+const Cloudinary = require("../utils/cloudinary");
 const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -94,12 +96,29 @@ const getProfile = async (req, res) => {
 
 const editProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
     const { bio, gender } = req.body;
     const profilePicture = req.file;
+    let cloudResponce;
     if (profilePicture) {
-      
+      const fileUrl = getDataUrl(profilePicture);
+      cloudResponce = await Cloudinary.uploader.upload(fileUrl);
     }
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      res.status(404).json({
+        message: "User not found",
+        success: false,
+      });
+    }
+    if (bio) user.bio = bio;
+    if (gender) user.gender = gender;
+    if (profilePicture) user.profilePicture = cloudResponce.secure_url;
+    await user.save();
+    return res.status(200).json({
+      message: "Profile updated successfully",
+      success: true,
+      user,
+    });
   } catch (error) {
     console.log("User not found");
     return res.status(404).json({ message: "User not found", success: false });
