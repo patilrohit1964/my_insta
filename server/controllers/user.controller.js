@@ -209,4 +209,5 @@ module.exports = {
   getProfile,
   getSuggestedUser,
   followOrUnfollow,
+  editProfile,
 };
