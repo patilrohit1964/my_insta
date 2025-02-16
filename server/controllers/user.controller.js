@@ -95,7 +95,15 @@ const getProfile = async (req, res) => {
 const editProfile = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-  } catch (error) {}
+    const { bio, gender } = req.body;
+    const profilePicture = req.file;
+    if (profilePicture) {
+      
+    }
+  } catch (error) {
+    console.log("User not found");
+    return res.status(404).json({ message: "User not found", success: false });
+  }
 };
 module.exports = {
   register,
