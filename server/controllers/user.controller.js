@@ -161,8 +161,46 @@ const followOrUnfollow = async (req, res) => {
         success: false,
       });
     }
-    const idFollowing=user.following()
-  } catch (error) {}
+    const isFollowing = user.following.includes(jiskoFollowKarenge);
+    if (isFollowing) {
+      //unfollow logic
+      await Promise.all([
+        User.updateOne(
+          { _id: followKarneWala },
+          { $pull: { following: jiskoFollowKarenge } }
+        ),
+        User.updateOne(
+          { _id: jiskoFollowKarenge },
+          { $pull: { followers: followKarneWala } }
+        ),
+      ]);
+      return res.status(200).json({
+        message: "Unfollowed successfully",
+        success: true,
+      });
+    } else {
+      //follow logic
+      await Promise.all([
+        User.updateOne(
+          { _id: followKarneWala },
+          { $push: { following: jiskoFollowKarenge } }
+        ),
+        User.updateOne(
+          { _id: jiskoFollowKarenge },
+          { $push: { followers: followKarneWala } }
+        ),
+      ]);
+      return res.status(200).json({
+        message: "Followed successfully",
+        success: true,
+      });
+    }
+  } catch (error) {
+    console.log("something went wrong");
+    return res
+      .status(500)
+      .json({ message: "Something went wrong", success: false });
+  }
 };
 module.exports = {
   register,
