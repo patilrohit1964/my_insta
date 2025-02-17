@@ -82,7 +82,7 @@ const logout = async (req, res) => {
 
 const getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).select("-password");
     if (!user) {
       return res
         .status(404)
@@ -103,7 +103,7 @@ const editProfile = async (req, res) => {
       const fileUrl = getDataUrl(profilePicture);
       cloudResponce = await Cloudinary.uploader.upload(fileUrl);
     }
-    const user = await User.findById(req.id);
+    const user = await User.findById(req.id).select("-password");
     if (!user) {
       res.status(404).json({
         message: "User not found",
