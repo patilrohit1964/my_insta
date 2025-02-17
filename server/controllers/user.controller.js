@@ -103,7 +103,7 @@ const editProfile = async (req, res) => {
       const fileUrl = getDataUrl(profilePicture);
       cloudResponce = await Cloudinary.uploader.upload(fileUrl);
     }
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.id);
     if (!user) {
       res.status(404).json({
         message: "User not found",
