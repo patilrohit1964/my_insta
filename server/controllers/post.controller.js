@@ -1,9 +1,12 @@
 const sharp = require("sharp");
-
+const Cloudinary = require("../utils/cloudinary");
+const Post = require("../models/post.model");
+const User = require("../models/user.model");
 const addNewPost = async (req, res) => {
   try {
     const { caption } = req.body;
-    const image = req.body;
+    const image = req.file;
+    const authorId = req.id;
     if (!image) {
       return res
         .status(400)
@@ -19,6 +22,23 @@ const addNewPost = async (req, res) => {
       .toBuffer();
 
     const fileUri = `data:jpeg/;base64,${optimizeImage.toString("base64")}`;
+    const cloudResponce = await Cloudinary.uploader.upload(fileUri);
+    const post = await Post.create({
+      caption,
+      image: cloudResponce.secure_url,
+      author: authorId,
+    });
+    const user = await User.findById(authorId);
+    if (user) {
+      user.posts.push(post._id);
+      await user.save();
+    }
+    await post.populate({ path: "author", select: "-password" });
+    return res.status(200).json({
+      message: "Post added successfully",
+      success: true,
+      post,
+    });
   } catch (error) {
     console.error("Error adding new post:", error.message);
     return res.status(500).json({
