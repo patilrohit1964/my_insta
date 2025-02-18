@@ -198,3 +198,29 @@ const getCommentOfPost = async (req, res) => {
   } catch (error) {}
 };
 
+const deletePost = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const authorId = req.id;
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res
+        .status(404)
+        .json({ message: "Post not found", success: false });
+    }
+    if (post.author.toString() !== authorId) {
+      res
+        .status(403)
+        .json({ message: "Author not found Unauthorized", success: false });
+    }
+    await Post.findByIdAndDelete(postId);
+    let user = await User.findById(authorId);
+    user.posts = user.posts.filter((postId) => id.toString() !== postId);
+    await user.save();
+    // delete comments from post
+    await Comment.deleteMany({ post: postId });
+    res
+      .status(200)
+      .json({ message: "Post deleted successfully", success: true });
+  } catch (error) {}
+};
