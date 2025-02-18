@@ -3,11 +3,12 @@ const cors = require("cors");
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const connectDb = require("./config/db");
-
+const morgan = require("morgan");
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan("dev"));
 app.use(
   cors({
     credentials: true,
