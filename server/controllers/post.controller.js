@@ -47,3 +47,45 @@ const addNewPost = async (req, res) => {
     });
   }
 };
+
+const getAllPosts = async (req, res) => {
+  try {
+    const posts = await Post.find()
+      .sort({ createdAt: -1 })
+      .populate({ path: "author", select: "username, profilePicture" })
+      .populate({
+        path: "comments",
+        sort: { createdAt: -1 },
+        populate: {
+          path: "author",
+          select: "username, profilePicture",
+        },
+      });
+    return res.status(200).json({
+      message: "Posts fetched successfully",
+      success: true,
+      posts,
+    });
+  } catch (error) {}
+};
+
+const getUserPost = async (req, res) => {
+  try {
+    const post = await Post.find({ author: req.id })
+      .sort({ createdAt: -1 })
+      .populate({
+        path: "author",
+        select: "username, profilePicture",
+      }).populate({
+        path:"comments",
+        sort: { createdAt: -1 },
+        populate: {
+      });
+  } catch (error) {
+    console.error("Error fetching user's posts:", error.message);
+    return res.status(500).json({
+      message: "An error occurred while fetching user's posts",
+      success: false,
+    });
+  }
+};
