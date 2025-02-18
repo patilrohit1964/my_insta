@@ -2,6 +2,7 @@ const sharp = require("sharp");
 const Cloudinary = require("../utils/cloudinary");
 const Post = require("../models/post.model");
 const User = require("../models/user.model");
+const Comment = require("../models/comment.model");
 const addNewPost = async (req, res) => {
   try {
     const { caption } = req.body;
@@ -111,5 +112,89 @@ const likePost = async (req, res) => {
     }
 
     await post.updateOne({ $addToSet: { likes: likeKarneWalaUser } });
+    await post.save();
+
+    // socket it for real time notifications
+    res.status(200).json({
+      message: "Liked successfully",
+      success: true,
+    });
   } catch (error) {}
 };
+
+// when use this api in frontend then remember pass params as postId
+const dislikePost = async (req, res) => {
+  try {
+    const likeKarneWalaUser = req.id;
+    const postId = req.params.postId;
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res
+        .status(404)
+        .json({ message: "Post not found", success: false });
+    }
+
+    await post.updateOne({ $pull: { likes: likeKarneWalaUser } });
+    await post.save();
+
+    // socket it for real time notifications
+    res.status(200).json({
+      message: "Liked successfully",
+      success: true,
+    });
+  } catch (error) {}
+};
+
+const addComment = async (req, res) => {
+  try {
+    const commentWalaUserId = req.id;
+    const postId = req.params.postId;
+    const { text } = req.body;
+    const post = await Post.findById(postId);
+    if (!text) {
+      return res
+        .status(400)
+        .json({ message: "Comment text is required", success: false });
+    }
+    const comment = await Comment.create({
+      text,
+      author: commentWalaUserId,
+      post: postId,
+    }).populate({
+      path: "author",
+      select: "username, profilePicture",
+    });
+    post.comments.push(comment._id);
+    await post.save();
+    return res.status(200).json({
+      message: "Comment added successfully",
+      success: true,
+      comment,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getCommentOfPost = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    const comments = await Comment.find({ post: postId })
+      .sort({ createdAt: -1 })
+      .populate({
+        path: "author",
+        select: "username, profilePicture",
+      });
+    if (!comments) {
+      return res
+        .status(404)
+        .json({ message: "Comments not found for this post", success: false });
+    }
+    return res.status(200).json({
+      message: "Comments fetched successfully",
+      success: true,
+      comments,
+    });
+  } catch (error) {}
+};
+
