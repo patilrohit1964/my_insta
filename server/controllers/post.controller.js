@@ -109,6 +109,7 @@ const likePost = async (req, res) => {
         .status(404)
         .json({ message: "Post not found", success: false });
     }
-    
+
+    await post.updateOne({ $addToSet: { likes: likeKarneWalaUser } });
   } catch (error) {}
 };
