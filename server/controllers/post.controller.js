@@ -71,16 +71,25 @@ const getAllPosts = async (req, res) => {
 
 const getUserPost = async (req, res) => {
   try {
-    const post = await Post.find({ author: req.id })
+    const posts = await Post.find({ author: req.id })
       .sort({ createdAt: -1 })
       .populate({
         path: "author",
         select: "username, profilePicture",
-      }).populate({
-        path:"comments",
+      })
+      .populate({
+        path: "comments",
         sort: { createdAt: -1 },
         populate: {
+          path: "author",
+          select: "username, profilePicture",
+        },
       });
+    return res.status(200).json({
+      message: "User's posts fetched successfully",
+      success: true,
+      posts,
+    });
   } catch (error) {
     console.error("Error fetching user's posts:", error.message);
     return res.status(500).json({
@@ -88,4 +97,18 @@ const getUserPost = async (req, res) => {
       success: false,
     });
   }
+};
+
+const likePost = async (req, res) => {
+  try {
+    const likeKarneWalaUser = req.id;
+    const postId = req.params.postId;
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res
+        .status(404)
+        .json({ message: "Post not found", success: false });
+    }
+    
+  } catch (error) {}
 };
