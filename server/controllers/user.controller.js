@@ -96,6 +96,7 @@ const getProfile = async (req, res) => {
 
 const editProfile = async (req, res) => {
   try {
+    console.log(req.file);
     const { bio, gender } = req.body;
     const profilePicture = req.file;
     let cloudResponce;
