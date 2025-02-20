@@ -209,7 +209,7 @@ const deletePost = async (req, res) => {
         .json({ message: "Post not found", success: false });
     }
     if (post.author.toString() !== authorId) {
-      res
+      return res
         .status(403)
         .json({ message: "Author not found Unauthorized", success: false });
     }
@@ -219,8 +219,42 @@ const deletePost = async (req, res) => {
     await user.save();
     // delete comments from post
     await Comment.deleteMany({ post: postId });
-    res
+    return res
       .status(200)
       .json({ message: "Post deleted successfully", success: true });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const bookMark = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const authorId = req.id;
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res
+        .status(404)
+        .json({ message: "Post not found", success: false });
+    }
+    const user = await User.findById(authorId);
+    if (user.bookmarks.includes(post._id)) {
+      // if already exists
+      await user.updateOne({ $pull: { bookmarks: post._id } });
+      await user.save();
+      return res.status(200).json({
+        type: "unsaved",
+        message: "Post removed successfully",
+        success: true,
+      });
+    } else {
+      await user.updateOne({ $addToSet: { bookmarks: post._id } });
+      await user.save();
+      return res.status(200).json({
+        type: "saved",
+        message: "Post saved successfully",
+        success: true,
+      });
+    }
   } catch (error) {}
 };
