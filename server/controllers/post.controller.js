@@ -3,6 +3,7 @@ const Cloudinary = require("../utils/cloudinary");
 const Post = require("../models/post.model");
 const User = require("../models/user.model");
 const Comment = require("../models/comment.model");
+
 const addNewPost = async (req, res) => {
   try {
     const { caption } = req.body;
@@ -257,4 +258,16 @@ const bookMark = async (req, res) => {
       });
     }
   } catch (error) {}
+};
+
+module.exports = {
+  addNewPost,
+  getAllPosts,
+  getUserPost,
+  likePost,
+  dislikePost,
+  addComment,
+  getCommentOfPost,
+  deletePost,
+  bookMark,
 };
