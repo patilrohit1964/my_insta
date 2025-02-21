@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const getDataUrl = require("../utils/dataUri");
 const Cloudinary = require("../utils/cloudinary");
+const Post = require("../models/post.model");
 const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -51,6 +52,15 @@ const login = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
+    const populatePosts = await Promise.all(
+      user.posts.map(async (postId) => {
+        const post = await Post.findById(postId);
+        if (post.author.equals(user._id)) {
+          return post;
+        }
+        return null;
+      })
+    );
     res
       .status(200)
       .cookie("token", token, {

@@ -18,7 +18,11 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 connectDb();
 const userRouter = require("./routes/user.route");
+const postRoute = require("./routes/post.route");
+const messageRoute = require("./routes/message.route");
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/post", postRoute);
+app.use("/api/v1/message", messageRoute);
 const PORT = 4050;
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${PORT}`);
