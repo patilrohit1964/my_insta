@@ -44,3 +44,5 @@ const getMessages = async (req, res) => {
       .json({ success: true, message: conversation?.messages });
   } catch (error) {}
 };
+
+module.exports = { sendMessage, getMessages };
