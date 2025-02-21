@@ -61,6 +61,16 @@ const login = async (req, res) => {
         return null;
       })
     );
+    user = {
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      profilePicture: user.profilePicture,
+      following: user.following,
+      followers: user.followers,
+      posts: populatePosts,
+      bio: user.bio,
+    };
     res
       .status(200)
       .cookie("token", token, {
@@ -69,7 +79,7 @@ const login = async (req, res) => {
         maxAge: 1 * 24 * 60 * 60 * 1000,
       })
       .json({
-        message: "Logged in successfully",
+        message: `Welcome back ${user?.username}`,
         success: true,
         user,
         token,
