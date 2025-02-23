@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-function Signup() {
+export default function Signup() {
     const [form, setForm] = useState({ username: "", email: "", password: "" });
     const [error, setError] = useState("");
 
@@ -20,60 +20,67 @@ function Signup() {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+        <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-500 border border-orange-500">
             <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                className="bg-white p-6 rounded-2xl shadow-xl w-full max-w-sm"
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="bg-white/20 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md"
             >
-                <h2 className="text-2xl font-bold text-center text-blue-600 mb-4">Sign Up</h2>
+                <h2 className="text-3xl font-extrabold text-center text-white mb-6">
+                    Create an Account
+                </h2>
 
-                {error && <p className="text-red-500 text-center">{error}</p>}
+                {error && <p className="text-red-300 text-center">{error}</p>}
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <motion.input
-                        whileFocus={{ scale: 1.05 }}
-                        type="text"
-                        name="username"
-                        placeholder="Username"
-                        value={form.username}
-                        onChange={handleChange}
-                        className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    />
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <motion.div whileFocus={{ scale: 1.05 }}>
+                        <input
+                            type="text"
+                            name="username"
+                            placeholder="Username"
+                            value={form.username}
+                            onChange={handleChange}
+                            className="w-full p-3 border-none rounded-lg bg-white/30 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-white"
+                        />
+                    </motion.div>
 
-                    <motion.input
-                        whileFocus={{ scale: 1.05 }}
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        value={form.email}
-                        onChange={handleChange}
-                        className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    />
+                    <motion.div whileFocus={{ scale: 1.05 }}>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            value={form.email}
+                            onChange={handleChange}
+                            className="w-full p-3 border-none rounded-lg bg-white/30 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-white"
+                        />
+                    </motion.div>
 
-                    <motion.input
-                        whileFocus={{ scale: 1.05 }}
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        value={form.password}
-                        onChange={handleChange}
-                        className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    />
+                    <motion.div whileFocus={{ scale: 1.05 }}>
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            value={form.password}
+                            onChange={handleChange}
+                            className="w-full p-3 border-none rounded-lg bg-white/30 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-white"
+                        />
+                    </motion.div>
 
                     <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         type="submit"
-                        className="w-full bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600"
+                        className="w-full bg-white/30 text-white py-3 rounded-lg font-semibold hover:bg-white/40 transition cursor-pointer"
                     >
                         Sign Up
                     </motion.button>
                 </form>
+
+                <p className="text-white text-center mt-4 opacity-70">
+                    Already have an account? <a href="#" className="underline">Log in</a>
+                </p>
             </motion.div>
         </div>
     );
 }
-
-export default Signup;
