@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-
+import { useRegisterUserMutation } from "../redux/api/authApi";
+import { toast } from "react-toastify"
 function Login() {
     const [form, setForm] = useState({ email: "", password: "" });
-    const [error, setError] = useState("");
-
+    const [registerUser, { data, isLoading, error }] = useRegisterUserMutation()
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
@@ -13,11 +13,10 @@ function Login() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!form.email || !form.password) {
-            setError("Both fields are required!");
             return;
         }
-        setError("");
-        alert("Login successful! 🎉");
+        registerUser(form);
+        toast.success("Login successful! 🎉");
     };
 
     return (
@@ -32,7 +31,7 @@ function Login() {
                     Welcome Back
                 </h2>
 
-                {error && <p className="text-red-300 text-center">{error}</p>}
+                {error && <p className="text-red-300 text-center">Both Fields are required</p>}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <motion.div whileFocus={{ scale: 1.05 }}>
