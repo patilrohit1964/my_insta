@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 function Login() {
     const [form, setForm] = useState({ email: "", password: "" });
@@ -41,7 +42,7 @@ function Login() {
                             placeholder="Email"
                             value={form.email}
                             onChange={handleChange}
-                            className="w-full p-3 border-none rounded-lg bg-white/30 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-white"
+                            className="w-full p-3 border-none rounded-lg bg-white/30 text-black placeholder-white focus:outline-none focus:ring-2 focus:ring-white"
                         />
                     </motion.div>
 
@@ -52,7 +53,7 @@ function Login() {
                             placeholder="Password"
                             value={form.password}
                             onChange={handleChange}
-                            className="w-full p-3 border-none rounded-lg bg-white/30 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-white"
+                            className="w-full p-3 border-none rounded-lg bg-white/30 text-black placeholder-white focus:outline-none focus:ring-2 focus:ring-white"
                         />
                     </motion.div>
 
@@ -60,14 +61,14 @@ function Login() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         type="submit"
-                        className="w-full bg-white/30 text-white py-3 rounded-lg font-semibold hover:bg-white/40 transition"
+                        className="w-full bg-white/30 text-white py-3 rounded-lg font-semibold hover:bg-white/40 transition cursor-pointer"
                     >
                         Log In
                     </motion.button>
                 </form>
 
                 <p className="text-white text-center mt-4 opacity-70">
-                    Don't have an account? <a href="#" className="underline">Sign Up</a>
+                    Don't have an account? <Link to="/signup" className="underline">Sign Up</Link>
                 </p>
             </motion.div>
         </div>

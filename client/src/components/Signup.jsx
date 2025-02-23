@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export default function Signup() {
     const [form, setForm] = useState({ username: "", email: "", password: "" });
@@ -41,7 +42,7 @@ export default function Signup() {
                             placeholder="Username"
                             value={form.username}
                             onChange={handleChange}
-                            className="w-full p-3 border-none rounded-lg bg-white/30 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-white"
+                            className="w-full p-3 border-none rounded-lg bg-white/30 text-black placeholder-white focus:outline-none focus:ring-2 focus:ring-white"
                         />
                     </motion.div>
 
@@ -52,7 +53,7 @@ export default function Signup() {
                             placeholder="Email"
                             value={form.email}
                             onChange={handleChange}
-                            className="w-full p-3 border-none rounded-lg bg-white/30 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-white"
+                            className="w-full p-3 border-none rounded-lg bg-white/30 text-black placeholder-white focus:outline-none focus:ring-2 focus:ring-white"
                         />
                     </motion.div>
 
@@ -63,7 +64,7 @@ export default function Signup() {
                             placeholder="Password"
                             value={form.password}
                             onChange={handleChange}
-                            className="w-full p-3 border-none rounded-lg bg-white/30 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-white"
+                            className="w-full p-3 border-none rounded-lg bg-white/30 text-black placeholder-white focus:outline-none focus:ring-2 focus:ring-white"
                         />
                     </motion.div>
 
@@ -78,7 +79,7 @@ export default function Signup() {
                 </form>
 
                 <p className="text-white text-center mt-4 opacity-70">
-                    Already have an account? <a href="#" className="underline">Log in</a>
+                    Already have an account? <Link to="/login" className="underline">Log in</Link>
                 </p>
             </motion.div>
         </div>
