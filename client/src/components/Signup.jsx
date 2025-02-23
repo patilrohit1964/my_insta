@@ -1,36 +1,74 @@
-import React from 'react'
-import { Input, Field } from "@chakra-ui/react"
-const Signup = () => {
-  return (
-    <div>
-      <div className='flex items-center h-screen justify-center'>
-        <form action="" className='shadow-lg flex flex-col gap-5 p-8 border border-orange-800'>
-          <div className='my-4'>
-            <h1>logo</h1>
-            <p className='text-red-600 p-20'>Signup to see photos videos from your friends</p>
-          </div>
-          <div>
-            <Field.Root>
-              <Field.Label htmlFor="username" className='font-medium'>Username</Field.Label>
-              <Input type="text" className='focus-visible:ring-transparent my-2' name='username' />
-            </Field.Root>
-          </div>
-          <div>
-            <Field.Root>
-              <Field.Label htmlFor="username" className='font-medium'>Email</Field.Label>
-              <Input type="email" className='focus-visible:ring-transparent my-2' name='username' />
-            </Field.Root>
-          </div>
-          <div>
-            <Field.Root>
-              <Field.Label htmlFor="username" className='font-medium'>Username</Field.Label>
-              <Input type="text" className='focus-visible:ring-transparent my-2' name='username' />
-            </Field.Root>
-          </div>
-        </form>
-      </div>
-    </div>
-  )
-}
+import { useState } from "react";
+import { motion } from "framer-motion";
 
-export default Signup
+const SignupForm = () => {
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form Submitted", formData);
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md"
+      >
+        <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <motion.input
+            whileFocus={{ scale: 1.05 }}
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={formData.username}
+            onChange={handleChange}
+            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            required
+          />
+          <motion.input
+            whileFocus={{ scale: 1.05 }}
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            required
+          />
+          <motion.input
+            whileFocus={{ scale: 1.05 }}
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            required
+          />
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            type="submit"
+            className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700"
+          >
+            Sign Up
+          </motion.button>
+        </form>
+      </motion.div>
+    </div>
+  );
+};
+
+export default SignupForm;
