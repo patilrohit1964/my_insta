@@ -3,40 +3,35 @@ import { Heart, House, LogOut, MessageCircle, PlusSquare, Search, TrendingDown }
 import { Avatar } from "@chakra-ui/react"
 const sideBarItems = [
     {
-        icons: <House />,
+        icons: "<House />",
         text: "Home"
     },
     {
-        icons: <Search />,
+        icons: "<Search />",
         text: "Search"
     },
     {
-        icons: <TrendingDown />,
+        icons: "<TrendingDown />",
         text: "Explore"
     },
     {
-        icons: <MessageCircle />,
+        icons: "<MessageCircle />",
         text: "Message"
     },
     {
-        icons: <Heart />,
+        icons: "<Heart />",
         text: "Notifications"
     },
     {
-        icons: <PlusSquare />,
+        icons: "<PlusSquare />",
         text: "Create"
     },
     {
-        icons: (
-            <AvatarGroup.Root>
-                <Avatar.Image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK5OiMl4GWLXVP-rP0vOqbR1ZDRCB8dwadBA&s" ></Avatar.Image>
-                <Avatar.Fallback name="Segun Adebayo" /><Avatar.FallBack />
-            </AvatarGroup.Root>
-        ),
+        icons: '<Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK5OiMl4GWLXVP-rP0vOqbR1ZDRCB8dwadBA&s" />',
         text: "Profile"
     },
     {
-        icon: <LogOut />,
+        icon: "<LogOut />",
         text: "Logout"
     }
 ]
@@ -47,7 +42,7 @@ const LeftSideBar = () => {
                 <h1>Logo</h1>
                 <div>
                     {sideBarItems.map((el, index) => (
-                        <div key={index} className='flex items-center gap-4'>
+                        <div key={index} className='flex items-center gap-3 relative hover:bg-gray-200 cursor-pointer rounded-lg p-3 my-3'>
 
                         </div>
                     ))}
