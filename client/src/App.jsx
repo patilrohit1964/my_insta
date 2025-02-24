@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import Signup from './components/Signup'
 import Login from './components/Login'
-import { createBrowserRouter, Route, Routes } from 'react-router-dom'
+import { createBrowserRouter, Route, Routes, RouterProvider } from 'react-router-dom'
 const browserRouter = createBrowserRouter([
   {
     path: "/",
@@ -13,15 +13,20 @@ const browserRouter = createBrowserRouter([
         element: <Home />,
       }
     ]
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
   }
 ])
 function App() {
   return (
     <>
-      <Routes>
-        <Route path='/signup' element={<Signup />}></Route>
-        <Route path='/login' element={<Login />}></Route>
-      </Routes>
+      <RouterProvider router={browserRouter} />
     </>
   )
 }
