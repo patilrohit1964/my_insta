@@ -5,7 +5,7 @@ import { useLoginUserMutation, useRegisterUserMutation } from "../redux/api/auth
 import { toast } from "react-toastify"
 function Login() {
     const [form, setForm] = useState({ email: "", password: "" });
-    const [loginUser, { data, isLoading, error }] = useLoginUserMutation()
+    const [loginUser, { data, isLoading, error, isSuccess }] = useLoginUserMutation()
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
@@ -16,12 +16,17 @@ function Login() {
             return;
         }
         await loginUser(form);
-        toast.success("Login successful! 🎉");
+        setForm({ email: "", password: "" });
     };
 
-    useEffect(()=>{
-
-    },[])
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success(data?.message || "Login successful! 🎉");;
+        }
+        if (error) {
+            toast.error("Someting Went wrong!");
+        }
+    }, [isSuccess, data, error])
     return (
         <div className="flex justify-center items-center min-h-screen w-full bg-gradient-to-r from-indigo-500 to-purple-500 p-6">
             <motion.div

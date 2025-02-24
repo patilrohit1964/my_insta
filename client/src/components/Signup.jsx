@@ -1,24 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useRegisterUserMutation } from "../redux/api/authApi";
+import { toast } from "react-toastify";
 
 export default function Signup() {
     const [form, setForm] = useState({ username: "", email: "", password: "" });
-    const [error, setError] = useState("");
 
+    const [registerUser, { data, isSuccess, error, isError }] = useRegisterUserMutation();
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!form.username || !form.email || !form.password) {
-            setError("All fields are required!");
+            toast.error("All fields must be entered");
             return;
         }
-        setError("");
-        alert("Signup successful! 🎉");
+        await registerUser(form);
     };
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("Signup successful! 🎉");
+            setForm({ username: "", email: "", password: "" });
+        }
+        if (error || isError) {
+            toast.error("Signup failed! Please try again");
+        }
+    }, [data, isError, isSuccess, error])
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-500 border border-orange-500">
