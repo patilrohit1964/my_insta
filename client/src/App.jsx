@@ -2,11 +2,20 @@ import { useState } from 'react'
 import './App.css'
 import Signup from './components/Signup'
 import Login from './components/Login'
-import { Route, Routes } from 'react-router-dom'
-
+import { createBrowserRouter, Route, Routes } from 'react-router-dom'
+const browserRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      }
+    ]
+  }
+])
 function App() {
-
-
   return (
     <>
       <Routes>
