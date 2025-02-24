@@ -22,7 +22,8 @@ export default function Signup() {
     };
     useEffect(() => {
         if (isSuccess) {
-            toast.success("Signup successful! 🎉");
+            console.log(data)
+            toast.success(data?.message || "Signup successful! 🎉");
             setForm({ username: "", email: "", password: "" });
         }
         if (error || isError) {

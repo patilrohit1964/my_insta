@@ -19,13 +19,19 @@ const register = async (req, res) => {
         .json({ message: "Email already exists", success: false });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ username, email, password: hashedPassword });
+    let user = new User({ username, email, password: hashedPassword });
     await user.save();
-    res
-      .status(200)
-      .json({ message: "Account Registerd Successfully", success: true });
+    user = user.toObject(); // Fixed: Assign the result back to user
+    delete user.password;
+    res.status(200).json({
+      message: "Account Registered Successfully",
+      success: true,
+      user,
+    });
   } catch (err) {
     console.error("Error registering user:", err.message);
+    // Added error response
+    res.status(500).json({ message: "Server error", success: false });
   }
 };
 
