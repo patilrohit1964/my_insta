@@ -1,6 +1,6 @@
 import React from 'react'
 import { Heart, House, LogOut, MessageCircle, PlusSquare, Search, TrendingDown } from 'lucide'
-import { Avatar, AvatarGroup } from "@chakra-ui/react"
+import { Avatar } from "@chakra-ui/react"
 const sideBarItems = [
     {
         icons: <House />,
@@ -42,12 +42,17 @@ const sideBarItems = [
 ]
 const LeftSideBar = () => {
     return (
-        <div>
-            {sideBarItems.map((el,index)=>(
-                <div key={index}>
-                    
+        <div className='fixed top-0 z-10 left-0 px-4 border-r border-r-gray-500 w-[16%] h-screen'>
+            <div className='flex flex-col'>
+                <h1>Logo</h1>
+                <div>
+                    {sideBarItems.map((el, index) => (
+                        <div key={index} className='flex items-center gap-4'>
+
+                        </div>
+                    ))}
                 </div>
-            ))}
+            </div>
         </div>
     )
 }
