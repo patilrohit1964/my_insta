@@ -1,24 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useRegisterUserMutation } from "../redux/api/authApi";
+import { useLoginUserMutation, useRegisterUserMutation } from "../redux/api/authApi";
 import { toast } from "react-toastify"
 function Login() {
     const [form, setForm] = useState({ email: "", password: "" });
-    const [registerUser, { data, isLoading, error }] = useRegisterUserMutation()
+    const [loginUser, { data, isLoading, error }] = useLoginUserMutation()
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!form.email || !form.password) {
             return;
         }
-        registerUser(form);
+        await loginUser(form);
         toast.success("Login successful! 🎉");
     };
 
+    useEffect(()=>{
+
+    },[])
     return (
         <div className="flex justify-center items-center min-h-screen w-full bg-gradient-to-r from-indigo-500 to-purple-500 p-6">
             <motion.div
