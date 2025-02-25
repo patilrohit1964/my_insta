@@ -1,37 +1,40 @@
 import React from 'react'
-import { Heart, House, LogOut, MessageCircle, PlusSquare, Search, TrendingDown } from 'lucide'
+import { Heart, House, LogOut, MessageCircle, PlusSquare, Search, TrendingDown } from 'lucide-react'
 import { Avatar } from "@chakra-ui/react"
 const sideBarItems = [
     {
-        icons: "<House />",
+        icon: <House />,
         text: "Home"
     },
     {
-        icons: "<Search />",
+        icon: <Search />,
         text: "Search"
     },
     {
-        icons: "<TrendingDown />",
+        icon: <TrendingDown />,
         text: "Explore"
     },
     {
-        icons: "<MessageCircle />",
+        icon: <MessageCircle />,
         text: "Message"
     },
     {
-        icons: "<Heart />",
+        icon: <Heart />,
         text: "Notifications"
     },
     {
-        icons: "<PlusSquare />",
+        icon: <PlusSquare />,
         text: "Create"
     },
     {
-        icons: '<Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK5OiMl4GWLXVP-rP0vOqbR1ZDRCB8dwadBA&s" />',
+        icon: (<Avatar.Root>
+            <Avatar.Fallback name="Segun Adebayo" />
+            <Avatar.Image src="https://bit.ly/sage-adebayo" />
+        </Avatar.Root>),
         text: "Profile"
     },
     {
-        icon: "<LogOut />",
+        icon: <LogOut />,
         text: "Logout"
     }
 ]
@@ -43,7 +46,8 @@ const LeftSideBar = () => {
                 <div>
                     {sideBarItems.map((el, index) => (
                         <div key={index} className='flex items-center gap-3 relative hover:bg-gray-200 cursor-pointer rounded-lg p-3 my-3'>
-
+                            {el.icon}
+                            <span>{el.text}</span>
                         </div>
                     ))}
                 </div>
