@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Heart, House, LogOut, MessageCircle, PlusSquare, Search, TrendingDown } from 'lucide-react'
 import { Avatar } from "@chakra-ui/react"
-import { useLogoutUserQuery } from '../redux/api/authApi'
+import { useLazyLogoutUserQuery } from '../redux/api/authApi'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 const sideBarItems = [
@@ -42,7 +42,7 @@ const sideBarItems = [
     }
 ]
 const LeftSideBar = () => {
-    const { data, isLoading, isError, isSuccess } = useLogoutUserQuery();
+    const [logoutUser, { data, isLoading, isError, isSuccess }] = useLazyLogoutUserQuery();
     const navigate = useNavigate();
     useEffect(() => {
         if (isSuccess) {
@@ -57,6 +57,7 @@ const LeftSideBar = () => {
     const sideBarHandler = (text) => {
         if (text === "Logout") {
             logoutUser();
+            navigate("/login")
         }
     }
     return (

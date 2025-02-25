@@ -32,7 +32,7 @@ const authApi = createApi({
 export const {
   useRegisterUserMutation,
   useLoginUserMutation,
-  useLogoutUserQuery,
+  useLazyLogoutUserQuery,
 } = authApi;
 
 export default authApi;

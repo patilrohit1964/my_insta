@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { useLoginUserMutation, useRegisterUserMutation } from "../redux/api/authApi";
-import { toast } from "react-toastify"
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useLoginUserMutation } from "../redux/api/authApi";
 function Login() {
     const [form, setForm] = useState({ email: "", password: "" });
-    const [loginUser, { data, isLoading, error, isSuccess }] = useLoginUserMutation()
+    const [loginUser, { data, isLoading, error, isSuccess }] = useLoginUserMutation();
+    const navigate = useNavigate();
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
@@ -21,14 +22,15 @@ function Login() {
 
     useEffect(() => {
         if (isSuccess) {
-            toast.success(data?.message || "Login successful! 🎉");;
+            toast.success(data?.message || "Login successful! 🎉");
+            navigate("/")
         }
         if (error) {
             toast.error("Someting Went wrong!");
         }
     }, [isSuccess, data, error])
     return (
-        <div className="flex justify-center items-center min-h-screen w-full bg-gradient-to-r from-indigo-500 to-purple-500 p-6">
+        <div className="flex justify-center items-center min-h-screen w-full bg-indigo-500 p-6">
             <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
