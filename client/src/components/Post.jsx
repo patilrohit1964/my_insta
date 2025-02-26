@@ -1,6 +1,5 @@
 import React from 'react'
 import { Avatar } from './ui/avatar'
-import { Button } from "./ui/button"
 import {
     DialogActionTrigger,
     DialogBody,
@@ -24,34 +23,12 @@ const Post = () => {
                     </Avatar.Root>
                     <h1>username</h1>
                 </div>
-                <DialogRoot>
-                    <DialogTrigger asChild>
-                        <button >
-                            Open Dialog
-                        </button>
-                    </DialogTrigger>
-                    <DialogContent>
-                        <DialogHeader>
-                            <DialogTitle>Dialog Title</DialogTitle>
-                        </DialogHeader>
-                        <DialogBody>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            </p>
-                        </DialogBody>
-                        <DialogFooter>
-                            <DialogActionTrigger asChild>
-                                <button >Cancel</button>
-                            </DialogActionTrigger>
-                            {/* <Button>Save</Button> */}
-                        </DialogFooter>
-                        <DialogCloseTrigger />
-                    </DialogContent>
-                </DialogRoot>
+               
             </div>
         </div>
+
     )
+
 }
 
 export default Post
