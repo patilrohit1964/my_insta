@@ -4,6 +4,7 @@ import { Avatar } from "@chakra-ui/react"
 import { useLazyLogoutUserQuery } from '../redux/api/authApi'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import LayoutHelmet from './LayoutHelmet'
 const sideBarItems = [
     {
         icon: <House />,
@@ -61,19 +62,21 @@ const LeftSideBar = () => {
         }
     }
     return (
-        <div className='fixed top-0 z-10 left-0 px-4 border-r border-r-gray-500 w-[16%] h-screen'>
-            <div className='flex flex-col'>
-                <h1 className='my-8 pl-3 font-bold text-xl'>Logo</h1>
-                <div>
-                    {sideBarItems.map((el, index) => (
-                        <div key={index} onClick={() => sideBarHandler(el?.text)} className='flex items-center gap-3 relative hover:bg-gray-200 cursor-pointer rounded-lg p-3 my-3'>
-                            {el.icon}
-                            <span>{el.text}</span>
-                        </div>
-                    ))}
+        <LayoutHelmet title={"Left Sidebar"} description={"left sidebar"}>
+            <div className='fixed top-0 z-10 left-0 px-4 border-r border-r-gray-500 w-[16%] h-screen'>
+                <div className='flex flex-col'>
+                    <h1 className='my-8 pl-3 font-bold text-xl'>Logo</h1>
+                    <div>
+                        {sideBarItems.map((el, index) => (
+                            <div key={index} onClick={() => sideBarHandler(el?.text)} className='flex items-center gap-3 relative hover:bg-gray-200 cursor-pointer rounded-lg p-3 my-3'>
+                                {el.icon}
+                                <span>{el.text}</span>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
-        </div>
+            </div >
+        </LayoutHelmet>
     )
 }
 

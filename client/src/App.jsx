@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { lazy, Suspense } from 'react'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
-import Signup from './components/Signup'
-import Login from './components/Login'
-import { createBrowserRouter, Route, Routes, RouterProvider } from 'react-router-dom'
-import MainLayout from './components/MainLayout'
-import Home from './components/Home'
-import Profile from './components/Profile'
+const MainLayout = lazy(() => import('./components/MainLayout'))
+const Home = lazy(() => import('./components/Home'))
+const Profile = lazy(() => import('./components/Profile'))
+const Signup = lazy(() => import('./components/Signup'))
+const Login = lazy(() => import('./components/Login'))
 const browserRouter = createBrowserRouter([
   {
     path: "/",
@@ -33,7 +33,9 @@ const browserRouter = createBrowserRouter([
 function App() {
   return (
     <>
-      <RouterProvider router={browserRouter} />
+      <Suspense fallback={<h1>Loading...</h1>}>
+        <RouterProvider router={browserRouter} />
+      </Suspense>
     </>
   )
 }
