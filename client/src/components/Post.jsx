@@ -57,8 +57,8 @@ const Post = () => {
                     </Dialog>
                 </div>
                 <img src="https://bit.ly/sage-adebayo" alt="" />
-                <div className='flex border border-red-600'>
-                    <div>
+                <div className='flex justify-between p-2'>
+                    <div className='flex justify-between w-36'>
                         <FavoriteIcon />
                         <ModeCommentOutlinedIcon />
                         <Send />
