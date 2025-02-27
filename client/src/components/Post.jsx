@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
-import { MoreHorizontal } from 'lucide-react';
-import { Avatar, Button, useDisclosure } from "@chakra-ui/react";
+import {
+    DialogActionTrigger,
+    DialogBody,
+    DialogCloseTrigger,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogRoot,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import { Avatar, Button } from "@chakra-ui/react";
 import LayoutHelmet from './LayoutHelmet';
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton } from "@chakra-ui/modal";
-
 const Post = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
         <LayoutHelmet title={"Post"} description={"this is Post"}>
@@ -15,26 +21,8 @@ const Post = () => {
                         <Avatar name="Rohit Patil" src="https://bit.ly/sage-adebayo" />
                         <h1>username</h1>
                     </div>
-
-                    {/* Clickable Icon to Open Dialog */}
-                    <MoreHorizontal size="24px" cursor="pointer" onClick={onOpen} />
-
-                    {/* Chakra UI Modal */}
-                    <Modal isOpen={isOpen} onClose={onClose}>
-                        <ModalOverlay />
-                        <ModalContent>
-                            <ModalHeader>Action</ModalHeader>
-                            <ModalCloseButton />
-                            <ModalBody>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                                    do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                </p>
-                            </ModalBody>
-                        </ModalContent>
-                    </Modal>
+                    <Demo />
                 </div>
-
                 <img src="https://bit.ly/sage-adebayo" alt="" />
             </div>
         </LayoutHelmet>
@@ -42,3 +30,35 @@ const Post = () => {
 };
 
 export default Post;
+
+
+
+const Demo = () => {
+    return (
+        <DialogRoot>
+            <DialogTrigger asChild>
+                <Button variant="outline" size="sm">
+                    Open Dialog
+                </Button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Dialog Title</DialogTitle>
+                </DialogHeader>
+                <DialogBody>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                        eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </p>
+                </DialogBody>
+                <DialogFooter>
+                    <DialogActionTrigger asChild>
+                        <Button variant="outline">Cancel</Button>
+                    </DialogActionTrigger>
+                    <Button>Save</Button>
+                </DialogFooter>
+                <DialogCloseTrigger />
+            </DialogContent>
+        </DialogRoot>
+    )
+}
