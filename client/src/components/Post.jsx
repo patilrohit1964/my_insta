@@ -4,9 +4,14 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal, Send } from 'lucide-react';
 import React from 'react';
-
+import Avatar from '@mui/material/Avatar';
+import LayoutHelmet from "./LayoutHelmet"
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
+import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 const Post = () => {
     const [open, setOpen] = React.useState(false);
 
@@ -27,14 +32,13 @@ const Post = () => {
                     </div>
 
                     {/* Clickable Icon to Open Dialog */}
-                    <MoreHorizontal size="24px" cursor="pointer" onClick={onOpen} />
 
-                    <Button variant="outlined" onClick={handleClickOpen}>
-                        Slide in alert dialog
+                    <Button variant="none" onClick={handleClickOpen}>
+                        <MoreHorizontal size="24px" cursor="pointer" onClick={handleClickOpen} />
                     </Button>
                     <Dialog
                         open={open}
-                        TransitionComponent={Transition}
+                        // TransitionComponent={Transition}
                         keepMounted
                         onClose={handleClose}
                         aria-describedby="alert-dialog-slide-description"
@@ -53,6 +57,14 @@ const Post = () => {
                     </Dialog>
                 </div>
                 <img src="https://bit.ly/sage-adebayo" alt="" />
+                <div className='flex border border-red-600'>
+                    <div>
+                        <FavoriteIcon />
+                        <ModeCommentOutlinedIcon />
+                        <Send />
+                    </div>
+                    <BookmarkBorderOutlinedIcon />
+                </div>
             </div>
         </LayoutHelmet>
     );
