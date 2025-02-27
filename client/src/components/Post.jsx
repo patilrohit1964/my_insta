@@ -1,18 +1,22 @@
-import {
-    DialogActionTrigger,
-    DialogBody,
-    DialogCloseTrigger,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogRoot,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
-import { Avatar, Button } from "@chakra-ui/react";
-import LayoutHelmet from './LayoutHelmet';
-const Post = () => {
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { MoreHorizontal } from 'lucide-react';
+import React from 'react';
 
+const Post = () => {
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
     return (
         <LayoutHelmet title={"Post"} description={"this is Post"}>
             <div className='my-8 w-full max-w-sm mx-auto'>
@@ -21,7 +25,32 @@ const Post = () => {
                         <Avatar name="Rohit Patil" src="https://bit.ly/sage-adebayo" />
                         <h1>username</h1>
                     </div>
-                    <Demo />
+
+                    {/* Clickable Icon to Open Dialog */}
+                    <MoreHorizontal size="24px" cursor="pointer" onClick={onOpen} />
+
+                    <Button variant="outlined" onClick={handleClickOpen}>
+                        Slide in alert dialog
+                    </Button>
+                    <Dialog
+                        open={open}
+                        TransitionComponent={Transition}
+                        keepMounted
+                        onClose={handleClose}
+                        aria-describedby="alert-dialog-slide-description"
+                    >
+                        <DialogTitle>{"Use Google's location service?"}</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-slide-description">
+                                Let Google help apps determine location. This means sending anonymous
+                                location data to Google, even when no apps are running.
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose}>Disagree</Button>
+                            <Button onClick={handleClose}>Agree</Button>
+                        </DialogActions>
+                    </Dialog>
                 </div>
                 <img src="https://bit.ly/sage-adebayo" alt="" />
             </div>
@@ -30,35 +59,3 @@ const Post = () => {
 };
 
 export default Post;
-
-
-
-const Demo = () => {
-    return (
-        <DialogRoot>
-            <DialogTrigger asChild>
-                <Button variant="outline" size="sm">
-                    Open Dialog
-                </Button>
-            </DialogTrigger>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Dialog Title</DialogTitle>
-                </DialogHeader>
-                <DialogBody>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                </DialogBody>
-                <DialogFooter>
-                    <DialogActionTrigger asChild>
-                        <Button variant="outline">Cancel</Button>
-                    </DialogActionTrigger>
-                    <Button>Save</Button>
-                </DialogFooter>
-                <DialogCloseTrigger />
-            </DialogContent>
-        </DialogRoot>
-    )
-}
