@@ -1,9 +1,11 @@
 import React from 'react'
 
 const CommentDialog = () => {
-  return (
-    <div>CommentDialog</div>
-  )
+    return (
+        <div>
+            
+        </div>
+    )
 }
 
 export default CommentDialog

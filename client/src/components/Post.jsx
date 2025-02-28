@@ -12,6 +12,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
+import CommentDialog from './CommentDialog';
 const Post = () => {
     const [open, setOpen] = React.useState(false);
 
@@ -67,7 +68,11 @@ const Post = () => {
                     caption
                 </p>
                 <span>view all 10 comments</span>
-                <CommentDialog />
+                <CommentDialog   />
+                <div>
+                    <input type="text" placeholder='Add a comment' className='outline-none text-sm w-full' />
+                    <span className='text-[#38adf8]'></span>
+                </div>
             </div>
         </LayoutHelmet>
     );
