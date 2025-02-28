@@ -5,7 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { MoreHorizontal, Send } from 'lucide-react';
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import LayoutHelmet from "./LayoutHelmet"
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -15,7 +15,7 @@ import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlin
 import CommentDialog from './CommentDialog';
 const Post = () => {
     const [open, setOpen] = React.useState(false);
-
+    const [text, setText] = useState("")
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -23,6 +23,14 @@ const Post = () => {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const changeEventHandler = (e) => {
+        if (e.target.value.trim()) {
+            setText(e.target.value);
+        } else {
+            setText("")
+        }
+    }
     return (
         <LayoutHelmet title={"Post"} description={"this is Post"}>
             <div className='my-8 w-full max-w-sm mx-auto'>
@@ -68,10 +76,10 @@ const Post = () => {
                     caption
                 </p>
                 <span>view all 10 comments</span>
-                <CommentDialog   />
-                <div>
-                    <input type="text" placeholder='Add a comment' className='outline-none text-sm w-full' />
-                    <span className='text-[#38adf8]'></span>
+                <CommentDialog />
+                <div className='flex justify-between'>
+                    <input type="text" value={text} onChange={changeEventHandler} placeholder='Add a comment' className='outline-none text-sm w-full' />
+                    {text && <span className='text-[#38adf8]'>Post</span>}
                 </div>
             </div>
         </LayoutHelmet>
