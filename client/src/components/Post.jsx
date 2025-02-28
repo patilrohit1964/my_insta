@@ -43,25 +43,22 @@ const Post = () => {
                         onClose={handleClose}
                         aria-describedby="alert-dialog-slide-description"
                     >
-                        <DialogTitle>{"Use Google's location service?"}</DialogTitle>
+                        <DialogTitle>Actions</DialogTitle>
                         <DialogContent>
-                            <DialogContentText id="alert-dialog-slide-description">
-                                Let Google help apps determine location. This means sending anonymous
-                                location data to Google, even when no apps are running.
-                            </DialogContentText>
+                            <Button variant='ghost' className='cursor-pointer w-fit text-[#ed4956]'>Unfollow</Button>
+                            <Button variant='ghost' className='cursor-pointer w-fit'>Add to favorite</Button>
+                            <Button variant='ghost' className='cursor-pointer w-fit'>Delete</Button>
                         </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleClose}>Disagree</Button>
-                            <Button onClick={handleClose}>Agree</Button>
-                        </DialogActions>
                     </Dialog>
                 </div>
                 <img src="https://bit.ly/sage-adebayo" alt="" />
-                <div className='flex justify-between p-2'>
-                    <div className='flex justify-between w-36'>
-                        <FavoriteIcon />
-                        <ModeCommentOutlinedIcon />
-                        <Send />
+                <div className=''>
+                    <div className='flex items-center justify-between my-2'>
+                        <div className='flex items-center gap-3'>
+                            <FavoriteIcon className='cursor-pointer hover:text-gray-600' />
+                            <ModeCommentOutlinedIcon className='cursor-pointer hover:text-gray-600' />
+                            <Send className='cursor-pointer hover:text-gray-600' />
+                        </div>
                     </div>
                     <BookmarkBorderOutlinedIcon />
                 </div>
