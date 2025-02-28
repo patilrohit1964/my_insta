@@ -15,7 +15,8 @@ import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlin
 import CommentDialog from './CommentDialog';
 const Post = () => {
     const [open, setOpen] = React.useState(false);
-    const [text, setText] = useState("")
+    const [text, setText] = useState("");
+    const [openComment, setOpenComment] = useState(false)
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -65,7 +66,7 @@ const Post = () => {
                 <div className='flex items-center justify-between my-2'>
                     <div className='flex items-center gap-3'>
                         <FavoriteIcon className='cursor-pointer hover:text-gray-600' />
-                        <ModeCommentOutlinedIcon className='cursor-pointer hover:text-gray-600' />
+                        <ModeCommentOutlinedIcon onClick={() => setOpenComment(true)} className='cursor-pointer hover:text-gray-600' />
                         <Send className='cursor-pointer hover:text-gray-600' />
                     </div>
                     <BookmarkBorderOutlinedIcon />
@@ -76,7 +77,7 @@ const Post = () => {
                     caption
                 </p>
                 <span>view all 10 comments</span>
-                <CommentDialog />
+                <CommentDialog openComment={openComment} setOpenComment={setOpenComment} />
                 <div className='flex justify-between'>
                     <input type="text" value={text} onChange={changeEventHandler} placeholder='Add a comment' className='outline-none text-sm w-full' />
                     {text && <span className='text-[#38adf8]'>Post</span>}
