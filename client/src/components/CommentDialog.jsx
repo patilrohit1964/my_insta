@@ -1,4 +1,5 @@
-import { Dialog, DialogContent, Avatar } from '@mui/material'
+import { Dialog, DialogContent, Avatar, DialogContentText } from '@mui/material'
+import { MoreHorizontal } from 'lucide-react'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
@@ -20,9 +21,23 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
                                     </Link>
                                     <div>
                                         <Link className='font-semibold text-xs'>username</Link>
-                                        <span>Bio here...</span>
+                                        {/* <span>Bio here...</span> */}
                                     </div>
                                 </div>
+                                <Dialog>
+                                    <DialogContent>
+                                        <MoreHorizontal />
+                                    </DialogContent> 
+                                    {/* here ui inc */}
+                                    <DialogContent>
+                                        <div>
+                                            Unfollow
+                                        </div>
+                                        <div>
+                                            Add to favorites
+                                        </div>
+                                    </DialogContent>
+                                </Dialog>
                             </div>
                         </div>
                     </div>
