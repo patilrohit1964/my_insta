@@ -52,16 +52,22 @@ const Post = () => {
                     </Dialog>
                 </div>
                 <img src="https://bit.ly/sage-adebayo" alt="" />
-                <div className=''>
-                    <div className='flex items-center justify-between my-2'>
-                        <div className='flex items-center gap-3'>
-                            <FavoriteIcon className='cursor-pointer hover:text-gray-600' />
-                            <ModeCommentOutlinedIcon className='cursor-pointer hover:text-gray-600' />
-                            <Send className='cursor-pointer hover:text-gray-600' />
-                        </div>
+
+                <div className='flex items-center justify-between my-2'>
+                    <div className='flex items-center gap-3'>
+                        <FavoriteIcon className='cursor-pointer hover:text-gray-600' />
+                        <ModeCommentOutlinedIcon className='cursor-pointer hover:text-gray-600' />
+                        <Send className='cursor-pointer hover:text-gray-600' />
                     </div>
                     <BookmarkBorderOutlinedIcon />
                 </div>
+                <span className='font-medium block mb-2'>200 likes</span>
+                <p>
+                    <span>username</span>
+                    caption
+                </p>
+                <span>view all 10 comments</span>
+                <CommentDialog />
             </div>
         </LayoutHelmet>
     );
