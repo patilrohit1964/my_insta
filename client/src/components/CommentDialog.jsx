@@ -25,19 +25,26 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
                                     </div>
                                 </div>
                                 <Dialog>
-                                    <DialogContent>
-                                        <MoreHorizontal />
-                                    </DialogContent> 
                                     {/* here ui inc */}
-                                    <DialogContent>
-                                        <div>
+                                    <DialogContent className='flex flex-col items-center text-sm text-center'>
+                                        <MoreHorizontal className='bg-red-500' />
+                                        <div className='cursor-pointer w-full text-[#ed4956] font-bold'>
                                             Unfollow
                                         </div>
-                                        <div>
+                                        <div className='cursor-pointer w-full'>
                                             Add to favorites
                                         </div>
                                     </DialogContent>
                                 </Dialog>
+                            </div>
+                            <hr />
+                            <div className='flex-1 overflow-y-auto max-h-96 p-4'>
+                                comments coming
+                            </div>
+                            <div className='p-4'>
+                                <div>
+                                    <input type="text" placeholder='add comment...' className='w-full outline-none border border-gray-200 p-2' />
+                                </div>
                             </div>
                         </div>
                     </div>
