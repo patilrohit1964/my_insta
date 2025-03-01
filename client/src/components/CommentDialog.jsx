@@ -1,13 +1,20 @@
-import { Dialog, DialogContent, Avatar, DialogContentText } from '@mui/material'
+import { Dialog, DialogContent, Avatar, DialogContentText, Button } from '@mui/material'
 import { MoreHorizontal } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 
 const CommentDialog = ({ openComment, setOpenComment }) => {
+    const [open, setOpen] = useState(false)
+    const handleClose = () => {
+        setOpen(false)
+    }
+    const handleOpen = () => {
+        setOpen(true)
+    }
     return (
         <div>
-            <Dialog open={openComment}>
+            <Dialog open={openComment} maxWidth={""}>
                 <DialogContent className='max-w-5xl p-0 flex flex-col'>
                     <div className='flex flex-1'>
                         <div className='w-1/2'>
@@ -24,10 +31,10 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
                                         {/* <span>Bio here...</span> */}
                                     </div>
                                 </div>
-                                <Dialog>
+                                <MoreHorizontal className='cursor-pointer' onClick={handleOpen} />
+                                <Dialog open={open} maxWidth={"550px"}>
                                     {/* here ui inc */}
-                                    <DialogContent className='flex flex-col items-center text-sm text-center'>
-                                        <MoreHorizontal className='bg-red-500' />
+                                    <DialogContent className='flex flex-col items-center text-sm text-center p-4'>
                                         <div className='cursor-pointer w-full text-[#ed4956] font-bold'>
                                             Unfollow
                                         </div>
@@ -42,8 +49,9 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
                                 comments coming
                             </div>
                             <div className='p-4'>
-                                <div>
+                                <div className='flex items-center gap-2'>
                                     <input type="text" placeholder='add comment...' className='w-full outline-none border border-gray-200 p-2' />
+                                    <Button>Send</Button>
                                 </div>
                             </div>
                         </div>
