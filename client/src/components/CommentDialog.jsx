@@ -7,14 +7,14 @@ import { Link } from 'react-router-dom'
 const CommentDialog = ({ openComment, setOpenComment }) => {
     const [open, setOpen] = useState(false)
     const handleClose = () => {
-        setOpen(false)
+        setOpen(false);
     }
     const handleOpen = () => {
-        setOpen(true)
+        setOpen(true);
     }
     return (
         <div>
-            <Dialog open={openComment} maxWidth={""}>
+            <Dialog open={openComment} maxWidth={""} onClose={() => setOpenComment(false)}>
                 <DialogContent className='max-w-5xl p-0 flex flex-col'>
                     <div className='flex flex-1'>
                         <div className='w-1/2'>
@@ -32,13 +32,13 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
                                     </div>
                                 </div>
                                 <MoreHorizontal className='cursor-pointer' onClick={handleOpen} />
-                                <Dialog open={open} maxWidth={"550px"}>
+                                <Dialog open={open} fullWidth onClose={handleClose}>
                                     {/* here ui inc */}
                                     <DialogContent className='flex flex-col items-center text-sm text-center p-4'>
-                                        <div className='cursor-pointer w-full text-[#ed4956] font-bold'>
+                                        <div className='cursor-pointer w-full text-[#ed4956] font-bold p-3'>
                                             Unfollow
                                         </div>
-                                        <div className='cursor-pointer w-full'>
+                                        <div className='cursor-pointer w-full p-3'>
                                             Add to favorites
                                         </div>
                                     </DialogContent>

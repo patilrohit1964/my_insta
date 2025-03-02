@@ -14,7 +14,7 @@ import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import CommentDialog from './CommentDialog';
 const Post = () => {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const [text, setText] = useState("");
     const [openComment, setOpenComment] = useState(false)
     const handleClickOpen = () => {
@@ -44,7 +44,7 @@ const Post = () => {
                     {/* Clickable Icon to Open Dialog */}
 
                     <Button variant="none" onClick={handleClickOpen}>
-                        <MoreHorizontal size="24px" cursor="pointer" onClick={handleClickOpen} />
+                        <MoreHorizontal size="24px" cursor="pointer" />
                     </Button>
                     <Dialog
                         open={open}

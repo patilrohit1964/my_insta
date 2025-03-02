@@ -5,6 +5,8 @@ import { useLazyLogoutUserQuery } from '../redux/api/authApi'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import LayoutHelmet from './LayoutHelmet'
+import { useDispatch } from 'react-redux'
+import { userLoggedIn } from '../redux/slicers/authSlice'
 const sideBarItems = [
     {
         icon: <House />,
@@ -45,6 +47,7 @@ const sideBarItems = [
 const LeftSideBar = () => {
     const [logoutUser, { data, isLoading, isError, isSuccess }] = useLazyLogoutUserQuery();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     useEffect(() => {
         if (isSuccess) {
             toast.success(data?.message || "Logout Success");
@@ -58,6 +61,7 @@ const LeftSideBar = () => {
     const sideBarHandler = (text) => {
         if (text === "Logout") {
             logoutUser();
+            dispatch(userLoggedIn(null))
             navigate("/login")
         }
     }
