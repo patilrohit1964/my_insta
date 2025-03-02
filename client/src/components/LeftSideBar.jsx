@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Heart, House, LogOut, MessageCircle, PlusSquare, Search, TrendingDown } from 'lucide-react'
 import { Avatar } from "@chakra-ui/react"
 import { useLazyLogoutUserQuery } from '../redux/api/authApi'
@@ -7,49 +7,52 @@ import { useNavigate } from 'react-router-dom'
 import LayoutHelmet from './LayoutHelmet'
 import { useDispatch, useSelector } from 'react-redux'
 import { userLoggedIn } from '../redux/slicers/authSlice'
-const sideBarItems = [
-    {
-        icon: <House />,
-        text: "Home"
-    },
-    {
-        icon: <Search />,
-        text: "Search"
-    },
-    {
-        icon: <TrendingDown />,
-        text: "Explore"
-    },
-    {
-        icon: <MessageCircle />,
-        text: "Message"
-    },
-    {
-        icon: <Heart />,
-        text: "Notifications"
-    },
-    {
-        icon: <PlusSquare />,
-        text: "Create"
-    },
-    {
-        icon: (<Avatar.Root className='w-6 h-6'>
-            <Avatar.Fallback name="Rohit Patil" />
-            <Avatar.Image src="https://bit.ly/sage-adebayo" />
-        </Avatar.Root>),
-        text: "Profile"
-    },
-    {
-        icon: <LogOut />,
-        text: "Logout"
-    }
-]
+import CreatePost from './CreatePost'
+
 const LeftSideBar = () => {
     const [logoutUser, { data, isLoading, isError, isSuccess }] = useLazyLogoutUserQuery();
     const navigate = useNavigate();
-    const {user} = useSelector(state => state.auth.auth)
-    console.log(user)
+    const { user } = useSelector(state => state.auth.auth);
+    const [open, setOpen] = useState();
+    const sideBarItems = [
+        {
+            icon: <House />,
+            text: "Home"
+        },
+        {
+            icon: <Search />,
+            text: "Search"
+        },
+        {
+            icon: <TrendingDown />,
+            text: "Explore"
+        },
+        {
+            icon: <MessageCircle />,
+            text: "Message"
+        },
+        {
+            icon: <Heart />,
+            text: "Notifications"
+        },
+        {
+            icon: <PlusSquare />,
+            text: "Create"
+        },
+        {
+            icon: (<Avatar.Root className='w-6 h-6'>
+                <Avatar.Fallback name="Rohit Patil" />
+                <Avatar.Image src={user?.profilePicture || "https://bit.ly/sage-adebayo"} height={"100%"} width={"100%"} />
+            </Avatar.Root>),
+            text: "Profile"
+        },
+        {
+            icon: <LogOut />,
+            text: "Logout"
+        }
+    ]
     const dispatch = useDispatch();
+
     useEffect(() => {
         if (isSuccess) {
             toast.success(data?.message || "Logout Success");
@@ -65,6 +68,8 @@ const LeftSideBar = () => {
             logoutUser();
             dispatch(userLoggedIn(null));
             navigate("/login");
+        } else if (text === "Create") {
+            setOpen(true);
         }
     }
     return (
@@ -81,6 +86,7 @@ const LeftSideBar = () => {
                         ))}
                     </div>
                 </div>
+                <CreatePost open={open} setOpen={setOpen} />
             </div >
         </LayoutHelmet>
     )
