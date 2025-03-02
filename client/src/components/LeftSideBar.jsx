@@ -61,8 +61,8 @@ const LeftSideBar = () => {
     const sideBarHandler = (text) => {
         if (text === "Logout") {
             logoutUser();
-            dispatch(userLoggedIn(null))
-            navigate("/login")
+            dispatch(userLoggedIn(null));
+            navigate("/login");
         }
     }
     return (

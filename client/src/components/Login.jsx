@@ -4,10 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useLoginUserMutation } from "../redux/api/authApi";
 import LayoutHelmet from "./LayoutHelmet";
+import { useDispatch } from "react-redux";
+import { userLoggedIn } from "../redux/slicers/authSlice";
 function Login() {
     const [form, setForm] = useState({ email: "", password: "" });
     const [loginUser, { data, isLoading, error, isSuccess }] = useLoginUserMutation();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
@@ -17,14 +20,16 @@ function Login() {
         if (!form.email || !form.password) {
             return;
         }
-        await loginUser(form);
+        const res = await loginUser(form).unwrap();
+        console.log(res, "iamm login user")
+        dispatch(userLoggedIn({ user: res.user, token: res.token }))
         setForm({ email: "", password: "" });
     };
 
     useEffect(() => {
         if (isSuccess) {
             toast.success(data?.message || "Login successful! 🎉");
-            navigate("/")
+            navigate("/");
         }
         if (error) {
             toast.error("Someting Went wrong!");
