@@ -6,6 +6,7 @@ const CreatePost = ({ open, setOpen }) => {
     const imageRef = useRef(null)
     const [file, setFile] = useState();
     const [caption, setCaption] = useState();
+    const [imagePreview, setImagePreview] = useState(null);
     const createPostHandler = (e) => {
         try {
 
@@ -17,8 +18,10 @@ const CreatePost = ({ open, setOpen }) => {
     const fileChangeHandler = (e) => {
         const file = e.target.files?.[0]
         if (file) {
-            setFile(file)
-
+            setFile(file);
+            const image = URL.createObjectURL(file)
+            console.log()
+            setImagePreview(image)
         }
     }
     return (
@@ -33,10 +36,13 @@ const CreatePost = ({ open, setOpen }) => {
                             <span className='text-gray-600 text-xs'>Bio here...</span>
                         </div>
                     </div>
-                    <div className='flex flex-col w-full border border-red-600'>
-                        <textarea rows={5} className='focus-visible:ring-transparent border-none w-48' placeholder='Write a caption...' />
+                    <div className='flex flex-col w-full mt-6'>
+                        <textarea rows={5} className='focus-visible:ring-transparent outline-none border border-blue-400 p-3 rounded w-full' placeholder='Write a caption...' />
+                        <div className='border border-red-500'>
+                            {imagePreview && <img src={imagePreview} alt='Preview' />}
+                        </div>
                         <input ref={imageRef} type="file" className='hidden' onChange={fileChangeHandler} />
-                        <Button onClick={() => imageRef.current.click()} variant='outline' className='w-fit mx-auto bg-[#0095f6] hover:bg-[#258bcf]'>Select from computer</Button>
+                        <button onClick={() => imageRef.current.click()} variant='outline' className='w-fit mx-auto bg-[#0095f6] hover:bg-[#258bcf] p-3 rounded-md text-white mt-3'>Select from computer</button>
                     </div>
                 </DialogContent>
             </Dialog>
