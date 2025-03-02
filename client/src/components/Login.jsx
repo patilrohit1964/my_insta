@@ -21,7 +21,6 @@ function Login() {
             return;
         }
         const res = await loginUser(form).unwrap();
-        console.log(res, "iamm login user")
         dispatch(userLoggedIn({ user: res.user, token: res.token }))
         setForm({ email: "", password: "" });
     };

@@ -5,7 +5,7 @@ import { useLazyLogoutUserQuery } from '../redux/api/authApi'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import LayoutHelmet from './LayoutHelmet'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { userLoggedIn } from '../redux/slicers/authSlice'
 const sideBarItems = [
     {
@@ -47,6 +47,8 @@ const sideBarItems = [
 const LeftSideBar = () => {
     const [logoutUser, { data, isLoading, isError, isSuccess }] = useLazyLogoutUserQuery();
     const navigate = useNavigate();
+    const {user} = useSelector(state => state.auth.auth)
+    console.log(user)
     const dispatch = useDispatch();
     useEffect(() => {
         if (isSuccess) {
