@@ -14,11 +14,10 @@ const CreatePost = ({ open, setOpen }) => {
             toast.error("Please select an image and enter a caption");
             return;
         }
-
         try {
             const formData = new FormData();
-            formData.append("image", file);
             formData.append("caption", caption);
+            if (imagePreview) formData.append("image", file);
             const response = await axios.post("http://localhost:4050/api/v1/post/addPost", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
