@@ -1,5 +1,6 @@
 import { Avatar, Button, Dialog, DialogContent, DialogTitle, TextareaAutosize } from '@mui/material'
 import React, { useRef, useState } from 'react'
+import { toast } from 'react-toastify';
 
 const CreatePost = ({ open, setOpen }) => {
 
@@ -10,9 +11,9 @@ const CreatePost = ({ open, setOpen }) => {
     const createPostHandler = (e) => {
         console.log(file,caption)
         try {
-
+            
         } catch (error) {
-
+            toast.error("Failed to create post")
         }
     }
 
