@@ -9,6 +9,7 @@ const addNewPost = async (req, res) => {
     const { caption } = req.body;
     const image = req.file;
     const authorId = req.id;
+    console.log(caption,image)
     if (!image) {
       return res
         .status(400)

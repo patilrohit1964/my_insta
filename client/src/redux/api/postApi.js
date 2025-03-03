@@ -11,7 +11,6 @@ const postApi = createApi({
       query: (postData) => ({
         url: "/addPost",
         method: "POST",
-        headers: { "Content-Type": "multipart/form-data" },
         body: postData,
       }),
     }),

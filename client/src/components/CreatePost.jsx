@@ -6,16 +6,29 @@ import { useAddPostMutation } from '../redux/api/postApi';
 const CreatePost = ({ open, setOpen }) => {
     const [addPost, { data, isLoading, isError, isSuccess }] = useAddPostMutation()
     const imageRef = useRef(null);
-    const [file, setFile] = useState();
-    const [caption, setCaption] = useState();
+    const [file, setFile] = useState(null);
+    const [caption, setCaption] = useState("");
     const [imagePreview, setImagePreview] = useState(null);
     const createPostHandler = async (e) => {
-        try {
-            await addPost({ caption, image: file });
-        } catch (error) {
-            toast.error("Failed to create post")
+        if (!file || !caption?.trim()) {
+            toast.error("Please select an image and enter a caption");
+            return;
         }
-    }
+
+        try {
+            const formData = new FormData();
+            formData.append("image", file);
+            formData.append("caption", caption);
+
+            const response = await addPost(formData); // Store response if needed
+
+            console.log("Post created:", response); // Debugging (Optional)
+        } catch (error) {
+            console.error("Error creating post:", error); // Log error for debugging
+            toast.error("Failed to create post");
+        }
+    };
+
 
     const fileChangeHandler = (e) => {
         const file = e.target.files?.[0]
