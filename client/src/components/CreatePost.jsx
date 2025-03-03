@@ -2,7 +2,7 @@ import { Avatar, Button, Dialog, DialogContent, DialogTitle, TextareaAutosize } 
 import React, { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify';
 import { useAddPostMutation } from '../redux/api/postApi';
-
+import axios from "axios"
 const CreatePost = ({ open, setOpen }) => {
     const [addPost, { data, isLoading, isError, isSuccess }] = useAddPostMutation()
     const imageRef = useRef(null);
@@ -19,12 +19,15 @@ const CreatePost = ({ open, setOpen }) => {
             const formData = new FormData();
             formData.append("image", file);
             formData.append("caption", caption);
-
-            const response = await addPost(formData); // Store response if needed
-
-            console.log("Post created:", response); // Debugging (Optional)
+            const response = await axios.post("http://localhost:4050/api/v1/post/addPost", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                withCredentials: true
+            })
+            console.log("Post created:", response);
         } catch (error) {
-            console.error("Error creating post:", error); // Log error for debugging
+            console.error("Error creating post:", error);
             toast.error("Failed to create post");
         }
     };
