@@ -1,17 +1,17 @@
 import { Avatar, Button, Dialog, DialogContent, DialogTitle, TextareaAutosize } from '@mui/material'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify';
+import { useAddPostMutation } from '../redux/api/postApi';
 
 const CreatePost = ({ open, setOpen }) => {
-
-    const imageRef = useRef(null)
+    const [addPost, { data, isLoading, isError, isSuccess }] = useAddPostMutation()
+    const imageRef = useRef(null);
     const [file, setFile] = useState();
     const [caption, setCaption] = useState();
     const [imagePreview, setImagePreview] = useState(null);
-    const createPostHandler = (e) => {
-        console.log(file,caption)
+    const createPostHandler = async (e) => {
         try {
-            
+            await addPost({ caption, image: file });
         } catch (error) {
             toast.error("Failed to create post")
         }
@@ -25,6 +25,19 @@ const CreatePost = ({ open, setOpen }) => {
             setImagePreview(image)
         }
     }
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("Post created successfully")
+            setOpen(false)
+            setFile(null)
+            setImagePreview(null)
+            setCaption("")
+        }
+        if (isError) {
+            toast.error("Failed to create post")
+        }
+    }, [isError, isSuccess]);
     return (
         <div>
             <Dialog open={open} onClose={() => setOpen(false)} fullWidth>
@@ -38,7 +51,7 @@ const CreatePost = ({ open, setOpen }) => {
                         </div>
                     </div>
                     <div className='flex flex-col w-full mt-6'>
-                        <textarea rows={5} className='focus-visible:ring-transparent outline-none border border-blue-400 p-3 rounded w-full' placeholder='Write a caption...' onChange={(e)=>setCaption(e.target.value)} />
+                        <textarea rows={5} className='focus-visible:ring-transparent outline-none border border-blue-400 p-3 rounded w-full' placeholder='Write a caption...' onChange={(e) => setCaption(e.target.value)} />
                         {
                             imagePreview &&
                             <div className='border border-red-500 h-56 w-full'>

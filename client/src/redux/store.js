@@ -13,11 +13,12 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // Uses localStorage by default
 import { setupListeners } from "@reduxjs/toolkit/query";
+import postApi from "./api/postApi";
 
 const persistConfig = {
   key: "root", // Key for the storage
   storage, // Storage engine (localStorage by default)
-  whitelist: ["auth"], //make sure this match with our rootreducer and slice reducer means always check rootreducer 
+  whitelist: ["auth"], //make sure this match with our rootreducer and slice reducer means always check rootreducer
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -25,13 +26,14 @@ const appStore = configureStore({
   reducer: {
     auth: persistedReducer, //when we use persistentReducer then assign our slice like this
     [authApi.reducerPath]: authApi.reducer, //and when use persistReducer with rtk then assign like this
+    [postApi.reducerPath]: postApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(authApi.middleware),
+    }).concat(authApi.middleware,postApi.middleware),
 });
 
 const persistor = persistStore(appStore);

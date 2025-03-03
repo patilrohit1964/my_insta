@@ -17,3 +17,6 @@ const postApi = createApi({
     }),
   }),
 });
+
+export const { useAddPostMutation } = postApi;
+export default postApi;
