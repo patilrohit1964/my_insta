@@ -6,9 +6,6 @@ const Comment = require("../models/comment.model");
 
 const addNewPost = async (req, res) => {
   try {
-    console.log("Request received:", req.body); // Check if caption is received
-    console.log("File received:", req.file); // Check if image is received
-
     const { caption } = req.body;
     const image = req.file;
     const authorId = req.id;
@@ -29,12 +26,9 @@ const addNewPost = async (req, res) => {
     const fileUri = `data:image/jpeg;base64,${optimizeImage.toString(
       "base64"
     )}`;
-    console.log("Optimized image size:", optimizeImage.length); // Debug image size
-
+   
     // Upload to Cloudinary
     const cloudResponse = await Cloudinary.uploader.upload(fileUri);
-    console.log("Cloudinary response:", cloudResponse); // Debug Cloudinary upload
-
     // Save Post in Database
     const post = await Post.create({
       caption,

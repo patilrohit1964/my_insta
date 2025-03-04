@@ -18,7 +18,7 @@ import postApi from "./api/postApi";
 const persistConfig = {
   key: "root", // Key for the storage
   storage, // Storage engine (localStorage by default)
-  whitelist: ["auth"], //make sure this match with our rootreducer and slice reducer means always check rootreducer
+  whitelist: ["auth","post"], //make sure this match with our rootreducer and slice reducer means always check rootreducer
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -3,8 +3,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify';
 import { useAddPostMutation } from '../redux/api/postApi';
 import axios from "axios"
+import { Loader2 } from 'lucide-react';
 const CreatePost = ({ open, setOpen }) => {
-    const [addPost, { data, isLoading, isError, isSuccess }] = useAddPostMutation()
+    const [addPost, { data, isError, isLoading, isSuccess }] = useAddPostMutation()
     const imageRef = useRef(null);
     const [file, setFile] = useState(null);
     const [caption, setCaption] = useState("");
@@ -19,7 +20,6 @@ const CreatePost = ({ open, setOpen }) => {
         if (file) formData.append("image", file);
         try {
             const result = await addPost(formData).unwrap();
-            console.log("RTK Query Post created:", result);
             toast.success("Post created successfully");
         } catch (error) {
             console.error("RTK Query error:", error);
@@ -73,7 +73,7 @@ const CreatePost = ({ open, setOpen }) => {
                         <button onClick={() => imageRef.current.click()} variant='outline' className='w-fit mx-auto bg-[#0095f6] hover:bg-[#258bcf] p-3 rounded-md text-white mt-3'>Select from computer</button>
                         {
                             imagePreview && (
-                                <button variant='outline' className='w-full mx-auto p-3 rounded-md text-white mt-3 bg-[#222d42] hover:bg-[#364052]' onClick={createPostHandler}>Post</button>
+                                <button disabled={isLoading} variant='outline' className='w-full mx-auto p-3 rounded-md text-white mt-3 bg-[#222d42] hover:bg-[#364052]' onClick={createPostHandler}>{isLoading ? <Loader2 className="animate-spin inline" /> : "Post"}</button>
                             )
                         }
                     </div>
