@@ -53,6 +53,8 @@ const LeftSideBar = () => {
         }
     ]
     const dispatch = useDispatch();
+    const post=useSelector(state=>state.post)
+    console.log(post)
 
     useEffect(() => {
         if (isSuccess) {
