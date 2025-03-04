@@ -14,8 +14,14 @@ const postApi = createApi({
         body: postData,
       }),
     }),
+    allPosts: builder.query({
+      query: () => ({
+        url: "/all",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useAddPostMutation } = postApi;
+export const { useAddPostMutation, useAllPostsQuery } = postApi;
 export default postApi;

@@ -8,6 +8,7 @@ import LayoutHelmet from './LayoutHelmet'
 import { useDispatch, useSelector } from 'react-redux'
 import { userLoggedIn } from '../redux/slicers/authSlice'
 import CreatePost from './CreatePost'
+import useGetAllPosts from '../hooks/useGetAllPosts'
 
 const LeftSideBar = () => {
     const [logoutUser, { data, isLoading, isError, isSuccess }] = useLazyLogoutUserQuery();
