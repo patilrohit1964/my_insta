@@ -14,19 +14,15 @@ const CreatePost = ({ open, setOpen }) => {
             toast.error("Please select an image and enter a caption");
             return;
         }
+        const formData = new FormData();
+        formData.append("caption", caption);
+        if (file) formData.append("image", file);
         try {
-            const formData = new FormData();
-            formData.append("caption", caption);
-            if (imagePreview) formData.append("image", file);
-            const response = await axios.post("http://localhost:4050/api/v1/post/addPost", formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                },
-                withCredentials: true
-            })
-            console.log("Post created:", response);
+            const result = await addPost(formData).unwrap();
+            console.log("RTK Query Post created:", result);
+            toast.success("Post created successfully");
         } catch (error) {
-            console.error("Error creating post:", error);
+            console.error("RTK Query error:", error);
             toast.error("Failed to create post");
         }
     };

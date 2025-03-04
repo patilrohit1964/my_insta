@@ -6,35 +6,49 @@ const Comment = require("../models/comment.model");
 
 const addNewPost = async (req, res) => {
   try {
+    console.log("Request received:", req.body); // Check if caption is received
+    console.log("File received:", req.file); // Check if image is received
+
     const { caption } = req.body;
     const image = req.file;
     const authorId = req.id;
+
     if (!image) {
       return res
         .status(400)
         .json({ message: "Image is required", success: false });
     }
+
+    // Optimize Image
     const optimizeImage = await sharp(image.buffer)
-      .resize({
-        width: 800,
-        height: 800,
-        fit: "inside",
-      })
+      .resize({ width: 800, height: 800, fit: "inside" })
       .toFormat("jpg", { quality: 80 })
       .toBuffer();
 
-    const fileUri = `data:jpeg/;base64,${optimizeImage.toString("base64")}`;
-    const cloudResponce = await Cloudinary.uploader.upload(fileUri);
+    // Convert Image to Base64 for Cloudinary
+    const fileUri = `data:image/jpeg;base64,${optimizeImage.toString(
+      "base64"
+    )}`;
+    console.log("Optimized image size:", optimizeImage.length); // Debug image size
+
+    // Upload to Cloudinary
+    const cloudResponse = await Cloudinary.uploader.upload(fileUri);
+    console.log("Cloudinary response:", cloudResponse); // Debug Cloudinary upload
+
+    // Save Post in Database
     const post = await Post.create({
       caption,
-      image: cloudResponce.secure_url,
+      image: cloudResponse.secure_url,
       author: authorId,
     });
+
+    // Link Post to User
     const user = await User.findById(authorId);
     if (user) {
       user.posts.push(post._id);
       await user.save();
     }
+
     await post.populate({ path: "author", select: "-password" });
     return res.status(200).json({
       message: "Post added successfully",
