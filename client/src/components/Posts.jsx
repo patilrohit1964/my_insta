@@ -1,12 +1,14 @@
 import React from 'react'
 import Post from './Post'
+import { useSelector } from 'react-redux'
 
 const Posts = () => {
+    const { posts } = useSelector(state => state.post)
     return (
         <div>
             {
-                [1, 2, 3, 4, 5].map((el, idx) => (
-                    <Post key={idx} />
+                posts?.map((el, idx) => (
+                    <Post key={idx} el={el} />
                 ))
             }
         </div>

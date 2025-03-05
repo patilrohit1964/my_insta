@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 import { useRegisterUserMutation } from "../redux/api/authApi";
 import { toast } from "react-toastify";
 import LayoutHelmet from "./LayoutHelmet";
+import { Loader2 } from "lucide-react";
 
 export default function Signup() {
     const [form, setForm] = useState({ username: "", email: "", password: "" });
 
-    const [registerUser, { data, isSuccess, error, isError }] = useRegisterUserMutation();
+    const [registerUser, { data, isSuccess, error, isError, isLoading }] = useRegisterUserMutation();
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
@@ -87,7 +88,7 @@ export default function Signup() {
                             type="submit"
                             className="w-full bg-white/30 text-white py-3 rounded-lg font-semibold hover:bg-white/40 transition cursor-pointer"
                         >
-                            Sign Up
+                            {isLoading ? <Loader2 className="animate-spin inline" /> : "Sign Up"}
                         </motion.button>
                     </form>
 

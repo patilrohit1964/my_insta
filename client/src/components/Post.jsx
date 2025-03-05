@@ -13,8 +13,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import CommentDialog from './CommentDialog';
-const Post = () => {
+const Post = ({ el }) => {
     const [open, setOpen] = useState(false);
+    console.log(el)
     const [text, setText] = useState("");
     const [openComment, setOpenComment] = useState(false)
     const handleClickOpen = () => {
@@ -37,8 +38,8 @@ const Post = () => {
             <div className='my-8 w-full max-w-sm mx-auto'>
                 <div className='flex items-center justify-between'>
                     <div className='flex items-center gap-2'>
-                        <Avatar name="Rohit Patil" src="https://bit.ly/sage-adebayo" />
-                        <h1>username</h1>
+                        <Avatar name="Rohit Patil" src={el?.author?.profilePicture || "https://bit.ly/sage-adebayo"} />
+                        <h1>{el?.username}</h1>
                     </div>
 
                     {/* Clickable Icon to Open Dialog */}
@@ -61,7 +62,7 @@ const Post = () => {
                         </DialogContent>
                     </Dialog>
                 </div>
-                <img src="https://bit.ly/sage-adebayo" alt="" />
+                <img src={el?.image || "https://bit.ly/sage-adebayo"} alt="" />
 
                 <div className='flex items-center justify-between my-2'>
                     <div className='flex items-center gap-3'>
@@ -73,8 +74,8 @@ const Post = () => {
                 </div>
                 <span className='font-medium block mb-2'>200 likes</span>
                 <p>
-                    <span>username</span>
-                    caption
+                    <span>{el?.username}</span>
+                    {el?.caption}
                 </p>
                 <span>view all 10 comments</span>
                 <CommentDialog openComment={openComment} setOpenComment={setOpenComment} />

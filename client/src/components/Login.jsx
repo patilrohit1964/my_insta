@@ -79,7 +79,7 @@ function Login() {
                             type="submit"
                             className="w-full bg-white/30 text-white py-3 rounded-lg font-semibold hover:bg-white/40 transition cursor-pointer"
                         >
-                            {isLoading ? <Loader2 /> : "Log In"}
+                            {isLoading ? <Loader2 className="animate-spin inline" /> : "Log In"}
                         </motion.button>
                     </form>
 
