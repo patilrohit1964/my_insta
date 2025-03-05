@@ -6,7 +6,7 @@ const Cloudinary = require("../utils/cloudinary");
 const Post = require("../models/post.model");
 const register = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password } = req?.body;
     if (!username || !email || !password) {
       return res
         .status(400)
@@ -29,7 +29,7 @@ const register = async (req, res) => {
       user,
     });
   } catch (err) {
-    console.error("Error registering user:", err.message);
+    console.error("Error registering user:", err?.message);
     // Added error response
     res.status(500).json({ message: "Server error", success: false });
   }
@@ -37,7 +37,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password } = req?.body;
     if (!email || !password) {
       return res
         .status(400)
@@ -49,33 +49,33 @@ const login = async (req, res) => {
         .status(400)
         .json({ message: "User not found", success: false });
     }
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user?.password);
     if (!isMatch) {
       return res
         .status(400)
         .json({ message: "Invalid password", success: false });
     }
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user?._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
     const populatePosts = await Promise.all(
-      user.posts.map(async (postId) => {
+      user?.posts?.map(async (postId) => {
         const post = await Post.findById(postId);
-        if (post.author.equals(user._id)) {
+        if (post?.author?.equals(user?._id)) {
           return post;
         }
         return null;
       })
     );
     user = {
-      _id: user._id,
-      username: user.username,
-      email: user.email,
-      profilePicture: user.profilePicture,
-      following: user.following,
-      followers: user.followers,
+      _id: user?._id,
+      username: user?.username,
+      email: user?.email,
+      profilePicture: user?.profilePicture,
+      following: user?.following,
+      followers: user?.followers,
       posts: populatePosts,
-      bio: user.bio,
+      bio: user?.bio,
     };
     res
       .status(200)
@@ -91,7 +91,7 @@ const login = async (req, res) => {
         token,
       });
   } catch (err) {
-    console.error("Error logging in user:", err.message);
+    console.error("Error logging in user:", err?.message);
   }
 };
 
@@ -108,7 +108,7 @@ const logout = async (req, res) => {
 
 const getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select("-password");
+    const user = await User.findById(req?.params?.id).select("-password");
     if (!user) {
       return res
         .status(404)
@@ -122,8 +122,8 @@ const getProfile = async (req, res) => {
 
 const editProfile = async (req, res) => {
   try {
-    const { bio, gender } = req.body;
-    const profilePicture = req.file;
+    const { bio, gender } = req?.body;
+    const profilePicture = req?.file;
     let cloudResponce;
     if (profilePicture) {
       const fileUrl = getDataUrl(profilePicture);
@@ -138,7 +138,7 @@ const editProfile = async (req, res) => {
       }
     }
 
-    const user = await User.findById(req.id).select("-password");
+    const user = await User.findById(req?.id).select("-password");
 
     if (!user) {
       return res.status(404).json({
@@ -149,7 +149,7 @@ const editProfile = async (req, res) => {
 
     if (bio) user.bio = bio;
     if (gender) user.gender = gender;
-    if (profilePicture) user.profilePicture = cloudResponce.secure_url;
+    if (profilePicture) user.profilePicture = cloudResponce?.secure_url;
 
     await user.save();
 
@@ -169,7 +169,7 @@ const editProfile = async (req, res) => {
 const getSuggestedUser = async (req, res) => {
   try {
     const suggestedUser = await User.find({
-      _id: { $ne: req.id },
+      _id: { $ne: req?.id },
     }).select("-password");
     if (!suggestedUser) {
       return res.status(404).json({
@@ -186,8 +186,8 @@ const getSuggestedUser = async (req, res) => {
 
 const followOrUnfollow = async (req, res) => {
   try {
-    const followKarneWala = req.id;
-    const jiskoFollowKarenge = req.params.id;
+    const followKarneWala = req?.id;
+    const jiskoFollowKarenge = req?.params?.id;
     if (followKarneWala == jiskoFollowKarenge) {
       return res.status(400).json({
         message: "Cannot follow yourself",
@@ -202,7 +202,7 @@ const followOrUnfollow = async (req, res) => {
         success: false,
       });
     }
-    const isFollowing = user.following.includes(jiskoFollowKarenge);
+    const isFollowing = user?.following?.includes(jiskoFollowKarenge);
     if (isFollowing) {
       //unfollow logic
       await Promise.all([

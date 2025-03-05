@@ -13,7 +13,7 @@ import useGetAllPosts from '../hooks/useGetAllPosts'
 const LeftSideBar = () => {
     const [logoutUser, { data, isLoading, isError, isSuccess }] = useLazyLogoutUserQuery();
     const navigate = useNavigate();
-    const { user } = useSelector(state => state.auth.auth);
+    const { user } = useSelector(state => state.auth);
     const [open, setOpen] = useState();
     const sideBarItems = [
         {
@@ -53,8 +53,6 @@ const LeftSideBar = () => {
         }
     ]
     const dispatch = useDispatch();
-    const post=useSelector(state=>state)
-    console.log(post)
 
     useEffect(() => {
         if (isSuccess) {

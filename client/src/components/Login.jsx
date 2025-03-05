@@ -6,6 +6,7 @@ import { useLoginUserMutation } from "../redux/api/authApi";
 import LayoutHelmet from "./LayoutHelmet";
 import { useDispatch } from "react-redux";
 import { userLoggedIn } from "../redux/slicers/authSlice";
+import { Loader2 } from "lucide-react";
 function Login() {
     const [form, setForm] = useState({ email: "", password: "" });
     const [loginUser, { data, isLoading, error, isSuccess }] = useLoginUserMutation();
@@ -78,7 +79,7 @@ function Login() {
                             type="submit"
                             className="w-full bg-white/30 text-white py-3 rounded-lg font-semibold hover:bg-white/40 transition cursor-pointer"
                         >
-                            Log In
+                            {isLoading ? <Loader2 /> : "Log In"}
                         </motion.button>
                     </form>
 

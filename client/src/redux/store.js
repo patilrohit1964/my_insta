@@ -18,22 +18,18 @@ import postApi from "./api/postApi";
 const persistConfig = {
   key: "root", // Key for the storage
   storage, // Storage engine (localStorage by default)
-  whitelist: ["auth","post"], //make sure this match with our rootreducer and slice reducer means always check rootreducer
+  whitelist: ["auth", "post"], //make sure this match with our rootreducer and slice reducer means always check rootreducer
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const appStore = configureStore({
-  reducer: {
-    auth: persistedReducer, //when we use persistentReducer then assign our slice like this
-    [authApi.reducerPath]: authApi.reducer, //and when use persistReducer with rtk then assign like this
-    [postApi.reducerPath]: postApi.reducer,
-  },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(authApi.middleware,postApi.middleware),
+    }).concat(authApi.middleware, postApi.middleware),
 });
 
 const persistor = persistStore(appStore);

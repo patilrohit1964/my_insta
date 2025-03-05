@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
   auth: authSlice,
   post: postSlice,
   [authApi.reducerPath]: authApi.reducer,
-  [postApi.reducerPath]: authApi.reducer,
+  [postApi.reducerPath]: postApi.reducer,
 });
 
 export default rootReducer;
