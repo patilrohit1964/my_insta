@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRegisterUserMutation } from "../redux/api/authApi";
 import { toast } from "react-toastify";
 import LayoutHelmet from "./LayoutHelmet";
@@ -8,7 +8,7 @@ import { Loader2 } from "lucide-react";
 
 export default function Signup() {
     const [form, setForm] = useState({ username: "", email: "", password: "" });
-
+    const navigate = useNavigate();
     const [registerUser, { data, isSuccess, error, isError, isLoading }] = useRegisterUserMutation();
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -24,7 +24,7 @@ export default function Signup() {
     };
     useEffect(() => {
         if (isSuccess) {
-            console.log(data)
+            navigate("/");
             toast.success(data?.message || "Signup successful! 🎉");
             setForm({ username: "", email: "", password: "" });
         }
@@ -35,7 +35,7 @@ export default function Signup() {
 
     return (
         <LayoutHelmet title={"Signup"} description={"this is Signup"}>
-            <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-500 border border-orange-500">
+            <div className="flex justify-center items-center min-h-screen bg-indigo-500 border border-orange-500">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}

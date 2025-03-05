@@ -25,7 +25,7 @@ const CreatePost = ({ open, setOpen }) => {
         if (file) formData.append("image", file);
         try {
             const result = await addPost(formData).unwrap();
-            dispatch(setPosts([...posts, result?.post]))
+            dispatch(setPosts([result?.post, ...posts]))
             toast.success("Post created successfully");
         } catch (error) {
             console.error("RTK Query error:", error);

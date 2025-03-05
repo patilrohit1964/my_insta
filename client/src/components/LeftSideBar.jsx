@@ -14,7 +14,7 @@ const LeftSideBar = () => {
     const [logoutUser, { data, isLoading, isError, isSuccess }] = useLazyLogoutUserQuery();
     const navigate = useNavigate();
     const { user } = useSelector(state => state.auth);
-    const [open, setOpen] = useState();
+    const [open, setOpen] = useState(false);
     const sideBarItems = [
         {
             icon: <House />,

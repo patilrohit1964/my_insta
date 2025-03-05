@@ -13,10 +13,12 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import CommentDialog from './CommentDialog';
+import { useSelector } from 'react-redux';
 const Post = ({ el }) => {
     const [open, setOpen] = useState(false);
     const [text, setText] = useState("");
     const [openComment, setOpenComment] = useState(false)
+    const { user } = useSelector(state => state.auth)
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -24,7 +26,7 @@ const Post = ({ el }) => {
     const handleClose = () => {
         setOpen(false);
     };
-
+    
     const changeEventHandler = (e) => {
         if (e.target.value.trim()) {
             setText(e.target.value);
@@ -57,7 +59,10 @@ const Post = ({ el }) => {
                         <DialogContent>
                             <Button variant='ghost' className='cursor-pointer w-fit text-[#ed4956]'>Unfollow</Button>
                             <Button variant='ghost' className='cursor-pointer w-fit'>Add to favorite</Button>
-                            <Button variant='ghost' className='cursor-pointer w-fit'>Delete</Button>
+                            {
+                                user && user?._id === el?.author?._id &&
+                                <Button variant='ghost' className='cursor-pointer w-fit'>Delete</Button>
+                            }
                         </DialogContent>
                     </Dialog>
                 </div>
