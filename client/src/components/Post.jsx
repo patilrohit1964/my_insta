@@ -15,7 +15,6 @@ import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlin
 import CommentDialog from './CommentDialog';
 const Post = ({ el }) => {
     const [open, setOpen] = useState(false);
-    console.log(el)
     const [text, setText] = useState("");
     const [openComment, setOpenComment] = useState(false)
     const handleClickOpen = () => {
@@ -39,7 +38,7 @@ const Post = ({ el }) => {
                 <div className='flex items-center justify-between'>
                     <div className='flex items-center gap-2'>
                         <Avatar name="Rohit Patil" src={el?.author?.profilePicture || "https://bit.ly/sage-adebayo"} />
-                        <h1>{el?.username}</h1>
+                        <h1>{el?.author?.username}</h1>
                     </div>
 
                     {/* Clickable Icon to Open Dialog */}

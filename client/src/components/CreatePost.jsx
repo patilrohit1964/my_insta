@@ -4,12 +4,17 @@ import { toast } from 'react-toastify';
 import { useAddPostMutation } from '../redux/api/postApi';
 import axios from "axios"
 import { Loader2 } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPosts } from '../redux/slicers/postSlice';
 const CreatePost = ({ open, setOpen }) => {
-    const [addPost, { data, isError, isLoading, isSuccess }] = useAddPostMutation()
+    const [addPost, { data, isError, isLoading, isSuccess }] = useAddPostMutation();
+    const { user } = useSelector(state => state.auth);
+    const { posts } = useSelector(state => state.post);
     const imageRef = useRef(null);
     const [file, setFile] = useState(null);
     const [caption, setCaption] = useState("");
     const [imagePreview, setImagePreview] = useState(null);
+    const dispatch = useDispatch();
     const createPostHandler = async (e) => {
         if (!file || !caption?.trim()) {
             toast.error("Please select an image and enter a caption");
@@ -20,6 +25,7 @@ const CreatePost = ({ open, setOpen }) => {
         if (file) formData.append("image", file);
         try {
             const result = await addPost(formData).unwrap();
+            dispatch(setPosts([...posts, result?.post]))
             toast.success("Post created successfully");
         } catch (error) {
             console.error("RTK Query error:", error);
@@ -55,10 +61,10 @@ const CreatePost = ({ open, setOpen }) => {
                 <DialogContent>
                     <DialogTitle className='text-center font-semibold'>Create New Post</DialogTitle>
                     <div className='flex gap-3 items-center'>
-                        <Avatar src='' />
+                        <Avatar src={user?.profilePicture} />
                         <div>
-                            <h1 className='font-semibold text-xs'>Username</h1>
-                            <span className='text-gray-600 text-xs'>Bio here...</span>
+                            <h1 className='font-semibold text-xs'>{user?.username}</h1>
+                            <span className='text-gray-600 text-xs'>{user?.bio}</span>
                         </div>
                     </div>
                     <div className='flex flex-col w-full mt-6'>
