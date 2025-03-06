@@ -43,9 +43,12 @@ const Post = ({ el }) => {
 
     const deleteHandler = async (id) => {
         try {
-            await deletePost(id);
-            const updatedPosts = posts?.filter(post => post !== id);
-            dispatch(setPosts(updatedPosts));
+            const res = await deletePost(id).unwrap();
+            if (res.message) {
+                const updatedPosts = posts?.filter(post => post !== id);
+                dispatch(setPosts(updatedPosts));
+                //here updated data problem data not show after delete
+            }
         } catch (error) {
             console.log(error)
             toast.error(error?.message || "something wrong happened");
