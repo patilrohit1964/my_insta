@@ -5,7 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { MoreHorizontal, Send } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import LayoutHelmet from "./LayoutHelmet"
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -14,11 +14,14 @@ import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import CommentDialog from './CommentDialog';
 import { useSelector } from 'react-redux';
+import { useDeletePostMutation } from '../redux/api/postApi';
+import { toast } from 'react-toastify';
 const Post = ({ el }) => {
     const [open, setOpen] = useState(false);
     const [text, setText] = useState("");
-    const [openComment, setOpenComment] = useState(false)
-    const { user } = useSelector(state => state.auth)
+    const [openComment, setOpenComment] = useState(false);
+    const [deletePost, { data, isLoading, isError, isSuccess, error }] = useDeletePostMutation()
+    const { user } = useSelector(state => state.auth);
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -26,7 +29,7 @@ const Post = ({ el }) => {
     const handleClose = () => {
         setOpen(false);
     };
-    
+
     const changeEventHandler = (e) => {
         if (e.target.value.trim()) {
             setText(e.target.value);
@@ -34,6 +37,24 @@ const Post = ({ el }) => {
             setText("")
         }
     }
+
+    const deleteHandler = async (id) => {
+        try {
+            await deletePost(id);
+        } catch (error) {
+            console.log(error)
+            toast.error(error?.message || "something wrong happened");
+        }
+    }
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success(data?.message || "Post deleted successfully");
+            setOpen(false);
+        }
+        if (isError) {
+            toast.error(error || "something wrong happened");
+        }
+    }, [isSuccess, isError])
     return (
         <LayoutHelmet title={"Post"} description={"this is Post"}>
             <div className='my-8 w-full max-w-sm mx-auto'>
@@ -61,7 +82,7 @@ const Post = ({ el }) => {
                             <Button variant='ghost' className='cursor-pointer w-fit'>Add to favorite</Button>
                             {
                                 user && user?._id === el?.author?._id &&
-                                <Button variant='ghost' className='cursor-pointer w-fit'>Delete</Button>
+                                <Button variant='ghost' className='cursor-pointer w-fit' onClick={() => deleteHandler(el._id)}>Delete</Button>
                             }
                         </DialogContent>
                     </Dialog>

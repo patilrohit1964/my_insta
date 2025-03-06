@@ -20,8 +20,15 @@ const postApi = createApi({
         method: "GET",
       }),
     }),
+    deletePost: builder.mutation({
+      query: (postId) => ({
+        url: `/delete/${postId}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useAddPostMutation, useAllPostsQuery } = postApi;
+export const { useAddPostMutation, useAllPostsQuery, useDeletePostMutation } =
+  postApi;
 export default postApi;

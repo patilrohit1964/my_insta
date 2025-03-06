@@ -26,7 +26,7 @@ const addNewPost = async (req, res) => {
     const fileUri = `data:image/jpeg;base64,${optimizeImage.toString(
       "base64"
     )}`;
-   
+
     // Upload to Cloudinary
     const cloudResponse = await Cloudinary.uploader.upload(fileUri);
     // Save Post in Database
@@ -210,6 +210,8 @@ const getCommentOfPost = async (req, res) => {
 const deletePost = async (req, res) => {
   try {
     const postId = req.params.id;
+    console.log(postId, "using id get");
+    console.log(req.params.post, "using post get");
     const authorId = req.id;
     const post = await Post.findById(postId);
     if (!post) {
