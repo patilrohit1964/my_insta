@@ -25,6 +25,6 @@ router.route("/:id/like").get(isAuthenticated, likePost);
 router.route("/:id/dislike").get(isAuthenticated, dislikePost);
 router.route("/:id/comment").post(isAuthenticated, addComment);
 router.route("/:id/comment/all").post(isAuthenticated, getCommentOfPost);
-router.route("/delete/:post").post(isAuthenticated, deletePost);
+router.route("/delete/:post").delete(isAuthenticated, deletePost);
 router.route("/:id/bookmark").post(isAuthenticated, bookMark);
 module.exports = router;

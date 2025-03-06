@@ -209,9 +209,7 @@ const getCommentOfPost = async (req, res) => {
 
 const deletePost = async (req, res) => {
   try {
-    const postId = req.params.id;
-    console.log(postId, "using id get");
-    console.log(req.params.post, "using post get");
+    const postId = req.params.post;
     const authorId = req.id;
     const post = await Post.findById(postId);
     if (!post) {
