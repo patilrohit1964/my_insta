@@ -224,7 +224,7 @@ const deletePost = async (req, res) => {
     }
     await Post.findByIdAndDelete(postId);
     let user = await User.findById(authorId);
-    user.posts = user.posts.filter((postId) => id.toString() !== postId);
+    user.posts = user.posts.filter((id) => id.toString() !== postId);
     await user.save();
     // delete comments from post
     await Comment.deleteMany({ post: postId });

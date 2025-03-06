@@ -13,15 +13,18 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import CommentDialog from './CommentDialog';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useDeletePostMutation } from '../redux/api/postApi';
 import { toast } from 'react-toastify';
+import { setPosts } from '../redux/slicers/postSlice';
 const Post = ({ el }) => {
     const [open, setOpen] = useState(false);
     const [text, setText] = useState("");
     const [openComment, setOpenComment] = useState(false);
-    const [deletePost, { data, isLoading, isError, isSuccess, error }] = useDeletePostMutation()
+    const [deletePost, { data, isLoading, isError, isSuccess, error }] = useDeletePostMutation();
+    const { posts } = useSelector(state => state.post);
     const { user } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -41,6 +44,8 @@ const Post = ({ el }) => {
     const deleteHandler = async (id) => {
         try {
             await deletePost(id);
+            const updatedPosts = posts?.filter(post => post !== id);
+            dispatch(setPosts(updatedPosts));
         } catch (error) {
             console.log(error)
             toast.error(error?.message || "something wrong happened");
