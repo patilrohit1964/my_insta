@@ -54,6 +54,7 @@ const Post = ({ el }) => {
 
             // update post after like and dislike
             const updatedPosts = posts?.map(p => p._id === id ? { ...p, likes: isLiked ? p.likes?.filter(likeId => likeId !== user?._id) : [...p.likes, user?._id] } : p);
+            dispatch(setPosts(updatedPosts));
             toast.success(res.message);
         } catch (error) {
             console.log(error);
