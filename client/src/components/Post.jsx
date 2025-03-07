@@ -47,13 +47,16 @@ const Post = ({ el }) => {
     const likeDisLikeHandler = async (id) => {
         try {
             const action = isLiked ? "dislike" : "like";
-            await likePost({ id, action });
+            const res = await likePost({ id, action });
             const updateLikes = isLiked ? postLike - 1 : postLike + 1;
             setPostLike(updateLikes);
             setIsLiked(!isLiked);
+
+            // update post after like and dislike
+            const updatedPosts = posts?.map(p => p._id === id ? { ...p, likes: isLiked ? p.likes?.filter(likeId => likeId !== user?._id) : [...p.likes, user?._id] } : p);
             toast.success(res.message);
         } catch (error) {
-            console.error(error);
+            console.log(error);
             toast.error(error?.message || "something wrong happened");
         }
     }
@@ -115,13 +118,13 @@ const Post = ({ el }) => {
 
                 <div className='flex items-center justify-between my-2'>
                     <div className='flex items-center gap-3'>
-                        <FavoriteIcon className='cursor-pointer hover:text-gray-600' />
+                        <FavoriteIcon className='cursor-pointer hover:text-gray-600' onClick={() => likeDisLikeHandler(el._id)} />
                         <ModeCommentOutlinedIcon onClick={() => setOpenComment(true)} className='cursor-pointer hover:text-gray-600' />
                         <Send className='cursor-pointer hover:text-gray-600' />
                     </div>
                     <BookmarkBorderOutlinedIcon />
                 </div>
-                <span className='font-medium block mb-2'>200 likes</span>
+                <span className='font-medium block mb-2'>{postLike}</span>
                 <p>
                     <span>{el?.username}</span>
                     {el?.caption}
