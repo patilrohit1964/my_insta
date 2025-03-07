@@ -45,9 +45,8 @@ const Post = ({ el }) => {
         try {
             const res = await deletePost(id).unwrap();
             if (res.message) {
-                const updatedPosts = posts?.filter(post => post !== id);
+                const updatedPosts = posts?.filter(post => post._id !== id);
                 dispatch(setPosts(updatedPosts));
-                //here updated data problem data not show after delete
             }
         } catch (error) {
             console.log(error)
