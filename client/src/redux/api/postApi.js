@@ -27,9 +27,9 @@ const postApi = createApi({
       }),
     }),
     likePost: builder.mutation({
-      query: (postId) => ({
-        url: `/like/${postId}`,
-        method: "POST",
+      query: ({ id, action }) => ({
+        url: `/${id}/${action}`,
+        method: "GET",
       }),
     }),
   }),

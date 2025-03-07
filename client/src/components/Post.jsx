@@ -48,6 +48,10 @@ const Post = ({ el }) => {
         try {
             const action = isLiked ? "dislike" : "like";
             await likePost({ id, action });
+            const updateLikes = isLiked ? postLike - 1 : postLike + 1;
+            setPostLike(updateLikes);
+            setIsLiked(!isLiked);
+            toast.success(res.message);
         } catch (error) {
             console.error(error);
             toast.error(error?.message || "something wrong happened");
