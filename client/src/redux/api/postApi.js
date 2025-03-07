@@ -26,9 +26,19 @@ const postApi = createApi({
         method: "DELETE",
       }),
     }),
+    likePost: builder.mutation({
+      query: (postId) => ({
+        url: `/like/${postId}`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
-export const { useAddPostMutation, useAllPostsQuery, useDeletePostMutation } =
-  postApi;
+export const {
+  useAddPostMutation,
+  useAllPostsQuery,
+  useDeletePostMutation,
+  useLikePostMutation,
+} = postApi;
 export default postApi;

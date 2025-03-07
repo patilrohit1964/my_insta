@@ -14,7 +14,7 @@ import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import CommentDialog from './CommentDialog';
 import { useDispatch, useSelector } from 'react-redux';
-import { useDeletePostMutation } from '../redux/api/postApi';
+import { useDeletePostMutation, useLikePostMutation } from '../redux/api/postApi';
 import { toast } from 'react-toastify';
 import { setPosts } from '../redux/slicers/postSlice';
 const Post = ({ el }) => {
@@ -22,8 +22,11 @@ const Post = ({ el }) => {
     const [text, setText] = useState("");
     const [openComment, setOpenComment] = useState(false);
     const [deletePost, { data, isLoading, isError, isSuccess, error }] = useDeletePostMutation();
+    const [likePost, { data: likeDisLikeData, isLoading: likeDisLoading, isError: likeDisError, isSuccess: likeDisSuccess }] = useLikePostMutation();
     const { posts } = useSelector(state => state.post);
     const { user } = useSelector(state => state.auth);
+    const [isLiked, setIsLiked] = useState(el?.likes?.includes(user?._id) || false);
+    const [postLike, setPostLike] = useState(el?.likes?.length)
     const dispatch = useDispatch();
     const handleClickOpen = () => {
         setOpen(true);
@@ -38,6 +41,16 @@ const Post = ({ el }) => {
             setText(e.target.value);
         } else {
             setText("")
+        }
+    }
+
+    const likeDisLikeHandler = async (id) => {
+        try {
+            const action = isLiked ? "dislike" : "like";
+            await likePost({ id, action });
+        } catch (error) {
+            console.error(error);
+            toast.error(error?.message || "something wrong happened");
         }
     }
 
