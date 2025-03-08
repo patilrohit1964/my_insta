@@ -55,6 +55,7 @@ const Post = ({ el }) => {
             // update post after like and dislike
             const updatedPosts = posts?.map(p => p._id === id ? { ...p, likes: isLiked ? p.likes?.filter(likeId => likeId !== user?._id) : [...p.likes, user?._id] } : p);
             dispatch(setPosts(updatedPosts));
+            // here error in like or dislike
             toast.success(res.message);
         } catch (error) {
             console.log(error);
@@ -123,7 +124,7 @@ const Post = ({ el }) => {
                         <ModeCommentOutlinedIcon onClick={() => setOpenComment(true)} className='cursor-pointer hover:text-gray-600' />
                         <Send className='cursor-pointer hover:text-gray-600' />
                     </div>
-                    <BookmarkBorderOutlinedIcon />
+                    <BookmarkBorderOutlinedIcon className='cursor-pointer' />
                 </div>
                 <span className='font-medium block mb-2'>{postLike}</span>
                 <p>

@@ -112,7 +112,7 @@ const getUserPost = async (req, res) => {
 const likePost = async (req, res) => {
   try {
     const likeKarneWalaUser = req.id;
-    const postId = req.params.postId;
+    const postId = req.params.id;
     const post = await Post.findById(postId);
     if (!post) {
       return res
