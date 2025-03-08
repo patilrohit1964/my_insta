@@ -32,6 +32,13 @@ const postApi = createApi({
         method: "GET",
       }),
     }),
+    commentPost: builder.mutation({
+      query: ({ id, commentData }) => ({
+        url: `/${id}/comment`,
+        method: "POST",
+        body: commentData,
+      }),
+    }),
   }),
 });
 
@@ -40,5 +47,6 @@ export const {
   useAllPostsQuery,
   useDeletePostMutation,
   useLikePostMutation,
+  useCommentPostMutation,
 } = postApi;
 export default postApi;

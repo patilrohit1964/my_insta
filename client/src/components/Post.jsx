@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { useDeletePostMutation, useLikePostMutation } from '../redux/api/postApi';
+import { useCommentPostMutation, useDeletePostMutation, useLikePostMutation } from '../redux/api/postApi';
 import { setPosts } from '../redux/slicers/postSlice';
 import CommentDialog from './CommentDialog';
 import LayoutHelmet from "./LayoutHelmet";
@@ -18,7 +18,8 @@ const Post = ({ el }) => {
     const [open, setOpen] = useState(false);
     const [text, setText] = useState("");
     const [openComment, setOpenComment] = useState(false);
-    const [deletePost, { data, isLoading, isError, isSuccess, error }] = useDeletePostMutation();
+    const [deletePost, { data, isError, isSuccess, error }] = useDeletePostMutation();
+    const [commentPost, { data: commentData, isLoading: commentLoading, isError: commentError, isSuccess: commentSuccess, error: commentErr }] = useCommentPostMutation();
     const [likePost, { data: likeDisLikeData, isLoading: likeDisLoading, isError: likeDisError, isSuccess: likeDisSuccess }] = useLikePostMutation();
     const { posts } = useSelector(state => state.post);
     const { user } = useSelector(state => state.auth);
@@ -44,7 +45,7 @@ const Post = ({ el }) => {
     const likeDisLikeHandler = async (id) => {
         try {
             const action = isLiked ? "dislike" : "like";
-            const res = await likePost({ id, action });
+            const res = await likePost({ id, action }).unwrap();
             const updateLikes = isLiked ? postLike - 1 : postLike + 1;
             setPostLike(updateLikes);
             setIsLiked(!isLiked);
@@ -67,6 +68,15 @@ const Post = ({ el }) => {
                 const updatedPosts = posts?.filter(post => post._id !== id);
                 dispatch(setPosts(updatedPosts));
             }
+        } catch (error) {
+            console.log(error)
+            toast.error(error?.message || "something wrong happened");
+        }
+    }
+
+    const commentHandler = async (id) => {
+        try {
+            const res = await commentPost({ id, text }).unwrap();
         } catch (error) {
             console.log(error)
             toast.error(error?.message || "something wrong happened");

@@ -125,7 +125,7 @@ const likePost = async (req, res) => {
 
     // socket it for real time notifications
     res.status(200).json({
-      message: "Liked successfully",
+      message: "Post Liked",
       success: true,
     });
   } catch (error) {}
@@ -148,7 +148,7 @@ const dislikePost = async (req, res) => {
 
     // socket it for real time notifications
     res.status(200).json({
-      message: "Liked successfully",
+      message: "Post disliked",
       success: true,
     });
   } catch (error) {}
@@ -157,7 +157,7 @@ const dislikePost = async (req, res) => {
 const addComment = async (req, res) => {
   try {
     const commentWalaUserId = req.id;
-    const postId = req.params.postId;
+    const postId = req.params.id;
     const { text } = req.body;
     const post = await Post.findById(postId);
     if (!text) {
@@ -171,7 +171,7 @@ const addComment = async (req, res) => {
       post: postId,
     }).populate({
       path: "author",
-      select: "username, profilePicture",
+      select: "username profilePicture",
     });
     post.comments.push(comment._id);
     await post.save();
