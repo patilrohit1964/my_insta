@@ -1,22 +1,19 @@
+import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
+import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
+import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { MoreHorizontal, Send } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
-import Avatar from '@mui/material/Avatar';
-import LayoutHelmet from "./LayoutHelmet"
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
-import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
-import CommentDialog from './CommentDialog';
+import { useEffect, useState } from 'react';
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
-import { useDeletePostMutation, useLikePostMutation } from '../redux/api/postApi';
 import { toast } from 'react-toastify';
+import { useDeletePostMutation, useLikePostMutation } from '../redux/api/postApi';
 import { setPosts } from '../redux/slicers/postSlice';
+import CommentDialog from './CommentDialog';
+import LayoutHelmet from "./LayoutHelmet";
 const Post = ({ el }) => {
     const [open, setOpen] = useState(false);
     const [text, setText] = useState("");
@@ -120,7 +117,12 @@ const Post = ({ el }) => {
 
                 <div className='flex items-center justify-between my-2'>
                     <div className='flex items-center gap-3'>
-                        <FavoriteIcon className='cursor-pointer hover:text-gray-600' onClick={() => likeDisLikeHandler(el._id)} />
+                        {
+                            isLiked ?
+                                <FaHeart className={`cursor-pointer text-2xl hover:text-pink-300 ${isLiked && 'text-pink-400'}`} onClick={() => likeDisLikeHandler(el._id)} />
+                                :
+                                <FaRegHeart className={`cursor-pointer text-2xl hover:text-gray-600 ${isLiked && 'text-pink-400'}`} onClick={() => likeDisLikeHandler(el._id)} />
+                        }
                         <ModeCommentOutlinedIcon onClick={() => setOpenComment(true)} className='cursor-pointer hover:text-gray-600' />
                         <Send className='cursor-pointer hover:text-gray-600' />
                     </div>
