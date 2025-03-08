@@ -2,59 +2,163 @@ import { Dialog, DialogContent, Avatar, DialogContentText, Button } from '@mui/m
 import { MoreHorizontal } from 'lucide-react'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { FaRegHeart, FaHeart } from "react-icons/fa"
+import { Send } from 'lucide-react'
 
-
-const CommentDialog = ({ openComment, setOpenComment }) => {
-    const [open, setOpen] = useState(false)
+const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLiked }) => {
+    const [open, setOpen] = useState(false);
+    const [commentText, setCommentText] = useState();
     const handleClose = () => {
         setOpen(false);
     }
+
     const handleOpen = () => {
         setOpen(true);
     }
+
     return (
         <div>
-            <Dialog open={openComment} maxWidth={""} onClose={() => setOpenComment(false)}>
-                <DialogContent className='max-w-5xl p-0 flex flex-col'>
+            <Dialog
+                open={openComment}
+                maxWidth={"md"}
+                onClose={() => setOpenComment(false)}
+                PaperProps={{
+                    style: {
+                        borderRadius: '12px',
+                        maxWidth: '1200px'
+                    }
+                }}
+            >
+                <DialogContent className='p-0 flex'>
                     <div className='flex flex-1'>
-                        <div className='w-1/2'>
-                            <img src="https://bit.ly/sage-adebayo" className='w-full h-full object-cover rounded-l-lg' />
+                        <div className='w-[600px] h-[600px] bg-black flex items-center'>
+                            <img
+                                src={el?.image || "https://bit.ly/sage-adebayo"}
+                                className='w-full h-auto object-contain'
+                                alt="Post"
+                            />
                         </div>
-                        <div className='w-1/2 flex flex-col justify-between'>
-                            <div className='flex items-center justify-between p-4'>
+
+                        <div className='w-[400px] flex flex-col h-[600px]'>
+                            {/* Header */}
+                            <div className='flex items-center justify-between p-4 border-b'>
                                 <div className='flex gap-3 items-center'>
-                                    <Link>
-                                        <Avatar src='https://bit.ly/sage-adebayo' />
+                                    <Link className='hover:opacity-80'>
+                                        <Avatar
+                                            src={user?.profilePicture || 'https://bit.ly/sage-adebayo'}
+                                            sx={{ width: 32, height: 32 }}
+                                        />
                                     </Link>
+                                    <Link className='font-semibold text-sm hover:opacity-80'>
+                                        {user?.username || "Anonymous"}
+                                    </Link>
+                                </div>
+                                <MoreHorizontal
+                                    className='cursor-pointer hover:opacity-70'
+                                    onClick={handleOpen}
+                                    size={20}
+                                />
+                            </div>
+
+                            {/* Comments Section */}
+                            <div className='flex-1 overflow-y-auto p-4'>
+                                {/* Original Post */}
+                                <div className='flex gap-3 mb-6'>
+                                    <Avatar
+                                        src='https://bit.ly/sage-adebayo'
+                                        sx={{ width: 32, height: 32 }}
+                                    />
                                     <div>
-                                        <Link className='font-semibold text-xs'>username</Link>
-                                        {/* <span>Bio here...</span> */}
+                                        <div className='text-sm'>
+                                            <span className='font-semibold mr-2'>username</span>
+                                            This is the caption of the post. It can be multiple lines long and will wrap accordingly.
+                                        </div>
+                                        <div className='text-xs text-gray-500 mt-1'>2d</div>
                                     </div>
                                 </div>
-                                <MoreHorizontal className='cursor-pointer' onClick={handleOpen} />
-                                <Dialog open={open} fullWidth onClose={handleClose}>
-                                    {/* here ui inc */}
-                                    <DialogContent className='flex flex-col items-center text-sm text-center p-4'>
-                                        <div className='cursor-pointer w-full text-[#ed4956] font-bold p-3'>
-                                            Unfollow
+
+                                {/* Comments will be mapped here */}
+                                <div className='space-y-4'>
+                                    {[1, 2, 3].map((_, i) => (
+                                        <div key={i} className='flex gap-3'>
+                                            <Avatar
+                                                src='https://bit.ly/sage-adebayo'
+                                                sx={{ width: 32, height: 32 }}
+                                            />
+                                            <div>
+                                                <div className='text-sm'>
+                                                    <span className='font-semibold mr-2'>commenter</span>
+                                                    This is a comment on the post
+                                                </div>
+                                                <div className='flex items-center gap-3 mt-1'>
+                                                    <span className='text-xs text-gray-500'>2d</span>
+                                                    <span className='text-xs text-gray-500 font-semibold cursor-pointer'>Reply</span>
+                                                </div>
+                                            </div>
+                                            <FaRegHeart className='ml-auto cursor-pointer hover:opacity-70' size={12} />
                                         </div>
-                                        <div className='cursor-pointer w-full p-3'>
-                                            Add to favorites
-                                        </div>
-                                    </DialogContent>
-                                </Dialog>
+                                    ))}
+                                </div>
                             </div>
-                            <hr />
-                            <div className='flex-1 overflow-y-auto max-h-96 p-4'>
-                                comments coming
-                            </div>
-                            <div className='p-4'>
+
+                            {/* Actions Bar */}
+                            <div className='p-4 border-t'>
+                                <div className='flex items-center gap-3 mb-3'>
+                                    {
+                                        isLiked ?
+                                            <FaHeart className={`cursor-pointer text-2xl hover:text-pink-300 ${isLiked && 'text-pink-400'}`} />
+                                            :
+                                            <FaRegHeart className={`cursor-pointer text-2xl hover:text-gray-600 ${isLiked && 'text-pink-400'}`} />
+                                    }
+                                    <span className='text-sm font-semibold'>{postLike || null}</span>
+                                </div>
+
+                                {/* Comment Input */}
                                 <div className='flex items-center gap-2'>
-                                    <input type="text" placeholder='add comment...' className='w-full outline-none border border-gray-200 p-2' />
-                                    <Button>Send</Button>
+                                    <input
+                                        type="text"
+                                        value={commentText}
+                                        onChange={(e) => setCommentText(e.target.value)}
+                                        placeholder='Add a comment...'
+                                        className='w-full outline-none text-sm'
+                                    />
+                                    {commentText && (
+                                        <Button
+                                            variant="text"
+                                            className='text-blue-500 hover:text-blue-600 min-w-fit p-0'
+                                        >
+                                            Post
+                                        </Button>
+                                    )}
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </DialogContent>
+            </Dialog>
+
+            {/* Actions Dialog */}
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                PaperProps={{
+                    style: {
+                        borderRadius: '12px',
+                        maxWidth: '400px'
+                    }
+                }}
+            >
+                <DialogContent className='p-0'>
+                    <div className='flex flex-col text-sm'>
+                        <button className='p-3 hover:bg-gray-50 text-red-500 font-semibold'>
+                            Unfollow
+                        </button>
+                        <button className='p-3 hover:bg-gray-50 border-t'>
+                            Add to favorites
+                        </button>
+                        <button className='p-3 hover:bg-gray-50 border-t' onClick={handleClose}>
+                            Cancel
+                        </button>
                     </div>
                 </DialogContent>
             </Dialog>

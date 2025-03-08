@@ -123,7 +123,7 @@ const Post = ({ el }) => {
                         </DialogContent>
                     </Dialog>
                 </div>
-                <img src={el?.image || "https://bit.ly/sage-adebayo"} alt="" />
+                <img src={el?.image || "https://bit.ly/sage-adebayo"} alt="image not found" />
 
                 <div className='flex items-center justify-between my-2'>
                     <div className='flex items-center gap-3'>
@@ -144,7 +144,14 @@ const Post = ({ el }) => {
                     {el?.caption}
                 </p>
                 <span>view all 10 comments</span>
-                <CommentDialog openComment={openComment} setOpenComment={setOpenComment} />
+                <CommentDialog
+                    openComment={openComment}
+                    setOpenComment={setOpenComment}
+                    el={el}
+                    user={user}
+                    postLike={postLike}
+                    isLiked={isLiked}
+                />
                 <div className='flex justify-between'>
                     <input type="text" value={text} onChange={changeEventHandler} placeholder='Add a comment' className='outline-none text-sm w-full' />
                     {text && <span className='text-[#38adf8]'>Post</span>}
