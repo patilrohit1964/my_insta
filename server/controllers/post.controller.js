@@ -159,7 +159,7 @@ const addComment = async (req, res) => {
     const commentWalaUserId = req.id;
     const postId = req.params.id;
     const { text } = req.body;
-    console.log(text);
+    console.log(req.body, "comment");
     const post = await Post.findById(postId);
     if (!text) {
       return res
@@ -170,7 +170,8 @@ const addComment = async (req, res) => {
       text,
       author: commentWalaUserId,
       post: postId,
-    }).populate({
+    });
+    await comment.populate({
       path: "author",
       select: "username profilePicture",
     });

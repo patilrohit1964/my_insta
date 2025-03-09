@@ -1,15 +1,14 @@
-import { Dialog, DialogContent, Avatar, DialogContentText, Button } from '@mui/material'
+import { Avatar, Button, Dialog, DialogContent } from '@mui/material'
 import { MoreHorizontal } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { FaHeart, FaRegHeart } from "react-icons/fa"
 import { Link } from 'react-router-dom'
-import { FaRegHeart, FaHeart } from "react-icons/fa"
-import { Send } from 'lucide-react'
 import { toast } from 'react-toastify'
 import { useCommentPostMutation } from '../redux/api/postApi'
 
 const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLiked }) => {
     const [open, setOpen] = useState(false);
-    const [commentText, setCommentText] = useState();
+    const [text, setText] = useState("");
     const [commentPost, { data, isLoading, isError, isSuccess, error }] = useCommentPostMutation();
 
     const handleClose = () => {
@@ -22,12 +21,11 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
 
     const commentHandler = async (id) => {
         try {
-            await commentPost({ id, commentText });
+            await commentPost({ id, text });
         } catch (error) {
             console.log(error);
             toast.error(error?.message || "something wrong happened");
         }
-
     }
 
     useEffect(() => {
@@ -36,9 +34,10 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
             setOpen(false);
         }
         if (isError) {
-            toast.error(error || "Failed to add comment");
+            toast.error(error?.message || "Failed to add comment");
         }
-    }, [isSuccess, isError])
+    }, [isSuccess, isError, data, error]);
+
     return (
         <div>
             <Dialog
@@ -140,16 +139,16 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
                                 <div className='flex items-center gap-2'>
                                     <input
                                         type="text"
-                                        value={commentText}
-                                        onChange={(e) => setCommentText(e.target.value)}
+                                        value={text}
+                                        onChange={(e) => setText(e.target.value)}
                                         placeholder='Add a comment...'
                                         className='w-full outline-none text-sm'
                                     />
-                                    {commentText && (
+                                    {text && (
                                         <Button
                                             variant="text"
                                             className='text-blue-500 hover:text-blue-600 min-w-fit p-0'
-                                            onClick={() => commentHandler(el._id)}
+                                            onClick={() => el?._id && commentHandler(el._id)}
                                         >
                                             Post
                                         </Button>
