@@ -10,7 +10,7 @@ import { useCommentPostMutation } from '../redux/api/postApi'
 const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLiked }) => {
     const [open, setOpen] = useState(false);
     const [commentText, setCommentText] = useState();
-    const [commentPost, { data, isLoading, isError, isSuccess }] = useCommentPostMutation();
+    const [commentPost, { data, isLoading, isError, isSuccess, error }] = useCommentPostMutation();
 
     const handleClose = () => {
         setOpen(false);
@@ -20,8 +20,14 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
         setOpen(true);
     }
 
-    const commentHandler = async () => {
-        console.log(commentText)
+    const commentHandler = async (id) => {
+        try {
+            await commentPost({ id, commentText });
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.message || "something wrong happened");
+        }
+
     }
 
     useEffect(() => {
@@ -143,7 +149,7 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
                                         <Button
                                             variant="text"
                                             className='text-blue-500 hover:text-blue-600 min-w-fit p-0'
-                                            onClick={commentHandler}
+                                            onClick={() => commentHandler(el._id)}
                                         >
                                             Post
                                         </Button>

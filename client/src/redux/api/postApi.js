@@ -33,7 +33,7 @@ const postApi = createApi({
       }),
     }),
     commentPost: builder.mutation({
-      query: ({ id, text }) => ({
+      query: ({ id, commentText: text }) => ({
         url: `/${id}/comment`,
         method: "POST",
         body: text,
