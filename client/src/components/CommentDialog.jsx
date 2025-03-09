@@ -22,6 +22,7 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
     const commentHandler = async (id) => {
         try {
             await commentPost({ id, text });
+            setText("");
         } catch (error) {
             console.log(error);
             toast.error(error?.message || "something wrong happened");

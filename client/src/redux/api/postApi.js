@@ -5,6 +5,10 @@ const postApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:4050/api/v1/post",
     credentials: "include",
+    prepareHeaders: (headers) => {
+      headers.set("Content-Type", "application/json");
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     addPost: builder.mutation({
