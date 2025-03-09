@@ -1,13 +1,17 @@
 import { Dialog, DialogContent, Avatar, DialogContentText, Button } from '@mui/material'
 import { MoreHorizontal } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaRegHeart, FaHeart } from "react-icons/fa"
 import { Send } from 'lucide-react'
+import { toast } from 'react-toastify'
+import { useCommentPostMutation } from '../redux/api/postApi'
 
 const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLiked }) => {
     const [open, setOpen] = useState(false);
     const [commentText, setCommentText] = useState();
+    const [commentPost, { data, isLoading, isError, isSuccess }] = useCommentPostMutation();
+
     const handleClose = () => {
         setOpen(false);
     }
@@ -16,6 +20,19 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
         setOpen(true);
     }
 
+    const commentHandler = async () => {
+        console.log(commentText)
+    }
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success(data?.message || "Comment Added");
+            setOpen(false);
+        }
+        if (isError) {
+            toast.error(error || "Failed to add comment");
+        }
+    }, [isSuccess, isError])
     return (
         <div>
             <Dialog
@@ -126,6 +143,7 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
                                         <Button
                                             variant="text"
                                             className='text-blue-500 hover:text-blue-600 min-w-fit p-0'
+                                            onClick={commentHandler}
                                         >
                                             Post
                                         </Button>
