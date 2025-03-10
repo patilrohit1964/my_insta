@@ -1,16 +1,18 @@
 import { Avatar, Button, Dialog, DialogContent } from '@mui/material'
-import { MoreHorizontal } from 'lucide-react'
+import { Loader2, MoreHorizontal } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { FaHeart, FaRegHeart } from "react-icons/fa"
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useCommentPostMutation } from '../redux/api/postApi'
+import { useDispatch } from 'react-redux'
+import { setPosts } from '../redux/slicers/postSlice'
 
 const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLiked }) => {
     const [open, setOpen] = useState(false);
     const [text, setText] = useState("");
-    const [commentPost, { data, isLoading, isError, isSuccess, error }] = useCommentPostMutation();
-
+    const [commentPost, { data, isError, isLoading, isSuccess, error }] = useCommentPostMutation();
+    const dispatch = useDispatch()
     const handleClose = () => {
         setOpen(false);
     }
@@ -26,6 +28,7 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
         }
         try {
             const res = await commentPost({ id, text }).unwrap();
+            dispatch(setPosts({ ...el,comments:[] }))
             setText("");
         } catch (error) {
             console.error("Error posting comment:", error);
@@ -33,6 +36,7 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
         }
     };
 
+    console.log(el)
 
     useEffect(() => {
         if (isSuccess) {
@@ -107,16 +111,16 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
 
                                 {/* Comments will be mapped here */}
                                 <div className='space-y-4'>
-                                    {[1, 2, 3].map((_, i) => (
+                                    {el?.comments?.map((comment, i) => (
                                         <div key={i} className='flex gap-3'>
                                             <Avatar
-                                                src='https://bit.ly/sage-adebayo'
+                                                src={comment?.author?.profilePicture || 'https://bit.ly/sage-adebayo'}
                                                 sx={{ width: 32, height: 32 }}
                                             />
                                             <div>
                                                 <div className='text-sm'>
                                                     <span className='font-semibold mr-2'>commenter</span>
-                                                    This is a comment on the post
+                                                    {comment?.text}
                                                 </div>
                                                 <div className='flex items-center gap-3 mt-1'>
                                                     <span className='text-xs text-gray-500'>2d</span>
@@ -155,8 +159,9 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
                                             variant="text"
                                             className='text-blue-500 hover:text-blue-600 min-w-fit p-0'
                                             onClick={() => el?._id && commentHandler(el._id)}
+                                            disabled={isLoading || !text.trim()}
                                         >
-                                            Post
+                                            {isLoading ? <Loader2 className='animate-spin w-4 h-4' /> : "Post"}
                                         </Button>
                                     )}
                                 </div>
