@@ -20,14 +20,19 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
     }
 
     const commentHandler = async (id) => {
+        if (!text.trim()) {
+            toast.error("Comment cannot be empty");
+            return;
+        }
         try {
-            await commentPost({ id, text });
+            const res = await commentPost({ id, text }).unwrap();
             setText("");
         } catch (error) {
-            console.log(error);
-            toast.error(error?.message || "something wrong happened");
+            console.error("Error posting comment:", error);
+            toast.error(error?.message || "Something went wrong");
         }
-    }
+    };
+
 
     useEffect(() => {
         if (isSuccess) {

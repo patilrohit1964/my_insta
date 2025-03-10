@@ -159,7 +159,6 @@ const addComment = async (req, res) => {
     const commentWalaUserId = req.id;
     const postId = req.params.id;
     const { text } = req.body;
-    console.log(req.body, "comment", text);
     const post = await Post.findById(postId);
     if (!text) {
       return res

@@ -5,10 +5,6 @@ const postApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:4050/api/v1/post",
     credentials: "include",
-    prepareHeaders: (headers) => {
-      headers.set("Content-Type", "application/json");
-      return headers;
-    },
   }),
   endpoints: (builder) => ({
     addPost: builder.mutation({
@@ -37,11 +33,15 @@ const postApi = createApi({
       }),
     }),
     commentPost: builder.mutation({
-      query: ({ id, text }) => ({
-        url: `/${id}/comment`,
-        method: "POST",
-        body: text,
-      }),
+      query: ({ id, text }) => {
+        const formData = new FormData();
+        formData.append("text", text);
+        return {
+          url: `/${id}/comment`,
+          method: "POST",
+          body: formData, // Don't set Content-Type manually!
+        };
+      },
     }),
   }),
 });
