@@ -5,15 +5,14 @@ import { FaHeart, FaRegHeart } from "react-icons/fa"
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useCommentPostMutation } from '../redux/api/postApi'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setPosts } from '../redux/slicers/postSlice'
 import moment from "moment"
-const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLiked, posts }) => {
+const CommentDialog = ({ openComment, setOpenComment, user, postLike, isLiked, }) => {
     const [open, setOpen] = useState(false);
     const [text, setText] = useState("");
-    const [comment, setComment] = useState(el.comments);
-    const [commentPost, { data, isError, isLoading, isSuccess, error }] = useCommentPostMutation();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const { selectedPost } = useSelector(state => state.post);
     const handleClose = () => {
         setOpen(false);
     }
@@ -22,35 +21,7 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
         setOpen(true);
     }
 
-    const commentHandler = async (id) => {
-        if (!text.trim()) {
-            toast.error("Comment cannot be empty");
-            return;
-        }
-        try {
-            const res = await commentPost({ id, text }).unwrap();
-            if (res?.data?.success) {
-                const updatedPostCommentData = [...comment, res?.data?.comment]
-                setComment(updatedPostCommentData)
-                const updatedPostData = posts.map(p => p._id === el._id ? { ...p, comments: updatedPostCommentData } : p);
-                dispatch(setPosts(updatedPostData));
-                setText("");
-            }
-        } catch (error) {
-            console.error("Error posting comment:", error);
-            toast.error(error?.message || "Something went wrong");
-        }
-    };
 
-    useEffect(() => {
-        if (isSuccess) {
-            toast.success(data?.message || "Comment Added");
-            setOpen(false);
-        }
-        if (isError) {
-            toast.error(error?.message || "Failed to add comment");
-        }
-    }, [isSuccess, isError, data, error]);
     return (
         <div>
             <Dialog
@@ -68,7 +39,7 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
                     <div className='flex flex-1'>
                         <div className='w-[600px] h-[600px] bg-black flex items-center'>
                             <img
-                                src={el?.image || "https://bit.ly/sage-adebayo"}
+                                src={selectedPost?.image || "https://bit.ly/sage-adebayo"}
                                 className='w-full h-auto object-contain'
                                 alt="Post"
                             />
@@ -100,21 +71,21 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
                                 {/* Original Post */}
                                 <div className='flex gap-3 mb-6'>
                                     <Avatar
-                                        src='https://bit.ly/sage-adebayo'
+                                        src={selectedPost?.image || 'https://bit.ly/sage-adebayo'}
                                         sx={{ width: 32, height: 32 }}
                                     />
                                     <div>
                                         <div className='text-sm'>
-                                            <span className='font-semibold mr-2'>username</span>
-                                            This is the caption of the post. It can be multiple lines long and will wrap accordingly.
+                                            <span className='font-semibold mr-2'>{selectedPost?.author?.username}</span>
+                                            {selectedPost?.caption}
                                         </div>
-                                        <div className='text-xs text-gray-500 mt-1'>2d</div>
+                                        <div className='text-xs text-gray-500 mt-1'>{moment(selectedPost?.createdAt).fromNow()}</div>
                                     </div>
                                 </div>
 
                                 {/* Comments will be mapped here */}
                                 <div className='space-y-4'>
-                                    {el?.comments?.map((comment, i) => (
+                                    {selectedPost?.comments?.map((comment, i) => (
                                         <div key={i} className='flex gap-3'>
                                             <Avatar
                                                 src={comment?.author?.profilePicture || 'https://bit.ly/sage-adebayo'}
@@ -123,7 +94,7 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
                                             />
                                             <div>
                                                 <div className='text-sm'>
-                                                    <span className='font-semibold mr-2'>{el?.author?.username}</span>
+                                                    <span className='font-semibold mr-2'>{selectedPost?.author?.username}</span>
                                                     {comment?.text}
                                                 </div>
                                                 <div className='flex items-center gap-3 mt-1'>
@@ -146,7 +117,7 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
                                             :
                                             <FaRegHeart className={`cursor-pointer text-2xl hover:text-gray-600 ${isLiked && 'text-pink-400'}`} />
                                     }
-                                    <span className='text-sm font-semibold'>{postLike || null}</span>
+                                    <span className='text-sm font-semibold'>{postLike || null} likes</span>
                                 </div>
 
                                 {/* Comment Input */}
@@ -162,10 +133,8 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
                                         <Button
                                             variant="text"
                                             className='text-blue-500 hover:text-blue-600 min-w-fit p-0'
-                                            onClick={() => el?._id && commentHandler(el._id)}
-                                            disabled={isLoading || !text.trim()}
                                         >
-                                            {isLoading ? <Loader2 className='animate-spin w-4 h-4' /> : "Post"}
+                                            Post
                                         </Button>
                                     )}
                                 </div>

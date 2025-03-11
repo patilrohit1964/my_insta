@@ -166,7 +166,7 @@ const Post = ({ el }) => {
                 <span
                     className='cursor-pointer'
                     onClick={() => {
-                        dispatch(setSelectedPost(el))
+                        dispatch(setSelectedPost(el));
                         setOpenComment(true);
                     }}
                 >View all {comment?.length} comments</span>
