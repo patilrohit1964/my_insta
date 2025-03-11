@@ -21,7 +21,6 @@ const CommentDialog = ({ openComment, setOpenComment, user, postLike, isLiked, }
         setOpen(true);
     }
 
-
     return (
         <div>
             <Dialog
@@ -94,7 +93,7 @@ const CommentDialog = ({ openComment, setOpenComment, user, postLike, isLiked, }
                                             />
                                             <div>
                                                 <div className='text-sm'>
-                                                    <span className='font-semibold mr-2'>{selectedPost?.author?.username}</span>
+                                                    <span className='font-semibold mr-2'>{comment?.author?.username}</span>
                                                     {comment?.text}
                                                 </div>
                                                 <div className='flex items-center gap-3 mt-1'>

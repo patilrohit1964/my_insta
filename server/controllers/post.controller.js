@@ -62,13 +62,13 @@ const getAllPosts = async (req, res) => {
   try {
     const posts = await Post.find()
       .sort({ createdAt: -1 })
-      .populate({ path: "author", select: "username profilePicture" })
+      .populate({ path: "author", select: "username profilePicture _id" })
       .populate({
         path: "comments",
-        sort: { createdAt: -1 },
+        options: { sort: { createdAt: -1 } },
         populate: {
           path: "author",
-          select: "username, profilePicture",
+          select: "username profilePicture _id",
         },
       });
     return res.status(200).json({
@@ -76,7 +76,14 @@ const getAllPosts = async (req, res) => {
       success: true,
       posts,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    return res.status(500).json({
+      message: "Internal server error",
+      success: false,
+      error: error.message,
+    });
+  }
 };
 
 const getUserPost = async (req, res) => {
