@@ -51,12 +51,12 @@ const CommentDialog = ({ openComment, setOpenComment, user, postLike, isLiked, }
                                 <div className='flex gap-3 items-center'>
                                     <Link className='hover:opacity-80'>
                                         <Avatar
-                                            src={user?.profilePicture || 'https://bit.ly/sage-adebayo'}
+                                            src={selectedPost?.author?.profilePicture || 'https://bit.ly/sage-adebayo'}
                                             sx={{ width: 32, height: 32 }}
                                         />
                                     </Link>
                                     <Link className='font-semibold text-sm hover:opacity-80'>
-                                        {user?.username || "Anonymous"}
+                                        {selectedPost?.author?.username || "Anonymous"}
                                     </Link>
                                 </div>
                                 <MoreHorizontal
@@ -71,7 +71,7 @@ const CommentDialog = ({ openComment, setOpenComment, user, postLike, isLiked, }
                                 {/* Original Post */}
                                 <div className='flex gap-3 mb-6'>
                                     <Avatar
-                                        src={selectedPost?.image || 'https://bit.ly/sage-adebayo'}
+                                        src={selectedPost?.author?.profilePicture || 'https://bit.ly/sage-adebayo'}
                                         sx={{ width: 32, height: 32 }}
                                     />
                                     <div>
