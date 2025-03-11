@@ -11,7 +11,7 @@ import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useCommentPostMutation, useDeletePostMutation, useLikePostMutation } from '../redux/api/postApi';
-import { setPosts } from '../redux/slicers/postSlice';
+import { setPosts, setSelectedPost } from '../redux/slicers/postSlice';
 import CommentDialog from './CommentDialog';
 import LayoutHelmet from "./LayoutHelmet";
 const Post = ({ el }) => {
@@ -21,7 +21,7 @@ const Post = ({ el }) => {
     const [deletePost, { data, isError, isSuccess, error }] = useDeletePostMutation();
     const [commentPost, { data: commentData, isLoading: commentLoading, isError: commentError, isSuccess: commentSuccess, error: commentErr }] = useCommentPostMutation();
     const [likePost, { data: likeDisLikeData, isLoading: likeDisLoading, isError: likeDisError, isSuccess: likeDisSuccess }] = useLikePostMutation();
-    
+
     const { posts } = useSelector(state => state.post);
     const { user } = useSelector(state => state.auth);
     const [isLiked, setIsLiked] = useState(el?.likes?.includes(user?._id) || false);
@@ -90,7 +90,7 @@ const Post = ({ el }) => {
                 dispatch(setPosts(updatedPostData));
                 toast.success(res?.message || "comment added");
                 setText("");
-            }   
+            }
         } catch (error) {
             console.error("Error posting comment:", error);
             toast.error(error?.message || "Something went wrong");
@@ -147,17 +147,29 @@ const Post = ({ el }) => {
                                 :
                                 <FaRegHeart className={`cursor-pointer text-2xl hover:text-gray-600 ${isLiked && 'text-pink-400'}`} onClick={() => likeDisLikeHandler(el._id)} />
                         }
-                        <ModeCommentOutlinedIcon onClick={() => setOpenComment(true)} className='cursor-pointer hover:text-gray-600' />
+                        <ModeCommentOutlinedIcon
+                            onClick={() => {
+                                dispatch(setSelectedPost(el));
+                                setOpenComment(true);
+                            }}
+                            className='cursor-pointer hover:text-gray-600'
+                        />
                         <Send className='cursor-pointer hover:text-gray-600' />
                     </div>
                     <BookmarkBorderOutlinedIcon className='cursor-pointer' />
                 </div>
                 <span className='font-medium block mb-2'>{postLike} likes</span>
                 <p>
-                    <span>{el?.username}</span>
+                    <span>{el?.author?.username}</span>{" "}
                     {el?.caption}
                 </p>
-                <span>{comment?.length} comments</span>
+                <span
+                    className='cursor-pointer'
+                    onClick={() => {
+                        dispatch(setSelectedPost(el))
+                        setOpenComment(true);
+                    }}
+                >View all {comment?.length} comments</span>
                 <CommentDialog
                     openComment={openComment}
                     setOpenComment={setOpenComment}
