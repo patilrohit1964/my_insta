@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 import { useCommentPostMutation } from '../redux/api/postApi'
 import { useDispatch } from 'react-redux'
 import { setPosts } from '../redux/slicers/postSlice'
-
+import moment from "moment"
 const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLiked }) => {
     const [open, setOpen] = useState(false);
     const [text, setText] = useState("");
@@ -28,15 +28,13 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
         }
         try {
             const res = await commentPost({ id, text }).unwrap();
-            dispatch(setPosts({ ...el,comments:[] }))
+            dispatch(setPosts([{ ...el, comments: [...el?.comments, res?.data?.comment] }]));
             setText("");
         } catch (error) {
             console.error("Error posting comment:", error);
             toast.error(error?.message || "Something went wrong");
         }
     };
-
-    console.log(el)
 
     useEffect(() => {
         if (isSuccess) {
@@ -47,7 +45,6 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
             toast.error(error?.message || "Failed to add comment");
         }
     }, [isSuccess, isError, data, error]);
-
     return (
         <div>
             <Dialog
@@ -116,14 +113,15 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
                                             <Avatar
                                                 src={comment?.author?.profilePicture || 'https://bit.ly/sage-adebayo'}
                                                 sx={{ width: 32, height: 32 }}
+                                                alt='not found'
                                             />
                                             <div>
                                                 <div className='text-sm'>
-                                                    <span className='font-semibold mr-2'>commenter</span>
+                                                    <span className='font-semibold mr-2'>{el?.author?.username}</span>
                                                     {comment?.text}
                                                 </div>
                                                 <div className='flex items-center gap-3 mt-1'>
-                                                    <span className='text-xs text-gray-500'>2d</span>
+                                                    <span className='text-xs text-gray-500'>{moment(comment?.createdAt).fromNow()}</span>
                                                     <span className='text-xs text-gray-500 font-semibold cursor-pointer'>Reply</span>
                                                 </div>
                                             </div>
