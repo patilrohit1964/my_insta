@@ -8,9 +8,10 @@ import { useCommentPostMutation } from '../redux/api/postApi'
 import { useDispatch } from 'react-redux'
 import { setPosts } from '../redux/slicers/postSlice'
 import moment from "moment"
-const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLiked }) => {
+const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLiked, posts }) => {
     const [open, setOpen] = useState(false);
     const [text, setText] = useState("");
+    const [comment, setComment] = useState(el.comments);
     const [commentPost, { data, isError, isLoading, isSuccess, error }] = useCommentPostMutation();
     const dispatch = useDispatch()
     const handleClose = () => {
@@ -28,8 +29,13 @@ const CommentDialog = ({ openComment, setOpenComment, el, user, postLike, isLike
         }
         try {
             const res = await commentPost({ id, text }).unwrap();
-            dispatch(setPosts([{ ...el, comments: [...el?.comments, res?.data?.comment] }]));
-            setText("");
+            if (res?.data?.success) {
+                const updatedPostCommentData = [...comment, res?.data?.comment]
+                setComment(updatedPostCommentData)
+                const updatedPostData = posts.map(p => p._id === el._id ? { ...p, comments: updatedPostCommentData } : p);
+                dispatch(setPosts(updatedPostData));
+                setText("");
+            }
         } catch (error) {
             console.error("Error posting comment:", error);
             toast.error(error?.message || "Something went wrong");

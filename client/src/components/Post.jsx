@@ -21,10 +21,12 @@ const Post = ({ el }) => {
     const [deletePost, { data, isError, isSuccess, error }] = useDeletePostMutation();
     const [commentPost, { data: commentData, isLoading: commentLoading, isError: commentError, isSuccess: commentSuccess, error: commentErr }] = useCommentPostMutation();
     const [likePost, { data: likeDisLikeData, isLoading: likeDisLoading, isError: likeDisError, isSuccess: likeDisSuccess }] = useLikePostMutation();
+    
     const { posts } = useSelector(state => state.post);
     const { user } = useSelector(state => state.auth);
     const [isLiked, setIsLiked] = useState(el?.likes?.includes(user?._id) || false);
     const [postLike, setPostLike] = useState(el?.likes?.length)
+    const [comment, setComment] = useState(el.comments);
     const dispatch = useDispatch();
     const handleClickOpen = () => {
         setOpen(true);
@@ -38,7 +40,7 @@ const Post = ({ el }) => {
         if (e.target.value.trim()) {
             setText(e.target.value);
         } else {
-            setText("")
+            setText("");
         }
     }
 
@@ -75,13 +77,25 @@ const Post = ({ el }) => {
     }
 
     const commentHandler = async (id) => {
+        if (!text.trim()) {
+            toast.error("Comment cannot be empty");
+            return;
+        }
         try {
             const res = await commentPost({ id, text }).unwrap();
+            if (res?.success) {
+                const updatedPostCommentData = [...comment, res?.comment];
+                setComment(updatedPostCommentData);
+                const updatedPostData = posts.map(p => p._id === el._id ? { ...p, comments: updatedPostCommentData } : p);
+                dispatch(setPosts(updatedPostData));
+                toast.success(res?.message || "comment added");
+                setText("");
+            }   
         } catch (error) {
-            console.log(error)
-            toast.error(error?.message || "something wrong happened");
+            console.error("Error posting comment:", error);
+            toast.error(error?.message || "Something went wrong");
         }
-    }
+    };
     useEffect(() => {
         if (isSuccess) {
             toast.success(data?.message || "Post deleted successfully");
@@ -138,23 +152,24 @@ const Post = ({ el }) => {
                     </div>
                     <BookmarkBorderOutlinedIcon className='cursor-pointer' />
                 </div>
-                <span className='font-medium block mb-2'>{postLike}</span>
+                <span className='font-medium block mb-2'>{postLike} likes</span>
                 <p>
                     <span>{el?.username}</span>
                     {el?.caption}
                 </p>
-                <span>view all 10 comments</span>
+                <span>{comment?.length} comments</span>
                 <CommentDialog
                     openComment={openComment}
                     setOpenComment={setOpenComment}
                     el={el}
                     user={user}
                     postLike={postLike}
+                    posts={posts}
                     isLiked={isLiked}
                 />
                 <div className='flex justify-between'>
                     <input type="text" value={text} onChange={changeEventHandler} placeholder='Add a comment' className='outline-none text-sm w-full' />
-                    {text && <span className='text-[#38adf8]'>Post</span>}
+                    {text && <Button className='text-[#38adf8]' onClick={() => commentHandler(el._id)}>Post</Button>}
                 </div>
             </div>
         </LayoutHelmet>
