@@ -8,10 +8,13 @@ import { useCommentPostMutation } from '../redux/api/postApi'
 import { useDispatch, useSelector } from 'react-redux'
 import { setPosts } from '../redux/slicers/postSlice'
 import moment from "moment"
+import Comment from './Comment'
 const CommentDialog = ({ openComment, setOpenComment, user, postLike, isLiked, }) => {
     const [open, setOpen] = useState(false);
     const [text, setText] = useState("");
     const dispatch = useDispatch();
+    const [comment, setComment] = useState("");
+    const [commentPost, { data, isLoading, isSuccess, isError }] = useCommentPostMutation();
     const { selectedPost } = useSelector(state => state.post);
     const handleClose = () => {
         setOpen(false);
@@ -20,6 +23,27 @@ const CommentDialog = ({ openComment, setOpenComment, user, postLike, isLiked, }
     const handleOpen = () => {
         setOpen(true);
     }
+
+    const commentHandler = async (id) => {
+        if (!text.trim()) {
+            toast.error("Comment cannot be empty");
+            return;
+        }
+        try {
+            const res = await commentPost({ id, text }).unwrap();
+            if (res?.success) {
+                const updatedPostCommentData = [...comment, res?.comment];
+                setComment(updatedPostCommentData);
+                const updatedPostData = posts.map(p => p._id === el._id ? { ...p, comments: updatedPostCommentData } : p);
+                dispatch(setPosts(updatedPostData));
+                toast.success(res?.message || "comment added");
+                setText("");
+            }
+        } catch (error) {
+            console.error("Error posting comment:", error);
+            toast.error(error?.message || "Something went wrong");
+        }
+    };
 
     return (
         <div>
@@ -85,24 +109,7 @@ const CommentDialog = ({ openComment, setOpenComment, user, postLike, isLiked, }
                                 {/* Comments will be mapped here */}
                                 <div className='space-y-4'>
                                     {selectedPost?.comments?.map((comment, i) => (
-                                        <div key={i} className='flex gap-3'>
-                                            <Avatar
-                                                src={comment?.author?.profilePicture || 'https://bit.ly/sage-adebayo'}
-                                                sx={{ width: 32, height: 32 }}
-                                                alt='not found'
-                                            />
-                                            <div>
-                                                <div className='text-sm'>
-                                                    <span className='font-semibold mr-2'>{comment?.author?.username}</span>
-                                                    {comment?.text}
-                                                </div>
-                                                <div className='flex items-center gap-3 mt-1'>
-                                                    <span className='text-xs text-gray-500'>{moment(comment?.createdAt).fromNow()}</span>
-                                                    <span className='text-xs text-gray-500 font-semibold cursor-pointer'>Reply</span>
-                                                </div>
-                                            </div>
-                                            <FaRegHeart className='ml-auto cursor-pointer hover:opacity-70' size={12} />
-                                        </div>
+                                        <Comment comment={comment} key={comment?._id} />
                                     ))}
                                 </div>
                             </div>
@@ -132,6 +139,7 @@ const CommentDialog = ({ openComment, setOpenComment, user, postLike, isLiked, }
                                         <Button
                                             variant="text"
                                             className='text-blue-500 hover:text-blue-600 min-w-fit p-0'
+                                            onClick={() => commentHandler(selectedPost?._id)}
                                         >
                                             Post
                                         </Button>
