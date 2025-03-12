@@ -178,7 +178,7 @@ const getSuggestedUser = async (req, res) => {
         users: suggestedUser,
       });
     }
-    res.status(200).json({ suggestedUser, success: true });
+    res.status(200).json({ users: suggestedUser, success: true });
   } catch (error) {
     console.log("something went wrong");
   }

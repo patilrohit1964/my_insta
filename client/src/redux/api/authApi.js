@@ -26,6 +26,12 @@ const authApi = createApi({
         method: "GET",
       }),
     }),
+    suggestedUser: builder.query({
+      query: () => ({
+        url: "/suggested",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -33,6 +39,7 @@ export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useLazyLogoutUserQuery,
+  useSuggestedUserQuery,
 } = authApi;
 
 export default authApi;
