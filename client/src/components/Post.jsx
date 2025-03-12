@@ -109,9 +109,17 @@ const Post = ({ el }) => {
         <LayoutHelmet title={"Post"} description={"this is Post"}>
             <div className='my-8 w-full max-w-sm mx-auto'>
                 <div className='flex items-center justify-between'>
-                    <div className='flex items-center gap-2'>
+                    <div className='flex items-center gap-2 mb-2'>
                         <Avatar name="Rohit Patil" src={el?.author?.profilePicture || "https://bit.ly/sage-adebayo"} />
-                        <h1>{el?.author?.username}</h1>
+                        <div className='flex items-center gap-4'>
+                            <h1>{el?.author?.username}</h1>
+                            {
+                                user?._id === el?.author?._id &&
+                                <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-blue-500 ring-inset">
+                                    Badge
+                                </span>
+                            }
+                        </div>
                     </div>
 
                     {/* Clickable Icon to Open Dialog */}
