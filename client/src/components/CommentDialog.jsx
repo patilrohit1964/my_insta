@@ -13,9 +13,9 @@ const CommentDialog = ({ openComment, setOpenComment, user, postLike, isLiked, }
     const [open, setOpen] = useState(false);
     const [text, setText] = useState("");
     const dispatch = useDispatch();
-    const [comment, setComment] = useState("");
     const [commentPost, { data, isLoading, isSuccess, isError }] = useCommentPostMutation();
-    const { selectedPost } = useSelector(state => state.post);
+    const { selectedPost, posts } = useSelector(state => state.post);
+    const [comment, setComment] = useState(selectedPost?.comments);
     const handleClose = () => {
         setOpen(false);
     }
@@ -34,7 +34,7 @@ const CommentDialog = ({ openComment, setOpenComment, user, postLike, isLiked, }
             if (res?.success) {
                 const updatedPostCommentData = [...comment, res?.comment];
                 setComment(updatedPostCommentData);
-                const updatedPostData = posts.map(p => p._id === el._id ? { ...p, comments: updatedPostCommentData } : p);
+                const updatedPostData = posts.map(p => p._id === selectedPost._id ? { ...p, comments: updatedPostCommentData } : p);
                 dispatch(setPosts(updatedPostData));
                 toast.success(res?.message || "comment added");
                 setText("");
@@ -108,7 +108,7 @@ const CommentDialog = ({ openComment, setOpenComment, user, postLike, isLiked, }
 
                                 {/* Comments will be mapped here */}
                                 <div className='space-y-4'>
-                                    {selectedPost?.comments?.map((comment, i) => (
+                                    {comment?.map((comment, i) => (
                                         <Comment comment={comment} key={comment?._id} />
                                     ))}
                                 </div>
