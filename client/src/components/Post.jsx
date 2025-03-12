@@ -163,18 +163,21 @@ const Post = ({ el }) => {
                     <span>{el?.author?.username}</span>{" "}
                     {el?.caption}
                 </p>
-                <span
-                    className='cursor-pointer'
-                    onClick={() => {
-                        dispatch(setSelectedPost(el));
-                        setOpenComment(true);
-                    }}
-                >View all {comment?.length} comments</span>
+                {comment?.length > 0 &&
+                    <span
+                        className='cursor-pointer'
+                        onClick={() => {
+                            dispatch(setSelectedPost(el));
+                            setOpenComment(true);
+                        }}
+                    >
+                        View all {comment?.length} comments
+                    </span>
+                }
                 <CommentDialog
                     openComment={openComment}
                     setOpenComment={setOpenComment}
                     el={el}
-                    user={user}
                     postLike={postLike}
                     posts={posts}
                     isLiked={isLiked}

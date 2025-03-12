@@ -9,13 +9,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setPosts } from '../redux/slicers/postSlice'
 import moment from "moment"
 import Comment from './Comment'
-const CommentDialog = ({ openComment, setOpenComment, user, postLike, isLiked, }) => {
+const CommentDialog = ({ openComment, setOpenComment, postLike, isLiked, }) => {
     const [open, setOpen] = useState(false);
     const [text, setText] = useState("");
     const dispatch = useDispatch();
     const [commentPost, { data, isLoading, isSuccess, isError }] = useCommentPostMutation();
     const { selectedPost, posts } = useSelector(state => state.post);
-    const [comment, setComment] = useState(selectedPost?.comments);
+    const [comment, setComment] = useState([]);
     const handleClose = () => {
         setOpen(false);
     }
@@ -32,7 +32,7 @@ const CommentDialog = ({ openComment, setOpenComment, user, postLike, isLiked, }
         try {
             const res = await commentPost({ id, text }).unwrap();
             if (res?.success) {
-                const updatedPostCommentData = [...comment, res?.comment];
+                const updatedPostCommentData = [res?.comment, ...comment];
                 setComment(updatedPostCommentData);
                 const updatedPostData = posts.map(p => p._id === selectedPost._id ? { ...p, comments: updatedPostCommentData } : p);
                 dispatch(setPosts(updatedPostData));
@@ -44,6 +44,12 @@ const CommentDialog = ({ openComment, setOpenComment, user, postLike, isLiked, }
             toast.error(error?.message || "Something went wrong");
         }
     };
+
+    useEffect(() => {
+        if (selectedPost?.comments) {
+            setComment(selectedPost.comments)
+        }
+    }, [selectedPost])
 
     return (
         <div>
