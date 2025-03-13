@@ -71,6 +71,8 @@ const LeftSideBar = () => {
             navigate("/login");
         } else if (text === "Create") {
             setOpen(true);
+        } else if (text === "Profile") {
+            navigate(`/profile/${user?._id}`);
         }
     }
     return (
