@@ -32,7 +32,7 @@ const authApi = createApi({
         method: "GET",
       }),
     }),
-    getUserProfile: builder.query({
+    getUserProfileById: builder.query({
       query: (userId) => ({
         url: `/${userId}/profile`,
         method: "GET",
@@ -46,7 +46,7 @@ export const {
   useLoginUserMutation,
   useLazyLogoutUserQuery,
   useSuggestedUserQuery,
-  useLazyGetUserProfileQuery,
+  useGetUserProfileByIdQuery,
 } = authApi;
 
 export default authApi;

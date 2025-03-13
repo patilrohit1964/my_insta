@@ -10,7 +10,6 @@ import useGetUserProfile from '../hooks/useGetUserProfile'
 const Home = () => {
   useGetAllPosts();
   usetGetSuggestedUsers();
-  useGetUserProfile();
   return (
     <LayoutHelmet title={"Home"} description={"this is Home"}>
       <div className='flex '>
