@@ -74,6 +74,9 @@ const LeftSideBar = () => {
         } else if (text === "Profile") {
             navigate(`/profile/${user?._id}`);
         }
+        else if (text === "Home") {
+            navigate(`/`);
+        }
     }
     return (
         <LayoutHelmet title={"Left Sidebar"} description={"left sidebar"}>

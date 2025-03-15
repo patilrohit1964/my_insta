@@ -1,10 +1,8 @@
 import { Avatar, Button } from '@mui/material';
 import { AtSign, Heart, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
-import { FaRegCommentAlt } from 'react-icons/fa';
 import { Link, useParams } from 'react-router-dom';
 import useGetUserProfile from '../hooks/useGetUserProfile';
-import LayoutHelmet from './LayoutHelmet';
 
 const Profile = () => {
   // const { userProfile } = useSelector(state => state.auth);
@@ -78,25 +76,24 @@ const Profile = () => {
           </div>
           <div className='grid grid-cols-3 gap-1'>
             {
-              displayPost?.map((post) => {
-                return (
-                  <div key={post?._id} className='relative group cursor-pointer'>
-                    <img src={post.image} alt='postimage' className='rounded-sm my-2 w-full aspect-square object-cover' />
-                    <div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
-                      <div className='flex items-center text-white space-x-4'>
-                        <button className='flex items-center gap-2 hover:text-gray-300'>
-                          <Heart />
-                          <span>{post?.likes.length}</span>
-                        </button>
-                        <button className='flex items-center gap-2 hover:text-gray-300'>
-                          <MessageCircle />
-                          <span>{post?.comments.length}</span>
-                        </button>
-                      </div>
+              displayPost?.map((post) =>
+              (
+                <div key={post?._id} className='relative group cursor-pointer'>
+                  <img src={post.image} alt='postimage' className='rounded-sm my-2 w-full aspect-square object-cover' />
+                  <div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+                    <div className='flex items-center text-white space-x-4'>
+                      <button className='flex items-center gap-2 hover:text-gray-300'>
+                        <Heart />
+                        <span>{post?.likes.length}</span>
+                      </button>
+                      <button className='flex items-center gap-2 hover:text-gray-300'>
+                        <MessageCircle />
+                        <span>{post?.comments.length}</span>
+                      </button>
                     </div>
                   </div>
-                )
-              })
+                </div>
+              ))
             }
           </div>
         </div>
