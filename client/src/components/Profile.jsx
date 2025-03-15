@@ -3,14 +3,20 @@ import { useParams } from 'react-router-dom';
 import useGetUserProfile from '../hooks/useGetUserProfile';
 import LayoutHelmet from './LayoutHelmet';
 import { AtSign } from 'lucide-react';
+import { useState } from 'react';
 
 const Profile = () => {
   // const { userProfile } = useSelector(state => state.auth);
   const { id } = useParams()
   const { data, isError } = useGetUserProfile(id);
-  const isLoggedUser = false
+  const [activeTab, setActiveTab] = useState("Posts");
+  const isLoggedUser = true
   const Follow = true
   console.log(data)
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+  }
   return (
     <LayoutHelmet title={"Profile"} description={"this is Profile"}>
       <div>
@@ -60,8 +66,17 @@ const Profile = () => {
             </div>
             <div className='border-t border-t-gray-300'>
               <div className='flex items-center justify-center gap-10 text-sm'>
-                <span>
-
+                <span className={`py-3 cursor-pointer ${activeTab === "Posts" ? 'font-bold' : ''}`} onClick={() => handleTabChange("Posts")}>
+                  Posts
+                </span>
+                <span className={`py-3 cursor-pointer ${activeTab === "Saved" ? 'font-bold' : ''}`} onClick={() => handleTabChange("Saved")}>
+                  Saved
+                </span>
+                <span className='py-3 cursor-pointer' onClick={() => handleTabChange("Reels")}>
+                  Reels
+                </span>
+                <span className='py-3 cursor-pointer' onClick={() => handleTabChange("Tags")}>
+                  Tags
                 </span>
               </div>
             </div>
