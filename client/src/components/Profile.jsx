@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import useGetUserProfile from '../hooks/useGetUserProfile';
 import LayoutHelmet from './LayoutHelmet';
-import { AtSign } from 'lucide-react';
+import { AtSign, Heart } from 'lucide-react';
 import { useState } from 'react';
 
 const Profile = () => {
@@ -81,11 +81,18 @@ const Profile = () => {
                   Tags
                 </span>
               </div>
-              <div>
+              <div className='grid grid-cols-3 gap-2'>
                 {
-                  displayPost.map((post) => (
-                    <div key={post?._id}>
-
+                  displayPost?.map((post) => (
+                    <div key={post?._id} className='relative group cursor-pointer'>
+                      <img src={post.image} alt="" className='rounded-sm my-2 w-full aspect-square object-cover h-full' />
+                      <div className='rounded inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute'>
+                        <div className='flex items-center text-white space-x-4'></div>
+                        <button className='flex items-center gap-2 hover:text-gray-300'>
+                          <Heart />
+                          <span>{data?.user?.likes?.length}</span>
+                        </button>
+                      </div>
                     </div>
                   ))
                 }
