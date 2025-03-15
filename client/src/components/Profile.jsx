@@ -3,15 +3,16 @@ import { AtSign, Heart, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import useGetUserProfile from '../hooks/useGetUserProfile';
+import { useSelector } from 'react-redux';
 
 const Profile = () => {
-  // const { userProfile } = useSelector(state => state.auth);
   const { id } = useParams()
   const { data, isError } = useGetUserProfile(id);
   const [activeTab, setActiveTab] = useState("Posts");
-  const isLoggedUser = true
-  const Follow = true
-  console.log(data)
+  const { user, userProfile } = useSelector(state => state?.auth);
+  console.log(userProfile)
+  const isLoggedUser = user?._id === userProfile?._id;
+  const Follow = true;
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
