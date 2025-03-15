@@ -1,5 +1,6 @@
 import React from 'react'
 import LayoutHelmet from './LayoutHelmet'
+import { Link } from 'react-router-dom'
 
 const SuggestedUser = ({ suggestedUsers }) => {
 
@@ -14,14 +15,16 @@ const SuggestedUser = ({ suggestedUsers }) => {
                     <div>
                         {
                             suggestedUsers?.map((user, index) => (
-                                <div key={index} className='flex items-center gap-3 my-3'>
-                                    <img src='https://bit.ly/sage-adebayo' alt='User' className='w-12 h-12 rounded-full' />
-                                    <div className='flex-1'>
-                                        <h3 className='font-semibold text-sm'>{user?.username}</h3>
-                                        <p className='text-xs text-gray-500'>Bio: {user?.bio}</p>
+                                <Link to={`/profile/${user?._id}`}>
+                                    <div key={index} className='flex items-center gap-3 my-3'>
+                                        <img src='https://bit.ly/sage-adebayo' alt='User' className='w-12 h-12 rounded-full' />
+                                        <div className='flex-1'>
+                                            <h3 className='font-semibold text-sm'>{user?.username}</h3>
+                                            <p className='text-xs text-gray-500'>Bio: {user?.bio}</p>
+                                        </div>
+                                        <button className='bg-blue-500 text-white font-semibold py-1 px-2 rounded-full'>Follow</button>
                                     </div>
-                                    <button className='bg-blue-500 text-white font-semibold py-1 px-2 rounded-full'>Follow</button>
-                                </div>
+                                </Link>
                             ))
                         }
                     </div>
