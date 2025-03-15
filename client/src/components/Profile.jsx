@@ -17,6 +17,8 @@ const Profile = () => {
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   }
+
+  const displayPost = activeTab === "Posts" ? data?.user?.posts : data?.user?.bookmarks
   return (
     <LayoutHelmet title={"Profile"} description={"this is Profile"}>
       <div>
@@ -78,6 +80,15 @@ const Profile = () => {
                 <span className='py-3 cursor-pointer' onClick={() => handleTabChange("Tags")}>
                   Tags
                 </span>
+              </div>
+              <div>
+                {
+                  displayPost.map((post) => (
+                    <div key={post?._id}>
+
+                    </div>
+                  ))
+                }
               </div>
             </div>
           </div>
