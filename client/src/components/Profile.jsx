@@ -1,27 +1,25 @@
-import React from 'react'
-import LayoutHelmet from './LayoutHelmet'
-import { useSelector } from 'react-redux'
-import useGetUserProfile from '../hooks/useGetUserProfile';
+import { Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { Avatar, Button } from '@mui/material';
+import useGetUserProfile from '../hooks/useGetUserProfile';
+import LayoutHelmet from './LayoutHelmet';
 
 const Profile = () => {
   // const { userProfile } = useSelector(state => state.auth);
   const { id } = useParams()
   const { data, isError } = useGetUserProfile(id);
-  console.log(data);
   const isLoggedUser = false
   const Follow = true
+  console.log(data)
   return (
     <LayoutHelmet title={"Profile"} description={"this is Profile"}>
       <div>
         <div className='flex max-w-5xl justify-center mx-auto pl-10 pt-10'>
-          <div className='grid grid-cols-2 border justify-around'>
+          <div className='grid grid-cols-2 justify-around'>
             <div className='flex items-center justify-center w-32 h-32'>
               <img src={data?.user?.profilePicture} className='h-full w-full object-center rounded-full' />
             </div>
-            <div className='flex gap-5 border border-blue-500'>
-              <div className='flex items-center gap-2 border border-red-500'>
+            <div className='flex flex-col gap-5'>
+              <div className='flex items-center gap-2'>
                 <span>{data?.user?.username}</span>
                 {
                   isLoggedUser ? (
@@ -41,6 +39,17 @@ const Profile = () => {
                       )
                   )
                 }
+              </div>
+              <div className='flex items-center justify-around'>
+                <p><span className="font-semibold">{data?.user?.posts?.length}</span> Post</p>
+                <p><span className="font-semibold">{data?.user?.following?.length}</span> Post</p>
+                <p><span className="font-semibold">{data?.user?.followers?.length}</span> Post</p>
+              </div>
+              <div>
+                <span>{data?.user?.bio || "bio here..."}</span>
+                <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-blue-500 ring-inset">
+                  {user?.username}
+                </span>
               </div>
             </div>
           </div>
