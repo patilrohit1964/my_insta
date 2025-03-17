@@ -8,9 +8,8 @@ import { useSelector } from 'react-redux';
 const Profile = () => {
   const { id } = useParams()
   const { data, isError } = useGetUserProfile(id);
-  const [activeTab, setActiveTab] = useState("Posts");
+  const [activeTab, setActiveTab] = useState("posts");
   const { user, userProfile } = useSelector(state => state?.auth);
-  console.log(userProfile)
   const isLoggedUser = user?._id === userProfile?._id;
   const Follow = true;
 
@@ -18,7 +17,7 @@ const Profile = () => {
     setActiveTab(tab);
   }
 
-  const displayPost = activeTab === "Posts" ? data?.user?.posts : data?.user?.bookmarks
+  const displayPost = activeTab === "posts" ? data?.user?.posts : data?.user?.bookmarks
   return (
     <div className='flex max-w-5xl justify-center mx-auto pl-10'>
       <div className='flex flex-col gap-20 p-8'>
@@ -79,7 +78,7 @@ const Profile = () => {
             {
               displayPost?.map((post) =>
               (
-                <div key={post?._id} className='relative group cursor-pointer'>
+                <div key={post?._id} className='relative group cursor-pointer mt-3'>
                   <img src={post.image} alt='postimage' className='rounded-sm my-2 w-full aspect-square object-cover' />
                   <div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
                     <div className='flex items-center text-white space-x-4'>

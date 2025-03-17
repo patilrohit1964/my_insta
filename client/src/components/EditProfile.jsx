@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { useEditProfileMutation } from '../redux/api/authApi';
 import { Loader2 } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { setUserProfile } from '../redux/slicers/authSlice';
 
 const EditProfile = () => {
     const { user } = useSelector(state => state?.auth);
@@ -20,24 +21,32 @@ const EditProfile = () => {
         gender: user?.gender,
     });
 
-    const editFormHandler = async (e) => {
-        const formData = new FormData();
+    const editFormHandler = (e) => {
         if (e.target.files) {
             const file = e.target.files[0];
-            formData.append('profilePicture', file);
             setFormField(prev => ({ ...prev, profilePicture: file }));
         } else {
             setFormField(prev => ({ ...prev, [e.target.name]: e.target.value }));
         }
-
-        // try {
-        //     const res = await editProfile(formData).unwrap();
-        //     console.log(res);
-        // } catch (err) {
-        //     console.error(err);
-        // }
-        console.log(formField);
     };
+
+    const submitHandler = async () => {
+        const formData = new FormData();
+        formData.append('username', formField.username);
+        formData.append('bio', formField.bio);
+        formData.append('gender', formField.gender);
+        if (formField.profilePicture instanceof File) {
+            formData.append('profilePicture', formField.profilePicture);
+        }
+        try {
+            const res = await editProfile(formData).unwrap();
+            setUserProfile(res?.data?.user);
+            toast.success("Profile updated successfully!");
+        } catch (err) {
+            toast.error(err?.message || "Something went wrong");
+        }
+    };
+
 
     useEffect(() => {
         if (isSuccess) {
@@ -55,7 +64,13 @@ const EditProfile = () => {
                 <h1 className='font-bold text-xl'>Edit Profile</h1>
                 <div className='flex items-center justify-between bg-gray-100 rounded-xl p-4'>
                     <div className='flex items-center gap-3'>
-                        <Avatar src={user?.profilePicture} alt='not found' />
+                        <Avatar
+                            src={formField.profilePicture instanceof File
+                                ? URL.createObjectURL(formField.profilePicture)
+                                : user?.profilePicture
+                            }
+                            alt="Profile"
+                        />
                         <div className='flex flex-col items-center'>
                             <h1 className='font-bold text-sm'>{user?.username}</h1>
                             <span className='text-gray-600 text-sm'>{user?.bio || "Bio here..."}</span>
@@ -109,11 +124,12 @@ const EditProfile = () => {
                 <div className='flex items-center justify-end'>
                     <button
                         className='w-32 bg-[#0095f6] hover:bg-[#6ac3ff] p-2 rounded-md text-white'
-                        onClick={editFormHandler}
+                        onClick={submitHandler}
                         disabled={isLoading}
                     >
                         {isLoading ? <Loader2 className="animate-spin inline" /> : "Save"}
                     </button>
+
                 </div>
             </section>
         </div>
