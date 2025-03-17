@@ -38,6 +38,13 @@ const authApi = createApi({
         method: "GET",
       }),
     }),
+    editProfile: builder.mutation({
+      query: (inputData) => ({
+        url: "/profile/edit",
+        method: "PUT",
+        body: inputData,
+      }),
+    }),
   }),
 });
 
