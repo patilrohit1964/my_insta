@@ -54,6 +54,7 @@ export const {
   useLazyLogoutUserQuery,
   useSuggestedUserQuery,
   useGetUserProfileByIdQuery,
+  useEditProfileMutation,
 } = authApi;
 
 export default authApi;
