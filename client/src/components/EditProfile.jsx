@@ -9,6 +9,7 @@ import { useEditProfileMutation } from '../redux/api/authApi';
 import { Loader2 } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { setUserProfile } from '../redux/slicers/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 const EditProfile = () => {
     const { user } = useSelector(state => state?.auth);
@@ -20,7 +21,8 @@ const EditProfile = () => {
         profilePicture: user?.profilePicture,
         gender: user?.gender,
     });
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const editFormHandler = (e) => {
         if (e.target.files) {
             const file = e.target.files[0];
@@ -40,17 +42,16 @@ const EditProfile = () => {
         }
         try {
             const res = await editProfile(formData).unwrap();
-            if (res?.data?.success) {
-                const updatedData = { ...user, bio: res?.data?.bio, gender: res?.data?.gender, profilePicture: res?.data?.profilePicture }
+            if (res?.success) {
+                const updatedData = { ...user, bio: res?.user?.bio, gender: res?.user?.gender, profilePicture: res?.user?.profilePicture }
                 dispatch(setUserProfile(updatedData))
                 navigate(`/profile/${user?._id}`)
-                setFormField(prev => ({ ...prev, profilePicture: null }));
                 toast.success("Profile updated successfully!");
             }
         } catch (err) {
             toast.error(err?.message || "Something went wrong");
         }
-    };
+    }; 
 
 
     useEffect(() => {
