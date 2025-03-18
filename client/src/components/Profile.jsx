@@ -27,14 +27,14 @@ const Profile = () => {
           </section>
           <section>
             <div className='flex flex-col gap-5'>
-              <div className='flex items-center gap-2'>
+              <div className='flex items-center gap-2 mt-3'>
                 <span>{data?.user?.username}</span>
                 {
                   isLoggedUser ? (
                     <>
-                      <Link to="/account/edit"><Button variant='secondary' className='hover:bg-gray-200 h-8'>Edit profile</Button></Link>
-                      <Button variant='secondary' className='hover:bg-gray-200 h-8'>View archive</Button>
-                      <Button variant='secondary' className='hover:bg-gray-200 h-8'>Ad tools</Button>
+                      <Link to="/account/edit"><button className='hover:bg-gray-400 bg-gray-300 rounded-md p-2'>Edit profile</button></Link>
+                      <button className='hover:bg-gray-400 bg-gray-300 rounded-md p-2'>View archive</button>
+                      <button className='hover:bg-gray-400 bg-gray-300 rounded-md p-2'>Ad tools</button>
                     </>
                   ) : (
                     Follow ? (

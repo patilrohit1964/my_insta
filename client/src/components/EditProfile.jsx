@@ -72,13 +72,13 @@ const EditProfile = () => {
                         <Avatar
                             src={formField.profilePicture instanceof File
                                 ? URL.createObjectURL(formField.profilePicture)
-                                : user?.profilePicture
+                                : formField?.profilePicture
                             }
                             alt="Profile"
                         />
                         <div className='flex flex-col items-center'>
-                            <h1 className='font-bold text-sm'>{user?.username}</h1>
-                            <span className='text-gray-600 text-sm'>{user?.bio || "Bio here..."}</span>
+                            <h1 className='font-bold text-sm'>{formField?.username}</h1>
+                            <span className='text-gray-600 text-sm'>{formField?.bio || "Bio here..."}</span>
                         </div>
                     </div>
                     <input
