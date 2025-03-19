@@ -2,6 +2,7 @@ import { Avatar } from '@mui/material';
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setselectedUser } from '../redux/slicers/authSlice';
+import { MessageCircle } from 'lucide-react';
 
 const ChatPage = () => {
     const { user, suggestedUsers, selectedUser } = useSelector(state => state.auth);
@@ -9,13 +10,13 @@ const ChatPage = () => {
     const dispatch = useDispatch();
     return (
         <div>
-            <div className='flex ml-[16%] px-3 h-screen border border-blue-500'>
-                <section className='border border-red-500 w-full'>
+            <div className='flex ml-[16%] p-2 h-screen'>
+                <section className='w-[30%] md:h-1/4 my-8'>
                     <h1 className='font-bold px-3 mb-4 text-xl'>{user?.username}</h1>
                     <hr className='mb-4 border border-gray-300' />
                     <div className='overflow-y-auto h-[80vh]'>
                         {suggestedUsers?.map((suggestedUser) => (
-                            <div onClick={() => dispatch(setselectedUser())}>
+                            <div onClick={() => dispatch(setselectedUser())} className='flex gap-3 items-center'>
                                 <Avatar src={suggestedUser?.profilePicture} />
                                 <div className='flex flex-col'>
                                     <span className='font-medium'>{suggestedUser?.username}</span>
@@ -44,8 +45,10 @@ const ChatPage = () => {
                             </div>
                         </section>
                     ) :
-                        <div>
-                            
+                        <div className='flex flex-col items-center justify-center mx-auto'>
+                            <MessageCircle className='w-32 h-32 my-4' />
+                            <h1 className='font-medium'>Your Messages</h1>
+                            <span>Send a messages to start a chat.</span>
                         </div>
                 }
             </div>
