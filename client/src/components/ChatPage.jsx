@@ -3,6 +3,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setselectedUser } from '../redux/slicers/authSlice';
 import { MessageCircle } from 'lucide-react';
+import Messages from './Messages';
 
 const ChatPage = () => {
     const { user, suggestedUsers, selectedUser } = useSelector(state => state.auth);
@@ -17,7 +18,7 @@ const ChatPage = () => {
                     <div className='overflow-y-auto h-[80vh]'>
                         {suggestedUsers?.map((suggestedUser) => (
                             <div onClick={() => dispatch(setselectedUser())} className='flex gap-3 items-center'>
-                                <Avatar src={suggestedUser?.profilePicture} />
+                                <Avatar src={suggestedUser?.profilePicture} className='h-14 w-14' />
                                 <div className='flex flex-col'>
                                     <span className='font-medium'>{suggestedUser?.username}</span>
                                     <span className={`text-xs font-bold ${isOnline ? "text-green-600" : "text-red-600"}`}>
@@ -39,6 +40,7 @@ const ChatPage = () => {
                                     <span>{selectedUser?.username}</span>
                                 </div>
                             </div>
+                            <Messages />
                             <div className='flex items-center p-4 border-t border-t-gray-300'>
                                 <input type="text" className='flex-1 mr-2 focus-visible:ring-transparent' />
                                 <button>send</button>
