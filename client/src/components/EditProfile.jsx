@@ -45,7 +45,7 @@ const EditProfile = () => {
             if (res?.success) {
                 const updatedData = { ...user, bio: res?.user?.bio, gender: res?.user?.gender, profilePicture: res?.user?.profilePicture };
                 dispatch(setUserProfile(updatedData));
-                navigate(`/profile/${user?._id}`);
+                navigate(`/profile/${user?._id}`); //error here please resolve in future
                 toast.success("Profile updated successfully!");
             }
         } catch (err) {

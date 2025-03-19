@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
 import EditProfile from './components/EditProfile'
+import ChatPage from './components/ChatPage'
 const MainLayout = lazy(() => import('./components/MainLayout'))
 const Home = lazy(() => import('./components/Home'))
 const Profile = lazy(() => import('./components/Profile'))
@@ -23,7 +24,11 @@ const browserRouter = createBrowserRouter([
       {
         path: "/account/edit",
         element: <EditProfile />,
-      }
+      },
+      {
+        path: "/chat",
+        element: <ChatPage />,
+      },
     ]
   },
   {
