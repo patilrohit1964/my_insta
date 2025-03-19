@@ -38,9 +38,15 @@ const ChatPage = () => {
                                     <span>{selectedUser?.username}</span>
                                 </div>
                             </div>
+                            <div className='flex items-center p-4 border-t border-t-gray-300'>
+                                <input type="text" className='flex-1 mr-2 focus-visible:ring-transparent' />
+                                <button>send</button>
+                            </div>
                         </section>
                     ) :
-                        <h1>hello</h1>
+                        <div>
+                            
+                        </div>
                 }
             </div>
         </div>
