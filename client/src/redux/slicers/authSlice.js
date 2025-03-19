@@ -8,6 +8,7 @@ const authSlice = createSlice({
     token: null,
     suggestedUsers: [],
     userProfile: null,
+    selectedUser: null,
   },
   reducers: {
     userLoggedIn: (state, action) => {
@@ -26,6 +27,9 @@ const authSlice = createSlice({
     setUserProfile: (state, action) => {
       state.userProfile = action.payload;
     },
+    setselectedUser: (state, action) => {
+      state.selectedUser = action.payload;
+    },
   },
 });
 
@@ -34,5 +38,6 @@ export const {
   userLoggedOut,
   setSuggestedUsers,
   setUserProfile,
+  setselectedUser,
 } = authSlice.actions;
 export default authSlice.reducer;

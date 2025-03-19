@@ -1,10 +1,12 @@
 import { Avatar } from '@mui/material';
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setselectedUser } from '../redux/slicers/authSlice';
 
 const ChatPage = () => {
-    const { user, suggestedUsers } = useSelector(state => state.auth);
-    const isOnline = true
+    const { user, suggestedUsers, selectedUser } = useSelector(state => state.auth);
+    const isOnline = true;
+    const dispatch = useDispatch();
     return (
         <div>
             <div className='flex ml-[16%] px-3 h-screen border border-blue-500'>
@@ -13,7 +15,7 @@ const ChatPage = () => {
                     <hr className='mb-4 border border-gray-300' />
                     <div className='overflow-y-auto h-[80vh]'>
                         {suggestedUsers?.map((suggestedUser) => (
-                            <div>
+                            <div onClick={() => dispatch(setselectedUser())}>
                                 <Avatar src={suggestedUser?.profilePicture} />
                                 <div className='flex flex-col'>
                                     <span className='font-medium'>{suggestedUser?.username}</span>
@@ -27,6 +29,19 @@ const ChatPage = () => {
                         ))}
                     </div>
                 </section>
+                {
+                    selectedUser ? (
+                        <section className='flex-1 border-l border-l-gray-300 flex flex-col h-full'>
+                            <div className='flex gap-3 items-center px-3 py-2 border-b border-b-gray-300 sticky top-0 bg-white z-10'>
+                                <Avatar src={selectedUser?.profilePicture} />
+                                <div>
+                                    <span>{selectedUser?.username}</span>
+                                </div>
+                            </div>
+                        </section>
+                    ) :
+                        <h1>hello</h1>
+                }
             </div>
         </div>
     )
