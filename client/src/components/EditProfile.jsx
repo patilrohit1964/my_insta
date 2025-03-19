@@ -43,15 +43,15 @@ const EditProfile = () => {
         try {
             const res = await editProfile(formData).unwrap();
             if (res?.success) {
-                const updatedData = { ...user, bio: res?.user?.bio, gender: res?.user?.gender, profilePicture: res?.user?.profilePicture }
-                dispatch(setUserProfile(updatedData))
-                navigate(`/profile/${user?._id}`)
+                const updatedData = { ...user, bio: res?.user?.bio, gender: res?.user?.gender, profilePicture: res?.user?.profilePicture };
+                dispatch(setUserProfile(updatedData));
+                navigate(`/profile/${user?._id}`);
                 toast.success("Profile updated successfully!");
             }
         } catch (err) {
             toast.error(err?.message || "Something went wrong");
         }
-    }; 
+    };
 
 
     useEffect(() => {
