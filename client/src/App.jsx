@@ -49,8 +49,10 @@ function App() {
       const socketio = io("http://localhost:4050", {
         query: {
           userId: user?._id
-        }
+        },
+        transports: ["websocket"]
       })
+      
     }
   }, [])
   return (
