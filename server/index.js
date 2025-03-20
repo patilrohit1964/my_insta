@@ -4,7 +4,7 @@ const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const connectDb = require("./config/db");
 const morgan = require("morgan");
-const app = express();
+const { app, server } = require("./socket/socket");
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
@@ -24,6 +24,6 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/post", postRoute);
 app.use("/api/v1/message", messageRoute);
 const PORT = 4050;
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
