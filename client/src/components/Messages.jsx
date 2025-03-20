@@ -1,8 +1,10 @@
 import React from 'react'
 
-const Messages = () => {
+const Messages = ({ selectedUser }) => {
   return (
-    <div>Messages</div>
+    <div className='overflow-y-auto flex-1 p-4'>
+
+    </div>
   )
 }
 
