@@ -47,6 +47,7 @@ const browserRouter = createBrowserRouter([
 function App() {
   const { user } = useSelector(state => state?.auth);
   const dispatch = useDispatch();
+  const { socket } = useSelector(state => state?.socket);
   useEffect(() => {
     if (user) {
       const socketio = io("http://localhost:4050", {
@@ -60,8 +61,15 @@ function App() {
       socketio.on("getOnlineUsers", (onlineUser) => {
         dispatch(setOnlineUsers(onlineUser));
       })
+      return () => {
+        socketio.close()
+        dispatch(setSocket(null))
+      }
+    } else if (socket) {
+      socket.close();
+      dispatch(setSocket(null));
     }
-  }, [])
+  }, [user, dispatch])
   return (
     <>
       <Suspense fallback={<h1>Loading...</h1>}>

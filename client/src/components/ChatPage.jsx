@@ -7,6 +7,7 @@ import Messages from './Messages';
 
 const ChatPage = () => {
     const { user, suggestedUsers, selectedUser } = useSelector(state => state.auth);
+    const { onlineUsers } = useSelector(state => state.chat);
     const isOnline = true;
     const dispatch = useDispatch();
     return (
@@ -16,8 +17,9 @@ const ChatPage = () => {
                     <h1 className='font-bold px-3 mb-4 text-xl'>{user?.username}</h1>
                     <hr className='border border-gray-300' />
                     <div className='overflow-y-auto border-r border-r-gray-500 h-[90vh]'>
-                        {suggestedUsers?.map((suggestedUser) => (
-                            <div onClick={() => dispatch(setselectedUser(suggestedUser))} className='flex gap-3 items-center mb-5 mt-1 border-b border-b-gray-400 p-2 cursor-pointer' key={suggestedUser?._id}>
+                        {suggestedUsers?.map((suggestedUser) => {
+                            const isOnline = onlineUsers.includes(suggestedUser?._id)
+                            return (<div onClick={() => dispatch(setselectedUser(suggestedUser))} className='flex gap-3 items-center mb-5 mt-1 border-b border-b-gray-400 p-2 cursor-pointer' key={suggestedUser?._id}>
                                 <Avatar src={suggestedUser?.profilePicture} className='h-14 w-14' />
                                 <div className='flex flex-col'>
                                     <span className='font-medium'>{suggestedUser?.username}</span>
@@ -27,8 +29,8 @@ const ChatPage = () => {
                                         }
                                     </span>
                                 </div>
-                            </div>
-                        ))}
+                            </div>)
+                        })}
                     </div>
                 </section>
                 {
