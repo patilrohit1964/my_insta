@@ -131,6 +131,20 @@ const likePost = async (req, res) => {
     await post.save();
 
     // socket it for real time notifications
+    const user = await User.findById(likeKarneWalaUser).select(
+      "username profilePicture"
+    );
+    const postOwnerId = post.author.toString();
+    if (postOwnerId !== likeKarneWalaUser) {
+      // emit notification event
+      const notification = {
+        type: "Like",
+        userId: likeKarneWalaUser,
+        userDetails: user,
+        postId,
+        message: `Your Post was liked`,
+      };
+    }
     res.status(200).json({
       message: "Post Liked",
       success: true,

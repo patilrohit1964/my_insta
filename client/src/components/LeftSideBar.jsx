@@ -76,6 +76,8 @@ const LeftSideBar = () => {
         }
         else if (text === "Home") {
             navigate(`/`);
+        } else if (text === "Message") {
+            navigate("/chat")
         }
     }
     return (

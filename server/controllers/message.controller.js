@@ -1,5 +1,6 @@
 const Conversation = require("../models/conversation.model");
 const Messages = require("../models/message.model");
+const { getReceiverSocketId } = require("../socket/socket");
 
 const sendMessage = async (req, res) => {
   try {
@@ -22,7 +23,10 @@ const sendMessage = async (req, res) => {
     if (newMessage) conversation.messages.push(newMessage._id);
     await Promise.all([conversation.save(), newMessage.save()]);
     // implement socket for real time
-
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
     return res.status(201).json({
       success: true,
       newMessage,
