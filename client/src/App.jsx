@@ -3,8 +3,10 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
 import EditProfile from './components/EditProfile'
 import ChatPage from './components/ChatPage'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { io } from "socket.io-client"
+import { setSocket } from './redux/slicers/socketSlice'
+import { setOnlineUsers } from './redux/slicers/chatSlice'
 const MainLayout = lazy(() => import('./components/MainLayout'))
 const Home = lazy(() => import('./components/Home'))
 const Profile = lazy(() => import('./components/Profile'))
@@ -44,6 +46,7 @@ const browserRouter = createBrowserRouter([
 ])
 function App() {
   const { user } = useSelector(state => state?.auth);
+  const dispatch = useDispatch();
   useEffect(() => {
     if (user) {
       const socketio = io("http://localhost:4050", {
@@ -52,7 +55,11 @@ function App() {
         },
         transports: ["websocket"]
       })
-      
+      dispatch(setSocket(socketio));
+      //listening all the event
+      socketio.on("getOnlineUsers", (onlineUser) => {
+        dispatch(setOnlineUsers(onlineUser));
+      })
     }
   }, [])
   return (
