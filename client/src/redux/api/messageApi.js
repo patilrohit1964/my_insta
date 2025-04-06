@@ -1,11 +1,11 @@
-import { createApi } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const chatApi = createApi({
   reducerPath: "chatApi",
-  baseQuery: {
-    baseUrl: "http://localhost:4050/api/v1/chat",
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:4050/api/v1/message",
     credentials: "include",
-  },
+  }),
   endpoints: (builder) => ({
     getMessages: builder.query({
       query: (id) => ({
@@ -23,3 +23,4 @@ const chatApi = createApi({
 });
 
 export const { useGetMessagesQuery, useSendMessageMutation } = chatApi;
+export default chatApi;

@@ -4,16 +4,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setselectedUser } from '../redux/slicers/authSlice';
 import { MessageCircle } from 'lucide-react';
 import Messages from './Messages';
+import { useSendMessageMutation } from '../redux/api/messageApi';
 
 const ChatPage = () => {
     const [textMessage, setTextMessage] = useState("");
     const { user, suggestedUsers, selectedUser } = useSelector(state => state.auth);
     const { onlineUsers } = useSelector(state => state.chat);
     const isOnline = true;
+    const [sendMessage, { data, isError, isSuccess, error }] = useSendMessageMutation();
     const dispatch = useDispatch();
-    const setMessageHandler = async () => {
+    const sendMessageHandler = async (receiverId) => {
         try {
-
+            // await sendMessage();
+            console.log(receiverId);
         } catch (error) {
 
         }
@@ -53,7 +56,7 @@ const ChatPage = () => {
                             <Messages selectedUser={selectedUser} />
                             <div className='flex items-center p-4 border-t border-t-gray-300'>
                                 <input type="text" value={textMessage} onChange={(e) => setTextMessage(e.target.value)} className='flex-1 mr-2 outline-none focus-visible:ring-transparent p-3' placeholder='write message...' />
-                                <button>send</button>
+                                <button onClick={() => sendMessageHandler(selectedUser?._id)}>send</button>
                             </div>
                         </section>
                     ) :
