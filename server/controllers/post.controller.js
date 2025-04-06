@@ -3,6 +3,7 @@ const Cloudinary = require("../utils/cloudinary");
 const Post = require("../models/post.model");
 const User = require("../models/user.model");
 const Comment = require("../models/comment.model");
+const { getReceiverSocketId } = require("../socket/socket");
 
 const addNewPost = async (req, res) => {
   try {
@@ -144,7 +145,10 @@ const likePost = async (req, res) => {
         postId,
         message: `Your Post was liked`,
       };
+      const postOwnerSocketId = getReceiverSocketId(postOwnerId);
+      io.to(postOwnerSocketId).emit("notification", notification);
     }
+    
     res.status(200).json({
       message: "Post Liked",
       success: true,
