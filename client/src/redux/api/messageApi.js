@@ -9,15 +9,17 @@ const chatApi = createApi({
   endpoints: (builder) => ({
     getMessages: builder.query({
       query: (id) => ({
-        url: `/send/${id}`,
+        url: `/all/${id}`,
       }),
     }),
     sendMessage: builder.mutation({
-      query: (messageData) => ({
-        url: "/sendMessage",
+      query: ({ receiverId, messageData }) => ({
+        url: `/send/${receiverId}`,
         method: "POST",
         body: messageData,
       }),
     }),
   }),
 });
+
+export const { useGetMessagesQuery, useSendMessageMutation } = chatApi;
