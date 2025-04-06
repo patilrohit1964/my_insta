@@ -13,10 +13,10 @@ const chatApi = createApi({
       }),
     }),
     sendMessage: builder.mutation({
-      query: ({ receiverId, messageData }) => ({
+      query: ({ receiverId, textMessage }) => ({
         url: `/send/${receiverId}`,
         method: "POST",
-        body: messageData,
+        body: textMessage,
       }),
     }),
   }),

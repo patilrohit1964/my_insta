@@ -1,26 +1,35 @@
 import { Avatar } from '@mui/material';
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setselectedUser } from '../redux/slicers/authSlice';
 import { MessageCircle } from 'lucide-react';
-import Messages from './Messages';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useSendMessageMutation } from '../redux/api/messageApi';
+import { setselectedUser } from '../redux/slicers/authSlice';
+import { setMessages } from '../redux/slicers/chatSlice';
+import Messages from './Messages';
 
 const ChatPage = () => {
     const [textMessage, setTextMessage] = useState("");
     const { user, suggestedUsers, selectedUser } = useSelector(state => state.auth);
-    const { onlineUsers } = useSelector(state => state.chat);
+    const { onlineUsers, messages } = useSelector(state => state.chat);
     const isOnline = true;
     const [sendMessage, { data, isError, isSuccess, error }] = useSendMessageMutation();
     const dispatch = useDispatch();
     const sendMessageHandler = async (receiverId) => {
         try {
-            // await sendMessage();
-            console.log(receiverId);
+            const res = await sendMessage({ receiverId, textMessage });
+            console.log(res)
+            dispatch(setMessages([...messages, data?.newMessage]))
+            setTextMessage("");
+
         } catch (error) {
 
         }
     }
+    useEffect(() => {
+        return () => {
+            dispatch(setselectedUser(null));
+        }
+    }, [])
     return (
         <div>
             <div className='flex ml-[16%] h-screen'>

@@ -1,9 +1,10 @@
 import { Avatar } from '@mui/material'
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const Messages = ({ selectedUser }) => {
-  
+  const { messages } = useSelector(state => state.chat);
   return (
     <div className='overflow-y-auto flex-1 p-4'>
       <div className='flex justify-center'>
@@ -16,7 +17,7 @@ const Messages = ({ selectedUser }) => {
         </div>
       </div>
       <div className='flex flex-col gap-3'>
-        {[1, 2, 4].map(el => (
+        {messages.map(el => (
           <div className={`flex`}>
             <div>
               {el}
