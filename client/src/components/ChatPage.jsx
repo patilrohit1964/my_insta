@@ -1,15 +1,23 @@
 import { Avatar } from '@mui/material';
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setselectedUser } from '../redux/slicers/authSlice';
 import { MessageCircle } from 'lucide-react';
 import Messages from './Messages';
 
 const ChatPage = () => {
+    const [textMessage, setTextMessage] = useState("");
     const { user, suggestedUsers, selectedUser } = useSelector(state => state.auth);
     const { onlineUsers } = useSelector(state => state.chat);
     const isOnline = true;
     const dispatch = useDispatch();
+    const setMessageHandler = async () => {
+        try {
+
+        } catch (error) {
+
+        }
+    }
     return (
         <div>
             <div className='flex ml-[16%] h-screen'>
@@ -44,7 +52,7 @@ const ChatPage = () => {
                             </div>
                             <Messages selectedUser={selectedUser} />
                             <div className='flex items-center p-4 border-t border-t-gray-300'>
-                                <input type="text" className='flex-1 mr-2 outline-none focus-visible:ring-transparent p-3' placeholder='write message...' />
+                                <input type="text" value={textMessage} onChange={(e) => setTextMessage(e.target.value)} className='flex-1 mr-2 outline-none focus-visible:ring-transparent p-3' placeholder='write message...' />
                                 <button>send</button>
                             </div>
                         </section>

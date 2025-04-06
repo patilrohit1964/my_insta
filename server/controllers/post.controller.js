@@ -148,7 +148,7 @@ const likePost = async (req, res) => {
       const postOwnerSocketId = getReceiverSocketId(postOwnerId);
       io.to(postOwnerSocketId).emit("notification", notification);
     }
-    
+
     res.status(200).json({
       message: "Post Liked",
       success: true,
@@ -170,7 +170,22 @@ const dislikePost = async (req, res) => {
 
     await post.updateOne({ $pull: { likes: likeKarneWalaUser } });
     await post.save();
-
+    const user = await User.findById(likeKarneWalaUser).select(
+      "username profilePicture"
+    );
+    const postOwnerId = post.author.toString();
+    if (postOwnerId !== likeKarneWalaUser) {
+      // emit notification event
+      const notification = {
+        type: "disLike",
+        userId: likeKarneWalaUser,
+        userDetails: user,
+        postId,
+        message: `Your Post was liked`,
+      };
+      const postOwnerSocketId = getReceiverSocketId(postOwnerId);
+      io.to(postOwnerSocketId).emit("notification", notification);
+    }
     // socket it for real time notifications
     res.status(200).json({
       message: "Post disliked",

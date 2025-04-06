@@ -8,7 +8,7 @@ const {
 } = require("../controllers/message.controller");
 const router = express.Router();
 
-router.route("/send/:id").post(isAuthenticated, sendMessage);
+router.route("/send/:receiverId").post(isAuthenticated, sendMessage);
 router.route("/all/:id").get(isAuthenticated, getMessages);
 
 module.exports = router;
