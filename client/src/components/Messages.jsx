@@ -2,8 +2,10 @@ import { Avatar } from '@mui/material'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import useGetAllMessage from '../hooks/useGetAllMessage'
 
 const Messages = ({ selectedUser }) => {
+  useGetAllMessage(); 
   const { messages } = useSelector(state => state.chat);
   return (
     <div className='overflow-y-auto flex-1 p-4'>

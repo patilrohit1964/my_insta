@@ -8,8 +8,8 @@ const useGetAllMessage = () => {
     const { selectedUser } = useSelector(state => state.auth);
     const dispatch = useDispatch();
 
-    const { data, isSuccess, isError, error } = useGetMessagesQuery(selectedUser, {
-        skip: !selectedUser, // Prevents firing if no user is selected
+    const { data, isSuccess, isError, error } = useGetMessagesQuery(selectedUser?._id, {
+        skip: !selectedUser?._id, // Prevents firing if no user is selected
     });
 
     useEffect(() => {

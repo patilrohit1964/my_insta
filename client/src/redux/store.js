@@ -14,6 +14,7 @@ import {
 import storage from "redux-persist/lib/storage"; // Uses localStorage by default
 import { setupListeners } from "@reduxjs/toolkit/query";
 import postApi from "./api/postApi";
+import chatApi from "./api/messageApi";
 
 const persistConfig = {
   key: "root", // Key for the storage
@@ -29,7 +30,7 @@ const appStore = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(authApi.middleware, postApi.middleware),
+    }).concat(authApi.middleware, postApi.middleware, chatApi.middleware),
 });
 
 const persistor = persistStore(appStore);

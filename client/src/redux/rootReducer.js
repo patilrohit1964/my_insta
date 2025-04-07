@@ -5,6 +5,7 @@ import authApi from "./api/authApi";
 import postApi from "./api/postApi";
 import socketSlice from "./slicers/socketSlice";
 import chatSlice from "./slicers/chatSlice";
+import chatApi from "./api/messageApi";
 
 const rootReducer = combineReducers({
   auth: authSlice,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   chat: chatSlice,
   [authApi.reducerPath]: authApi.reducer,
   [postApi.reducerPath]: postApi.reducer,
+  [chatApi.reducerPath]: chatApi.reducer,
 });
 
 export default rootReducer;
