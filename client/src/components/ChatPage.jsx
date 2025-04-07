@@ -65,7 +65,7 @@ const ChatPage = () => {
                             <Messages selectedUser={selectedUser} />
                             <div className='flex items-center p-4 border-t border-t-gray-300'>
                                 <input type="text" value={textMessage} onChange={(e) => setTextMessage(e.target.value)} className='flex-1 mr-2 outline-none focus-visible:ring-transparent p-3' placeholder='write message...' />
-                                <button onClick={() => sendMessageHandler(selectedUser?._id)}>send</button>
+                                <button onClick={() => sendMessageHandler(selectedUser?._id)} className='bg-black py-2 px-4 text-white rounded-md'>send</button>
                             </div>
                         </section>
                     ) :

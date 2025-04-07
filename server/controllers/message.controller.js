@@ -6,7 +6,8 @@ const sendMessage = async (req, res) => {
   try {
     const senderId = req.id;
     const receiverId = req.params.receiverId;
-    const { message } = req.body;
+    const { textMessage: message } = req.body;
+    console.log(textMessage);
     let conversation = await Conversation.findOne({
       participants: { $all: [senderId, receiverId] },
     });

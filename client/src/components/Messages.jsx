@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import useGetAllMessage from '../hooks/useGetAllMessage'
 
 const Messages = ({ selectedUser }) => {
-  useGetAllMessage(); 
+  useGetAllMessage();
   const { messages } = useSelector(state => state.chat);
   return (
     <div className='overflow-y-auto flex-1 p-4'>
@@ -19,7 +19,7 @@ const Messages = ({ selectedUser }) => {
         </div>
       </div>
       <div className='flex flex-col gap-3'>
-        {messages.map(el => (
+        {messages && messages.map(el => (
           <div className={`flex`}>
             <div>
               {el}
