@@ -1,13 +1,14 @@
 const Conversation = require("../models/conversation.model");
 const Messages = require("../models/message.model");
-const { getReceiverSocketId } = require("../socket/socket");
+const { getReceiverSocketId, io } = require("../socket/socket");
 
 const sendMessage = async (req, res) => {
   try {
     const senderId = req.id;
     const receiverId = req.params.receiverId;
     const { textMessage: message } = req.body;
-    console.log(textMessage);
+    console.log(message);
+    console.log(req.body);
     let conversation = await Conversation.findOne({
       participants: { $all: [senderId, receiverId] },
     });

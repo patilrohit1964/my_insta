@@ -11,18 +11,18 @@ const ChatPage = () => {
     const [textMessage, setTextMessage] = useState("");
     const { user, suggestedUsers, selectedUser } = useSelector(state => state.auth);
     const { onlineUsers, messages } = useSelector(state => state.chat);
-    const isOnline = true;
+    const isOnline = onlineUsers.includes(suggestedUsers?._id);
     const [sendMessage, { data, isError, isSuccess, error }] = useSendMessageMutation();
     const dispatch = useDispatch();
     const sendMessageHandler = async (receiverId) => {
         try {
-            const res = await sendMessage({ receiverId, textMessage });
-            console.log(res)
-            dispatch(setMessages([...messages, data?.newMessage]))
+            const res = await sendMessage({ receiverId, textMessage }).unwrap();
+            console.log(res);
+            dispatch(setMessages([...messages, res?.newMessage]));
             setTextMessage("");
 
         } catch (error) {
-
+            console.log(error);
         }
     }
     useEffect(() => {
