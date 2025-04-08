@@ -62,7 +62,7 @@ const LeftSideBar = () => {
         if (isError) {
             toast.error("Logout failed");
         }
-    }, [isSuccess, isError])
+    }, [isSuccess, isError]);
 
     const sideBarHandler = (text) => {
         if (text === "Logout") {

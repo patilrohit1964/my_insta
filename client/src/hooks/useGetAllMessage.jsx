@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { useGetMessagesQuery } from '../redux/api/messageApi';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMessages } from '../redux/slicers/chatSlice';
 import { toast } from 'react-toastify';
+import { useGetMessagesQuery } from '../redux/api/messageApi';
+import { setMessages } from '../redux/slicers/chatSlice';
 
 const useGetAllMessage = () => {
     const { selectedUser } = useSelector(state => state.auth);
@@ -11,7 +11,7 @@ const useGetAllMessage = () => {
     const { data, isSuccess, isError, error } = useGetMessagesQuery(selectedUser?._id, {
         skip: !selectedUser?._id, // Prevents firing if no user is selected
     });
-    console.log(data,"data message api");
+    console.log(data, "data message api");
     useEffect(() => {
         if (isSuccess && data?.message) {
             dispatch(setMessages(data.message));

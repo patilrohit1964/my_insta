@@ -7,7 +7,7 @@ import useGetAllMessage from '../hooks/useGetAllMessage'
 const Messages = ({ selectedUser }) => {
   useGetAllMessage();
   const { messages } = useSelector(state => state.chat);
-  console.log(messages,"messsages")
+  console.log(messages,"messsages");
   return (
     <div className='overflow-y-auto flex-1 p-4'>
       <div className='flex justify-center'>
