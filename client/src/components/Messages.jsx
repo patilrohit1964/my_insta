@@ -7,6 +7,7 @@ import useGetAllMessage from '../hooks/useGetAllMessage'
 const Messages = ({ selectedUser }) => {
   useGetAllMessage();
   const { messages } = useSelector(state => state.chat);
+  console.log(messages,"messsages")
   return (
     <div className='overflow-y-auto flex-1 p-4'>
       <div className='flex justify-center'>
@@ -20,7 +21,7 @@ const Messages = ({ selectedUser }) => {
       </div>
       <div className='flex flex-col gap-3'>
         {messages && messages.map(msg => (
-          <div className={`flex`}>
+          <div className={`flex`} key={msg?._id}>
             <div>
               {msg?.message}
             </div>

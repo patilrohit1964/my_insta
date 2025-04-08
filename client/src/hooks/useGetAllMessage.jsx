@@ -12,7 +12,6 @@ const useGetAllMessage = () => {
         skip: !selectedUser?._id, // Prevents firing if no user is selected
     });
     console.log(data);
-    console.log(selectedUser,"selected user data")
     useEffect(() => {
         if (isSuccess && data?.message) {
             dispatch(setMessages(data.message));

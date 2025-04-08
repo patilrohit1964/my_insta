@@ -29,6 +29,10 @@ const appStore = configureStore({
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        // Ignore these paths in the state
+        ignoredPaths: ["socket.socket"],
+        // Or ignore actions
+        ignoredActionPaths: ["meta.arg", "payload.timestamp"],
       },
     }).concat(authApi.middleware, postApi.middleware, chatApi.middleware),
 });

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { io } from "socket.io-client"
 import { setSocket } from './redux/slicers/socketSlice'
 import { setOnlineUsers } from './redux/slicers/chatSlice'
+import { connectSocket, disconnectSocket, getSocket } from './socket';
 const MainLayout = lazy(() => import('./components/MainLayout'))
 const Home = lazy(() => import('./components/Home'))
 const Profile = lazy(() => import('./components/Profile'))
@@ -50,26 +51,20 @@ function App() {
   const { socket } = useSelector(state => state?.socket);
   useEffect(() => {
     if (user) {
-      const socketio = io("http://localhost:4050", {
-        query: {
-          userId: user?._id
-        },
-        transports: ["websocket"]
-      })
-      dispatch(setSocket(socketio));
-      //listening all the event
-      socketio.on("getOnlineUsers", (onlineUser) => {
-        dispatch(setOnlineUsers(onlineUser));
-      })
+      const socketio = connectSocket(user._id);
+
+      socketio.on("getOnlineUsers", (onlineUsers) => {
+        dispatch(setOnlineUsers(onlineUsers));
+      });
+
       return () => {
-        socketio.close()
-        dispatch(setSocket(null))
-      }
-    } else if (socket) {
-      socket.close();
-      dispatch(setSocket(null));
+        disconnectSocket();
+      };
+    } else {
+      disconnectSocket();
     }
-  }, [user, dispatch])
+  }, [user, dispatch]);
+
   return (
     <>
       <Suspense fallback={<h1>Loading...</h1>}>
