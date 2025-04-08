@@ -11,7 +11,7 @@ const sendMessage = async (req, res) => {
       participants: { $all: [senderId, receiverId] },
     });
     if (!conversation) {
-      conversation = new Conversation.create({
+      conversation = await Conversation.create({
         participants: [senderId, receiverId],
       });
     }
@@ -31,7 +31,10 @@ const sendMessage = async (req, res) => {
       success: true,
       newMessage,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ success: false, message: "Server Error" });
+  }
 };
 
 const getMessages = async (req, res) => {
@@ -41,12 +44,15 @@ const getMessages = async (req, res) => {
     const conversation = await Conversation.findOne({
       participants: { $all: [senderId, receiverId] },
     }).populate("messages");
+    console.log(conversation);
     if (!conversation)
       return res.status(404).json({ success: false, message: [] });
     return res
       .status(200)
       .json({ success: true, message: conversation?.messages });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = { sendMessage, getMessages };

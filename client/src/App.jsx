@@ -48,7 +48,6 @@ const browserRouter = createBrowserRouter([
 function App() {
   const { user } = useSelector(state => state?.auth);
   const dispatch = useDispatch();
-  const { socket } = useSelector(state => state?.socket);
   useEffect(() => {
     if (user) {
       const socketio = connectSocket(user._id);

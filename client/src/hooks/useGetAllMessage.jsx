@@ -11,7 +11,7 @@ const useGetAllMessage = () => {
     const { data, isSuccess, isError, error } = useGetMessagesQuery(selectedUser?._id, {
         skip: !selectedUser?._id, // Prevents firing if no user is selected
     });
-    console.log(data);
+    console.log(data,"data message api");
     useEffect(() => {
         if (isSuccess && data?.message) {
             dispatch(setMessages(data.message));
