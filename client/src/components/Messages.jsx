@@ -19,10 +19,10 @@ const Messages = ({ selectedUser }) => {
         </div>
       </div>
       <div className='flex flex-col gap-3'>
-        {messages && messages.map(el => (
+        {messages && messages.map(msg => (
           <div className={`flex`}>
             <div>
-              {el}
+              {msg?.message}
             </div>
           </div>
         ))}

@@ -11,7 +11,8 @@ const useGetAllMessage = () => {
     const { data, isSuccess, isError, error } = useGetMessagesQuery(selectedUser?._id, {
         skip: !selectedUser?._id, // Prevents firing if no user is selected
     });
-
+    console.log(data);
+    console.log(selectedUser,"selected user data")
     useEffect(() => {
         if (isSuccess && data?.message) {
             dispatch(setMessages(data.message));
@@ -20,7 +21,7 @@ const useGetAllMessage = () => {
             console.error(error);
             toast.error('Failed to load messages');
         }
-    }, [data, isSuccess, isError, error, dispatch]);
+    }, [data, isSuccess, isError, error, dispatch, selectedUser]);
 };
 
 export default useGetAllMessage;
