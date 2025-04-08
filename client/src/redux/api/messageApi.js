@@ -17,7 +17,7 @@ const chatApi = createApi({
       query: ({ receiverId, textMessage }) => ({
         url: `/send/${receiverId}`,
         method: "POST",
-        body: textMessage,
+        body: { message: textMessage },
       }),
     }),
   }),
