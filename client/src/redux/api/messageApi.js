@@ -10,7 +10,6 @@ const chatApi = createApi({
     getMessages: builder.query({
       query: (id) => ({
         url: `/all/${id}`,
-        method: "GET",
       }),
     }),
     sendMessage: builder.mutation({
