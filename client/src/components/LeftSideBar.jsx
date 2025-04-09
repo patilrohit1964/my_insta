@@ -119,9 +119,8 @@ const LeftSideBar = () => {
                                                 }}
                                             >{
                                                     likeNotification?.map((notifi) => {
-                                                        console.log(notifi, "notification details")
                                                         return (
-                                                            <div key={notifi.userId} className='flex items-center gap-2 my-2'>
+                                                            <div key={notifi.userId} className='flex px-2 items-center gap-2 my-2'>
                                                                 <Avatar src={notifi.userDetails?.profilePicture} />
                                                                 <p className='text-sm'><span className='font-bold'>{notifi.userDetails?.username}</span> liked your post</p>
                                                             </div>

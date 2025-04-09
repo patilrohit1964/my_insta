@@ -43,6 +43,12 @@ const postApi = createApi({
         };
       },
     }),
+    bookMarkPost: builder.query({
+      query: (id) => ({
+        url: `${id}/bookmark`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -52,5 +58,6 @@ export const {
   useDeletePostMutation,
   useLikePostMutation,
   useCommentPostMutation,
+  useBookMarkPostQuery,
 } = postApi;
 export default postApi;

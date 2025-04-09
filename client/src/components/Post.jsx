@@ -7,10 +7,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { MoreHorizontal, Send } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { useCommentPostMutation, useDeletePostMutation, useLikePostMutation } from '../redux/api/postApi';
+import { useBookMarkPostQuery, useCommentPostMutation, useDeletePostMutation, useLikePostMutation } from '../redux/api/postApi';
 import { setPosts, setSelectedPost } from '../redux/slicers/postSlice';
 import CommentDialog from './CommentDialog';
 import LayoutHelmet from "./LayoutHelmet";
@@ -21,7 +21,7 @@ const Post = ({ el }) => {
     const [deletePost, { data, isError, isSuccess, error }] = useDeletePostMutation();
     const [commentPost, { data: commentData, isLoading: commentLoading, isError: commentError, isSuccess: commentSuccess, error: commentErr }] = useCommentPostMutation();
     const [likePost, { data: likeDisLikeData, isLoading: likeDisLoading, isError: likeDisError, isSuccess: likeDisSuccess }] = useLikePostMutation();
-
+    const { data: bookMarkData, isLoading: isLoadingMarkData, isSuccess: bookMarkSuccess } = useBookMarkPostQuery(el?._id);
     const { posts } = useSelector(state => state.post);
     const { user } = useSelector(state => state.auth);
     const [isLiked, setIsLiked] = useState(el?.likes?.includes(user?._id) || false);
@@ -96,6 +96,13 @@ const Post = ({ el }) => {
             toast.error(error?.message || "Something went wrong");
         }
     };
+
+    const bookMarkHandler = async () => {
+        if (bookMarkSuccess) {
+            console.log(bookMarkData, "book mark data");
+            toast.success("bookmarked this post")
+        }
+    }
     useEffect(() => {
         if (isSuccess) {
             toast.success(data?.message || "Post deleted successfully");
@@ -164,7 +171,7 @@ const Post = ({ el }) => {
                         />
                         <Send className='cursor-pointer hover:text-gray-600' />
                     </div>
-                    <BookmarkBorderOutlinedIcon className='cursor-pointer' />
+                    <BookmarkBorderOutlinedIcon className='cursor-pointer' onClick={bookMarkHandler} />
                 </div>
                 <span className='font-medium block mb-2'>{postLike} likes</span>
                 <p>
