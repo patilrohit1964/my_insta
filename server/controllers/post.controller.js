@@ -139,7 +139,7 @@ const likePost = async (req, res) => {
     if (postOwnerId !== likeKarneWalaUser) {
       // emit notification event
       const notification = {
-        type: "Like",
+        type: "like",
         userId: likeKarneWalaUser,
         userDetails: user,
         postId,

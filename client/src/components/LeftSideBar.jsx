@@ -103,7 +103,7 @@ const LeftSideBar = () => {
                                 {el.icon}
                                 <span>{el.text}</span>
                                 {
-                                    el?.text === "Notifications" && (
+                                    el?.text === "Notifications" && likeNotification?.length > 0 && (
                                         <div>
                                             <Button aria-describedby={id} variant="contained" onClick={handleClick}>
                                                 {likeNotification?.length}
@@ -119,6 +119,7 @@ const LeftSideBar = () => {
                                                 }}
                                             >{
                                                     likeNotification?.map((notifi) => {
+                                                        console.log(notifi, "notification details")
                                                         return (
                                                             <div key={notifi.userId} className='flex items-center gap-2 my-2'>
                                                                 <Avatar src={notifi.userDetails?.profilePicture} />
