@@ -9,6 +9,7 @@ import { setSocket } from './redux/slicers/socketSlice'
 import { setOnlineUsers } from './redux/slicers/chatSlice'
 import { connectSocket, disconnectSocket, getSocket } from './socket';
 import { setLikeNotification } from './redux/slicers/rtnSlice'
+import ProtectedRoute from './components/ProtectedRoute'
 const MainLayout = lazy(() => import('./components/MainLayout'))
 const Home = lazy(() => import('./components/Home'))
 const Profile = lazy(() => import('./components/Profile'))
@@ -17,23 +18,23 @@ const Login = lazy(() => import('./components/Login'))
 const browserRouter = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout />,
+    element: <ProtectedRoute><MainLayout /></ProtectedRoute>,
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <ProtectedRoute><Home /></ProtectedRoute>,
       },
       {
         path: "/profile/:id",
-        element: <Profile />,
+        element: <ProtectedRoute><Profile /></ProtectedRoute>,
       },
       {
         path: "/account/edit",
-        element: <EditProfile />,
+        element: <ProtectedRoute><EditProfile /></ProtectedRoute>,
       },
       {
         path: "/chat",
-        element: <ChatPage />,
+        element: <ProtectedRoute><ChatPage /></ProtectedRoute>,
       },
     ]
   },
