@@ -8,6 +8,7 @@ import { io } from "socket.io-client"
 import { setSocket } from './redux/slicers/socketSlice'
 import { setOnlineUsers } from './redux/slicers/chatSlice'
 import { connectSocket, disconnectSocket, getSocket } from './socket';
+import { setLikeNotification } from './redux/slicers/rtnSlice'
 const MainLayout = lazy(() => import('./components/MainLayout'))
 const Home = lazy(() => import('./components/Home'))
 const Profile = lazy(() => import('./components/Profile'))
@@ -47,20 +48,35 @@ const browserRouter = createBrowserRouter([
 ])
 function App() {
   const { user } = useSelector(state => state?.auth);
+  const { socket } = useSelector(state => state?.socket)
   const dispatch = useDispatch();
   useEffect(() => {
     if (user) {
-      const socketio = connectSocket(user._id);
-
+      const socketio = io("http://localhost:4050", {
+        query: {
+          userId: user?._id
+        },
+        transports: ["websocket"]
+      })
+      dispatch(setSocket(socketio));
+      // const socketio = connectSocket(user._id);
+      // listen all the events
       socketio.on("getOnlineUsers", (onlineUsers) => {
         dispatch(setOnlineUsers(onlineUsers));
       });
 
+      socketio.on("notification", (notification) => {
+        dispatch(setLikeNotification(notification));
+      })
       return () => {
-        disconnectSocket();
+        // disconnectSocket();
+        socketio.close();
+        dispatch(setSocket(null))
       };
-    } else {
-      disconnectSocket();
+    } else if (socket) {
+      // disconnectSocket();
+      socket.close();
+      dispatch(setSocket(null))
     }
   }, [user, dispatch]);
 

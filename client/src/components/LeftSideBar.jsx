@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import { Heart, House, LogOut, MessageCircle, PlusSquare, Search, TrendingDown } from 'lucide-react'
 import { Avatar } from "@chakra-ui/react"
-import { useLazyLogoutUserQuery } from '../redux/api/authApi'
-import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
-import LayoutHelmet from './LayoutHelmet'
+import { Heart, House, LogOut, MessageCircle, PlusSquare, Search, TrendingDown } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { useLazyLogoutUserQuery } from '../redux/api/authApi'
 import { userLoggedIn } from '../redux/slicers/authSlice'
 import CreatePost from './CreatePost'
-import useGetAllPosts from '../hooks/useGetAllPosts'
+import LayoutHelmet from './LayoutHelmet'
 
 const LeftSideBar = () => {
     const [logoutUser, { data, isLoading, isError, isSuccess }] = useLazyLogoutUserQuery();
     const navigate = useNavigate();
     const { user } = useSelector(state => state.auth);
+    const { likeNotification } = useSelector(state => state.rtn);
     const [open, setOpen] = useState(false);
     const sideBarItems = [
         {
@@ -90,6 +90,9 @@ const LeftSideBar = () => {
                             <div key={index} onClick={() => sideBarHandler(el?.text)} className='flex items-center gap-3 relative hover:bg-gray-200 cursor-pointer rounded-lg p-3 my-3'>
                                 {el.icon}
                                 <span>{el.text}</span>
+                                {
+                                    el?.text === "Notifications" && likeNotification.length > 0
+                                }
                             </div>
                         ))}
                     </div>

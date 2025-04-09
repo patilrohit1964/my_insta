@@ -4,6 +4,7 @@ import postSlice from "./slicers/postSlice";
 import authApi from "./api/authApi";
 import postApi from "./api/postApi";
 import socketSlice from "./slicers/socketSlice";
+import rtnSlice from "./slicers/rtnSlice";
 import chatSlice from "./slicers/chatSlice";
 import chatApi from "./api/messageApi";
 
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   post: postSlice,
   socket: socketSlice,
   chat: chatSlice,
+  rtn: rtnSlice,
   [authApi.reducerPath]: authApi.reducer,
   [postApi.reducerPath]: postApi.reducer,
   [chatApi.reducerPath]: chatApi.reducer,

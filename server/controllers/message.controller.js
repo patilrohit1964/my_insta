@@ -24,6 +24,7 @@ const sendMessage = async (req, res) => {
     await Promise.all([conversation.save(), newMessage.save()]);
     // implement socket for real time
     const receiverSocketId = getReceiverSocketId(receiverId);
+    console.log(receiverSocketId, "socket id of receiver id");
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("newMessage", newMessage);
     }
