@@ -1,4 +1,4 @@
-import { Avatar } from "@chakra-ui/react"
+
 import { Heart, House, LogOut, MessageCircle, PlusSquare, Search, TrendingDown } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,7 +8,10 @@ import { useLazyLogoutUserQuery } from '../redux/api/authApi'
 import { userLoggedIn } from '../redux/slicers/authSlice'
 import CreatePost from './CreatePost'
 import LayoutHelmet from './LayoutHelmet'
-
+import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import { Avatar } from '@mui/material'
 const LeftSideBar = () => {
     const [logoutUser, { data, isLoading, isError, isSuccess }] = useLazyLogoutUserQuery();
     const navigate = useNavigate();
@@ -80,6 +83,18 @@ const LeftSideBar = () => {
             navigate("/chat")
         }
     }
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const openPop = Boolean(anchorEl);
+    const id = openPop ? 'simple-popover' : undefined;
     return (
         <LayoutHelmet title={"Left Sidebar"} description={"left sidebar"}>
             <div className='fixed top-0 z-10 left-0 px-4 border-r border-r-gray-500 w-[16%] h-screen'>
@@ -91,7 +106,31 @@ const LeftSideBar = () => {
                                 {el.icon}
                                 <span>{el.text}</span>
                                 {
-                                    el?.text === "Notifications" && likeNotification.length > 0
+                                    el?.text === "Notifications" && (
+                                        <div>
+                                            <Button aria-describedby={id} variant="contained" onClick={handleClick}>
+                                                {likeNotification?.length}
+                                            </Button>
+                                            <Popover
+                                                id={id}
+                                                open={openPop}
+                                                anchorEl={anchorEl}
+                                                onClose={handleClose}
+                                                anchorOrigin={{
+                                                    vertical: 'bottom',
+                                                    horizontal: 'left',
+                                                }}
+                                            >{
+                                                    likeNotification?.map((notifi) => (
+                                                        <div key={notifi.userId} className='flex items-center gap-2 my-2'>
+                                                            <Avatar src={notifi.userDetails?.profilePicture} />
+                                                            <p className='text-sm'><span className='font-bold'>{notifi.userDetails?.username}</span> liked your post</p>
+                                                        </div>
+                                                    ))
+                                                }
+                                            </Popover>
+                                        </div>
+                                    )
                                 }
                             </div>
                         ))}

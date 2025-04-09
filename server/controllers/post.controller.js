@@ -3,7 +3,7 @@ const Cloudinary = require("../utils/cloudinary");
 const Post = require("../models/post.model");
 const User = require("../models/user.model");
 const Comment = require("../models/comment.model");
-const { getReceiverSocketId } = require("../socket/socket");
+const { getReceiverSocketId, io } = require("../socket/socket");
 
 const addNewPost = async (req, res) => {
   try {
