@@ -1,4 +1,7 @@
 
+import { Avatar } from '@mui/material'
+import Button from '@mui/material/Button'
+import Popover from '@mui/material/Popover'
 import { Heart, House, LogOut, MessageCircle, PlusSquare, Search, TrendingDown } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,10 +11,6 @@ import { useLazyLogoutUserQuery } from '../redux/api/authApi'
 import { userLoggedIn } from '../redux/slicers/authSlice'
 import CreatePost from './CreatePost'
 import LayoutHelmet from './LayoutHelmet'
-import Popover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import { Avatar } from '@mui/material'
 const LeftSideBar = () => {
     const [logoutUser, { data, isLoading, isError, isSuccess }] = useLazyLogoutUserQuery();
     const navigate = useNavigate();
@@ -44,10 +43,8 @@ const LeftSideBar = () => {
             text: "Create"
         },
         {
-            icon: (<Avatar.Root className='w-6 h-6'>
-                <Avatar.Fallback name="Rohit Patil" />
-                <Avatar.Image src={user?.profilePicture || "https://bit.ly/sage-adebayo"} height={"100%"} width={"100%"} />
-            </Avatar.Root>),
+            icon: (<Avatar className='w-6 h-6' src={user?.profilePicture || "https://bit.ly/sage-adebayo"} height={"100%"} width={"100%"} />
+            ),
             text: "Profile"
         },
         {
@@ -121,12 +118,14 @@ const LeftSideBar = () => {
                                                     horizontal: 'left',
                                                 }}
                                             >{
-                                                    likeNotification?.map((notifi) => (
-                                                        <div key={notifi.userId} className='flex items-center gap-2 my-2'>
-                                                            <Avatar src={notifi.userDetails?.profilePicture} />
-                                                            <p className='text-sm'><span className='font-bold'>{notifi.userDetails?.username}</span> liked your post</p>
-                                                        </div>
-                                                    ))
+                                                    likeNotification?.map((notifi) => {
+                                                        return (
+                                                            <div key={notifi.userId} className='flex items-center gap-2 my-2'>
+                                                                <Avatar src={notifi.userDetails?.profilePicture} />
+                                                                <p className='text-sm'><span className='font-bold'>{notifi.userDetails?.username}</span> liked your post</p>
+                                                            </div>
+                                                        )
+                                                    })
                                                 }
                                             </Popover>
                                         </div>
