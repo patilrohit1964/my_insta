@@ -19,8 +19,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm install && install --prefix client && npm run build --prefix client",
+    "start": "nodemon server/index.js"
   },
   "keywords": [],
   "author": "",
