@@ -4,12 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useLoginUserMutation } from "../redux/api/authApi";
 import LayoutHelmet from "./LayoutHelmet";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userLoggedIn } from "../redux/slicers/authSlice";
 import { Loader2 } from "lucide-react";
 function Login() {
     const [form, setForm] = useState({ email: "", password: "" });
     const [loginUser, { data, isLoading, error, isSuccess }] = useLoginUserMutation();
+    const { user } = useSelector(state => state?.auth);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleChange = (e) => {
@@ -33,6 +34,9 @@ function Login() {
         }
         if (error) {
             toast.error("Someting Went wrong!");
+        }
+        if (user) {
+            navigate("/");
         }
     }, [isSuccess, data, error])
     return (

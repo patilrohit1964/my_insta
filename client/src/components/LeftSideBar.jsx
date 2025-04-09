@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useLazyLogoutUserQuery } from '../redux/api/authApi'
-import { userLoggedIn } from '../redux/slicers/authSlice'
+import { userLoggedIn, userLoggedOut } from '../redux/slicers/authSlice'
 import CreatePost from './CreatePost'
 import LayoutHelmet from './LayoutHelmet'
 const LeftSideBar = () => {
@@ -54,22 +54,14 @@ const LeftSideBar = () => {
     ]
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (isSuccess) {
-            toast.success(data?.message || "Logout Success");
-            navigate("/");
-        }
-        if (isError) {
-            toast.error("Logout failed");
-        }
-    }, [isSuccess, isError]);
-
     const sideBarHandler = (text) => {
         if (text === "Logout") {
             logoutUser();
-            dispatch(userLoggedIn(null));
+            dispatch(userLoggedOut());
+            toast.success(data?.message || "Logout Success");
             navigate("/login");
-        } else if (text === "Create") {
+        }
+        else if (text === "Create") {
             setOpen(true);
         } else if (text === "Profile") {
             navigate(`/profile/${user?._id}`);

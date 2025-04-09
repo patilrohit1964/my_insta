@@ -5,9 +5,11 @@ import { useRegisterUserMutation } from "../redux/api/authApi";
 import { toast } from "react-toastify";
 import LayoutHelmet from "./LayoutHelmet";
 import { Loader2 } from "lucide-react";
+import { useSelector } from "react-redux";
 
 export default function Signup() {
     const [form, setForm] = useState({ username: "", email: "", password: "" });
+    const { user } = useSelector(state => state?.auth);
     const navigate = useNavigate();
     const [registerUser, { data, isSuccess, error, isError, isLoading }] = useRegisterUserMutation();
     const handleChange = (e) => {
@@ -30,6 +32,9 @@ export default function Signup() {
         }
         if (error || isError) {
             toast.error("Signup failed! Please try again");
+        }
+        if (user) {
+            navigate("/");
         }
     }, [data, isError, isSuccess, error])
 
