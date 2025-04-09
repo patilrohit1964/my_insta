@@ -17,7 +17,6 @@ const ChatPage = () => {
     const sendMessageHandler = async (receiverId) => {
         try {
             const res = await sendMessage({ receiverId, textMessage }).unwrap();
-            console.log(res);
             dispatch(setMessages([...messages, res?.newMessage]));
             setTextMessage("");
 
