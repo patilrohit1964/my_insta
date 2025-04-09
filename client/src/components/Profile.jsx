@@ -18,6 +18,7 @@ const Profile = () => {
   }
 
   const displayPost = activeTab === "posts" ? data?.user?.posts : data?.user?.bookmarks
+
   return (
     <div className='flex max-w-5xl justify-center mx-auto pl-10'>
       <div className='flex flex-col gap-20 p-8'>

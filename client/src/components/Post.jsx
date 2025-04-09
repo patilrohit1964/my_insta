@@ -100,7 +100,7 @@ const Post = ({ el }) => {
     const bookMarkHandler = async () => {
         if (bookMarkSuccess) {
             console.log(bookMarkData, "book mark data");
-            toast.success("bookmarked this post")
+            toast.success(bookMarkData?.message || "bookmarked this post")
         }
     }
     useEffect(() => {
@@ -143,7 +143,10 @@ const Post = ({ el }) => {
                     >
                         <DialogTitle>Actions</DialogTitle>
                         <DialogContent>
-                            <Button variant='ghost' className='cursor-pointer w-fit text-[#ed4956]'>Unfollow</Button>
+                            {
+                                el?.author?._id !== user?._id &&
+                                <Button variant='ghost' className='cursor-pointer w-fit text-[#ed4956]'>Unfollow</Button>
+                            }
                             <Button variant='ghost' className='cursor-pointer w-fit'>Add to favorite</Button>
                             {
                                 user && user?._id === el?.author?._id &&

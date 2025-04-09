@@ -306,7 +306,9 @@ const bookMark = async (req, res) => {
         success: true,
       });
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = {
