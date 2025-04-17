@@ -3,13 +3,13 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import { Loader2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEditProfileMutation } from '../redux/api/authApi';
-import { Loader2 } from 'lucide-react';
-import { toast } from 'react-toastify';
-import { setUserProfile } from '../redux/slicers/authSlice';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useEditProfileMutation } from '../redux/api/authApi';
+import { setUserProfile } from '../redux/slicers/authSlice';
 
 const EditProfile = () => {
     const { user } = useSelector(state => state?.auth);

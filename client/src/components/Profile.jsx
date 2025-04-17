@@ -1,9 +1,9 @@
 import { Avatar, Button } from '@mui/material';
 import { AtSign, Heart, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import useGetUserProfile from '../hooks/useGetUserProfile';
-import { useSelector } from 'react-redux';
 
 const Profile = () => {
   const { id } = useParams()

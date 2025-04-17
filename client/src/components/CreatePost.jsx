@@ -1,10 +1,9 @@
-import { Avatar, Button, Dialog, DialogContent, DialogTitle, TextareaAutosize } from '@mui/material'
-import React, { useEffect, useRef, useState } from 'react'
+import { Avatar, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Loader2 } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useAddPostMutation } from '../redux/api/postApi';
-import axios from "axios"
-import { Loader2 } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
 import { setPosts } from '../redux/slicers/postSlice';
 const CreatePost = ({ open, setOpen }) => {
     const [addPost, { data, isError, isLoading, isSuccess }] = useAddPostMutation();

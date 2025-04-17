@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useLoginUserMutation } from "../redux/api/authApi";
-import LayoutHelmet from "./LayoutHelmet";
-import { useDispatch, useSelector } from "react-redux";
 import { userLoggedIn } from "../redux/slicers/authSlice";
-import { Loader2 } from "lucide-react";
+import LayoutHelmet from "./LayoutHelmet";
 function Login() {
     const [form, setForm] = useState({ email: "", password: "" });
     const [loginUser, { data, isLoading, error, isSuccess }] = useLoginUserMutation();

@@ -1,6 +1,5 @@
-import React from 'react'
-import Posts from './Posts'
 import LayoutHelmet from './LayoutHelmet'
+import Posts from './Posts'
 const Feed = () => {
     return (
         <LayoutHelmet title={"Feed"} description={"this is Feed"}>

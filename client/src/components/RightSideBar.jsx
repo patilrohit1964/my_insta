@@ -1,8 +1,7 @@
-import React from 'react'
-import LayoutHelmet from './LayoutHelmet'
 import { Avatar } from '@mui/material'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import LayoutHelmet from './LayoutHelmet'
 import SuggestedUser from './SuggestedUser'
 
 const RightSideBar = () => {

@@ -1,7 +1,6 @@
-import React from 'react'
-import LeftSideBar from './LeftSideBar'
 import { Outlet } from 'react-router-dom'
 import LayoutHelmet from './LayoutHelmet'
+import LeftSideBar from './LeftSideBar'
 
 const MainLayout = () => {
     return (

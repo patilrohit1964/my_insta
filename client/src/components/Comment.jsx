@@ -1,6 +1,5 @@
 import { Avatar } from '@mui/material'
 import moment from 'moment'
-import React from 'react'
 import { FaRegHeart } from 'react-icons/fa'
 
 const Comment = ({ comment }) => {

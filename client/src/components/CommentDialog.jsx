@@ -1,13 +1,13 @@
 import { Avatar, Button, Dialog, DialogContent } from '@mui/material'
-import { Loader2, MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal } from 'lucide-react'
+import moment from "moment"
 import { useEffect, useState } from 'react'
 import { FaHeart, FaRegHeart } from "react-icons/fa"
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useCommentPostMutation } from '../redux/api/postApi'
-import { useDispatch, useSelector } from 'react-redux'
 import { setPosts } from '../redux/slicers/postSlice'
-import moment from "moment"
 import Comment from './Comment'
 const CommentDialog = ({ openComment, setOpenComment, postLike, isLiked, }) => {
     const [open, setOpen] = useState(false);

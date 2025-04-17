@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
-import { useRegisterUserMutation } from "../redux/api/authApi";
-import { toast } from "react-toastify";
-import LayoutHelmet from "./LayoutHelmet";
 import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useRegisterUserMutation } from "../redux/api/authApi";
+import LayoutHelmet from "./LayoutHelmet";
 
 export default function Signup() {
     const [form, setForm] = useState({ username: "", email: "", password: "" });

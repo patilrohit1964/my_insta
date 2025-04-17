@@ -1,11 +1,9 @@
-import React from 'react'
-import Feed from './Feed'
 import { Outlet } from 'react-router-dom'
-import RightSideBar from './RightSideBar'
-import LayoutHelmet from './LayoutHelmet'
 import useGetAllPosts from '../hooks/useGetAllPosts'
 import usetGetSuggestedUsers from '../hooks/useGetSuggestedUsers'
-import useGetUserProfile from '../hooks/useGetUserProfile'
+import Feed from './Feed'
+import LayoutHelmet from './LayoutHelmet'
+import RightSideBar from './RightSideBar'
 
 const Home = () => {
   useGetAllPosts();

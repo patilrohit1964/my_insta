@@ -1,6 +1,5 @@
-import React from 'react'
-import LayoutHelmet from './LayoutHelmet'
 import { Link } from 'react-router-dom'
+import LayoutHelmet from './LayoutHelmet'
 
 const SuggestedUser = ({ suggestedUsers }) => {
 
