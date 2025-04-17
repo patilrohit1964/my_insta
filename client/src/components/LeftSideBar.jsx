@@ -125,6 +125,7 @@ const LeftSideBar = () => {
                                 }
                             </div>
                         ))}
+
                     </div>
                 </div>
                 <CreatePost open={open} setOpen={setOpen} />
