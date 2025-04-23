@@ -26,13 +26,13 @@ const messageRoute = require("./routes/message.route");
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/post", postRoute);
 app.use("/api/v1/message", messageRoute);
-const PORT = 4050;
+const PORT = process.env.PORT || 4050;
 
 app.use(express.static(path.join(__dirname, "../client/dist")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 });
 console.log(__dirname);
-server.listen(process.env.PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
