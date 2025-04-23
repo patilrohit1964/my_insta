@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv").config();
+const dotenv = require("dotenv").config({ path: "./config/.env" });
 const cookieParser = require("cookie-parser");
 const connectDb = require("./config/db");
 const morgan = require("morgan");
